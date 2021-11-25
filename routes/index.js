@@ -1,12 +1,14 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
 
 router.use('/', require('./auth'))
 
 router.get('/', (req, res) => {
-    res.render('index', {
-        msg: 'Hello, World!'
-    })
+    res.sendFile('index')
 })
 
-export default router
+router.get('/timeline', (req, res) => {
+    res.sendFile('timeline')
+})
+
+module.exports = router

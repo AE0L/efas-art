@@ -16,7 +16,7 @@ body{
 .social-wallpaper {
     position: relative;
     height:300px;
-background: url(banner.png) no-repeat;
+background: url("../assets/img/banner.png") no-repeat;
     background-size: cover;
     background-color:#00b5ec;
 }

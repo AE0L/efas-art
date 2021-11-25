@@ -1,4 +1,5 @@
-const sql3 = require('sqlite3').verbose()
+import * as sqlite3 from 'sqlite3'
+const sql3 = sqlite3.verbose()
 const db = new sql3.Database('./efas_art.db')
 
 export default class {

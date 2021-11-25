@@ -1,11 +1,12 @@
-const path = require('path')
-const body_parser = require('body-parser')
-const cookie_parser = require('cookie-parser')
-const express = require('express')
-const session = require('express-session')
+import path from 'path'
+import body_parser from 'body-parser'
+import cookie_parser from 'cookie-parser'
+import express from 'express'
+import session from 'express-session'
+import * as sqlite3 from 'sqlite3'
+import sqliteStoreFactory from 'express-session-sqlite'
 const app = express()
-const sqlite3 = require('sqlite3')
-const sqlite_factory = require('express-session-sqlite')
+
 // TODO store port elsewhere
 const port = 8080
 
@@ -17,8 +18,12 @@ app.use(cookie_parser())
 app.use('/', require('./routes'))
 
 // TODO store secret elsewhere
-app.use(session({ secret: 'efas-art-secret' }))
-const sqlite_store = sqlite_factory(session)
+app.use(session({
+    secret: 'efas-art-secret',
+    resave: true,
+    saveUninitialized: true
+}))
+const sqlite_store = sqliteStoreFactory(session)
 app.use(session({
     store: new sqlite_store({
         driver: sqlite3.Database,
