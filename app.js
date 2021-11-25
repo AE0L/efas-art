@@ -5,21 +5,23 @@ import express from 'express'
 import session from 'express-session'
 import * as sqlite3 from 'sqlite3'
 import sqliteStoreFactory from 'express-session-sqlite'
+import helmet from 'helmet'
 const app = express()
 
-// TODO store port elsewhere
-const port = 8080
-
+// template engine
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'templates'))
+
+// middlewares
+app.use(helmet())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(body_parser.json())
 app.use(cookie_parser())
 app.use('/', require('./routes'))
 
-// TODO store secret elsewhere
+// sessions
 app.use(session({
-    secret: 'efas-art-secret',
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true
 }))
@@ -31,6 +33,8 @@ app.use(session({
         ttl: 604800000
     })
 }))
+
+const port = process.env.PORT
 
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}/`)
