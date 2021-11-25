@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
+router.use('/', require('./auth'))
+
 router.get('/', (req, res) => {
     res.render('index', {
         msg: 'Hello, World!'
     })
 })
 
-module.exports = router
+export default router
