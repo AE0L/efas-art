@@ -1,5 +1,5 @@
 import path from 'path'
-import body_parser from 'body-parser'
+import body_parser, { urlencoded } from 'body-parser'
 import cookie_parser from 'cookie-parser'
 import express from 'express'
 import session from 'express-session'
@@ -13,9 +13,10 @@ app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'templates'))
 
 // middlewares
-app.use(helmet())
+app.use(helmet({ contentSecurityPolicy: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(body_parser.json())
+app.use(body_parser.urlencoded({ extended: true }))
 app.use(cookie_parser())
 app.use('/', require('./routes'))
 
@@ -23,7 +24,7 @@ app.use('/', require('./routes'))
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: false
 }))
 const sqlite_store = sqliteStoreFactory(session)
 app.use(session({
@@ -39,3 +40,5 @@ const port = process.env.PORT
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}/`)
 })
+
+global.__basedir = __dirname

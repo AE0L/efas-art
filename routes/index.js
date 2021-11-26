@@ -7,8 +7,4 @@ router.get('/', (req, res) => {
     res.sendFile('index')
 })
 
-router.get('/timeline', (req, res) => {
-    res.sendFile('timeline')
-})
-
 module.exports = router

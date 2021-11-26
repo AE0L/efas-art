@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node -r dotenv/config index.js",
+    "dev-start": "nodemon -i \"public/\" -r dotenv/config index.js"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +19,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "express-session-sqlite": "^2.0.10",
+    "express-validator": "^6.13.0",
     "helmet": "^4.6.0",
     "njwt": "^1.1.0",
     "nnode": "^0.3.3",

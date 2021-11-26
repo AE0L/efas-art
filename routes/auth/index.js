@@ -1,24 +1,35 @@
 import express from 'express'
-const router = express.Router()
+import { check, validationResult } from 'express-validator'
+import public_helper from '../public_helper'
 
-router.get('/login', (req, res) => {
-    // TODO serve login page
-    res.end()
-})
+const router = express.Router()
 
 router.post('/login', (req, res) => {
     // TODO authenticate user
     res.end()
 })
 
-router.get('/register', (req, res) => {
-    // TODO serve register page
-    res.end()
+const register_checks = [
+    check('email').isEmail().trim().escape().normalizeEmail(),
+    check('username').isLength({ min: 4 }).trim().escape(),
+    check('password').isLength({ min: 8, max: 20 }).trim(),
+    check('first_name').trim().escape(),
+    check('last_name').trim().escape()
+]
+
+router.post('/register', register_checks, (req, res) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        console.log('test')
+        // TODO validation errors found
+    }
+
+    res.send({ succcess: true })
 })
 
-router.post('/register', (req, res) => {
-    // TODO save user's information
-    res.end()
+router.get('/timeline', (req, res) => {
+    res.sendFile(public_helper('timeline.html'))
 })
 
 module.exports = router
