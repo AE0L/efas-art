@@ -1,5 +1,5 @@
 import db from './db'
-import { uuidv4 } from 'uuid'
+import { v4 } from 'uuid'
 
 export default class Contact {
     constructor(user, email) {
@@ -9,11 +9,7 @@ export default class Contact {
     }
 
     save() {
-        const stmt = `INSERT INTO contacts (
-            contact_id,
-            user_id,
-            email
-        )`
+        const stmt = `INSERT INTO contacts (contact_id, user_id, email) VALUES (?, ?, ?)`
         const params = [
             this.id,
             this.user.id,
@@ -24,6 +20,6 @@ export default class Contact {
     }
 
     static gen_id() {
-        return `CID-${uuidv4}`
+        return `CID-${v4()}`
     }
 }

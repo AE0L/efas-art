@@ -1,4 +1,4 @@
-import { uuidv4 } from 'uuid'
+import { v4 } from 'uuid'
 import db from './db'
 
 export default class Gallery {
@@ -15,6 +15,6 @@ export default class Gallery {
     }
 
     static gen_id() {
-        return `GID-${uuidv4()}`
+        return `GID-${v4()}`
     }
 }

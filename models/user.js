@@ -1,4 +1,5 @@
-import { uuidv4 } from 'uuid'
+import { v4 } from 'uuid'
+import bcrypt from 'bcrypt'
 import db from './db'
 
 async function encrypt_password(pass) {
@@ -9,15 +10,24 @@ async function encrypt_password(pass) {
 }
 
 export default class User {
-    constructor(email, first_name, last_name, username, password) {
+    constructor(email, first_name, last_name, username, password, gen_id=true) {
         this.email = email
         this.first_name = first_name
         this.last_name = last_name
         this.username = username
         this.password = password
 
-        this.hash = encrypt_password(this.password)
-        this.id = User.gen_uid()
+        if (gen_id) {
+            this.id = User.gen_uid()
+        }
+    }
+
+    static login_instance(user, pass) {
+        return new User(null, null, null, user, pass, false)
+    }
+
+    async hash_pass() {
+        this.hash = await encrypt_password(this.password)
     }
 
     save() {
@@ -26,7 +36,7 @@ export default class User {
             first_name,
             last_name,
             username,
-            password_hash
+            pass_hash
         ) VALUES (?, ?, ?, ?, ?)`
         const params = [
             this.id,
@@ -39,11 +49,25 @@ export default class User {
         return db.run(query, params)
     }
 
-    static search_user(username) {
+    is_exist() {
+        const query = `SELECT * FROM users WHERE username=(?)`
+        const params = [this.username]
+
+        return db.get(query, params)
+    }
+
+    async verify_pass() {
+        const query = `SELECT password FROM users WHERE username=(?)`
+        const params = [this.username]
+
+        const res = await db.get(query, params)
+        const stored_hash = res.password
+
+        return bcrypt.compare(this.password, stored_hash)
 
     }
 
     static gen_uid() {
-        return `UID-${uuidv4}`
+        return `UID-${v4()}`
     }
 }

@@ -1,6 +1,6 @@
-import * as sqlite3 from 'sqlite3'
-const sql3 = sqlite3.verbose()
-const db = new sql3.Database('./efas_art.db')
+import path from 'path'
+const sql3 = require('sqlite3').verbose()
+const db = new sql3.Database(path.resolve(__dirname, './efas_art.db'))
 
 export default class {
     static all(stmt, params) {
@@ -27,12 +27,14 @@ export default class {
 
     static run(stmt, params) {
         return new Promise((res, rej) => {
-            db.run(stmt, params, (error, result) => {
-                if (error) {
-                    return rej(error.message);
-                }
-                return res(result);
-            });
+            db.serialize(() => {
+                db.run(stmt, params, (error, result) => {
+                    if (error) {
+                        return rej(error.message);
+                    }
+                    return res(result);
+                });
+            })
         })
     }
 }

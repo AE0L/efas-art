@@ -1,5 +1,5 @@
 import path from 'path'
 
-export default (f) => {
+export default function(f) {
     return path.join(__basedir, 'public', f)
 }
