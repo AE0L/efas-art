@@ -1,4 +1,5 @@
 /** Base Router
+ * 
  * @module routes/
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
@@ -9,17 +10,12 @@ import express from 'express'
 const router = express.Router()
 
 router.use('/', require('./auth'))
+router.use('/user', require('./gallery'))
 
-/** GET /
- * @summary index page
- */
 router.get('/', (req, res) => {
     res.render('index')
 })
 
-/** GET /timeline
- * @summary timeline page
- */
 router.get('/timeline', (req, res) => {
     res.render('timeline')
 })
