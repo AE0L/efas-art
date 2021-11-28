@@ -1,6 +1,6 @@
 /** User model
- * @module models/
  * 
+ * @module models/
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -32,17 +32,7 @@ async function encrypt_password(pass) {
  * @class User
  */
 export default class User {
-    /**
-     * SQL insert statement for users table
-     * @constant
-     * @memberof User
-     */
     SAVE_STMT = `INSERT INTO users (user_id,first_name,last_name,username,pass_hash) VALUES (?,?,?,?,?)`
-    /**
-     * SQL select statement for searching with username
-     * @constant
-     * @memberof User
-     */
     GET_STMT = `SELECT * FROM users WHERE username='(?)'`
 
     /**
@@ -85,7 +75,12 @@ export default class User {
         return db.run(this.SAVE_STMT, params)
     }
 
-    // TODO documentation
+    /**
+     * Get user's contact information
+     *
+     * @returns {Contact}
+     * @memberof User
+     */
     async get contacts() {
         const stmt = `SELECT * FROM contacts WHERE user_id='(?)'`
         const params = [this.id]
@@ -98,7 +93,12 @@ export default class User {
         return null
     }
 
-    // TODO documentation
+    /**
+     * Get user's gallery
+     *
+     * @return {Gallery}
+     * @memberof User
+     */
     async get gallery() {
         const stmt = `SELECT * FROM galleries WHERE user_id='(?)'`
         const params = [this.id]

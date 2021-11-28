@@ -10,12 +10,14 @@ import { v4 } from 'uuid'
 
 /**
  * Contact model class
+ * 
  * @export
  * @class Contact
  */
 export default class Contact {
     /**
      * Creates an instance of Contact.
+     * 
      * @param {string} user
      * @param {string} email
      * @param {string} [id=null]
@@ -43,6 +45,7 @@ export default class Contact {
 
     /**
      * generate unique contact UUID
+     * 
      * @static
      * @return {string} - unique contact UUID 
      * @memberof Contact
