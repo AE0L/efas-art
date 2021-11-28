@@ -1,21 +1,27 @@
+/** Default router for user authentication (Login & Signup)
+ * 
+ * @module routes/auth
+ * @author Carl Justin Jimenez
+ * @author Joseph Tupaen
+ * @author Meryll Cornita
+ * @author Paula Millorin
+ */
 import express from 'express'
-import {
-    check,
-    validationResult
-} from 'express-validator'
+import { check, validationResult } from 'express-validator'
 import Contact from '../../models/contacts'
 import Gallery from '../../models/gallery'
 import User from '../../models/user'
 
 const router = express.Router()
 
-// LOGIN
-const login_checks = [
+/** POST /login
+ * @summary user login authentication
+ * @returns {object} - { success: <boolean> }
+ */
+router.post('/login', [
     check('username').isLength({ min: 4 }).trim().escape(),
     check('password').isLength({ min: 8, max: 20 }).trim()
-]
-
-router.post('/login', login_checks, async (req, res) => {
+], async (req, res) => {
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -25,30 +31,33 @@ router.post('/login', login_checks, async (req, res) => {
     let { username, password } = req.body
 
     try {
-        const user = User.login_instance(username, password)
+        const user = await User.get(username)
 
-        if (await user.is_exist()) {
-            if (await user.verify_pass()) {
-                // TODO login info verified, redirect
+        if (user) {
+            if (await user.verify_pass(password)) {
+                req.session.user_id = user.id
+                res.send({ success: true })
             }
         }
-    } catch(e) {
+    } catch (e) {
         console.error(e)
     }
 
-    res.end()
+    res.send({ sucess: false })
 })
 
-// REGISTER
-const register_checks = [
+
+/** POST /register
+ * @summary create user account
+ * @returns {object} - { sucess: <boolean> }
+ */
+router.post('/register', [
     check('email').isEmail().trim().escape().normalizeEmail(),
     check('username').isLength({ min: 4 }).trim().escape(),
     check('password').isLength({ min: 8, max: 20 }).trim(),
     check('first_name').trim().escape(),
     check('last_name').trim().escape()
-]
-
-router.post('/register', register_checks, async (req, res) => {
+], async (req, res) => {
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {

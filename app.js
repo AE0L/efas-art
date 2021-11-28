@@ -1,18 +1,25 @@
-import path from 'path'
-import body_parser, { urlencoded } from 'body-parser'
+/** Node.js Server Appilcation
+ * 
+ * @author Carl Justin Jimenez
+ * @author Joseph Tupaen
+ * @author Meryll Cornita
+ * @author Paula Millorin
+ */
+import body_parser from 'body-parser'
 import cookie_parser from 'cookie-parser'
 import express from 'express'
 import session from 'express-session'
-import * as sqlite3 from 'sqlite3'
 import sqliteStoreFactory from 'express-session-sqlite'
 import helmet from 'helmet'
+import path from 'path'
+import * as sqlite3 from 'sqlite3'
 const app = express()
 
-// template engine
+/* template engine */
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'templates'))
 
-// middlewares
+/* middlewares */
 app.use(helmet({ contentSecurityPolicy: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(body_parser.json())
@@ -20,7 +27,7 @@ app.use(body_parser.urlencoded({ extended: true }))
 app.use(cookie_parser())
 app.use('/', require('./routes'))
 
-// sessions
+/* session handler */
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
