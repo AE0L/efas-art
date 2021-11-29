@@ -14,7 +14,22 @@ import helmet from 'helmet'
 import path from 'path'
 import * as sqlite3 from 'sqlite3'
 import router from './routes'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
 const app = express()
+
+/* swagger */
+const swagger_defs = {
+    openapi: '3.0.0',
+    info: {
+        title: 'Express API for EFAS-ART',
+        version: '1.0.0'
+    }
+}
+const swagger_opts = { definition: swagger_defs, apis: ['./routes/**/*.js'] }
+const swagger_spec = swaggerJSDoc(swagger_opts)
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swagger_spec))
 
 /* template engine */
 app.set('view engine', 'ejs')

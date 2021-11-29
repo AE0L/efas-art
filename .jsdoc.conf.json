@@ -3,7 +3,7 @@
     "recurseDepth": 10,
     "opts": {
         "recurse": true,
-        "destination": "./docs/"
+        "destination": "./public/models/docs/"
     },
     "source": {
         "include": [

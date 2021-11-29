@@ -1,6 +1,5 @@
 /** Default router for user authentication (Login & Signup)
  * 
- * @module routes/auth
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -14,9 +13,33 @@ import User from '../../models/user'
 
 const router = express.Router()
 
-/** POST /login
- * @summary user login authentication
- * @returns {object} - { success: <boolean> }
+/**
+ * @swagger
+ * /login:
+ *  post:
+ *      summary: login user credentials
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          username:
+ *                              type: string
+ *                              description: username input
+ *                          password:
+ *                              type: string
+ *                              description: password input
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              succcess:
+ *                                  type: boolean
  */
 router.post('/login', [
     check('username').isLength({ min: 4 }).trim().escape(),
@@ -47,9 +70,37 @@ router.post('/login', [
 })
 
 
-/** POST /register
- * @summary create user account
- * @returns {object} - { sucess: <boolean> }
+/**
+ * @swagger
+ * /register:
+ *  post:
+ *      summary: register user's credentials
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          username:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                          first_name:
+ *                              type: string
+ *                          last_name:
+ *                              type: string
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
  */
 router.post('/register', [
     check('email')
@@ -94,8 +145,11 @@ router.post('/register', [
     res.end()
 })
 
-/** POST /logout
- * @summary destroys user's session and redirect to index
+/**
+ * @swagger
+ * /logout:
+ *  post:
+ *      summary: logout user and destroy session
  */
 router.post('/logout', (req, res) => {
     req.session.destroy((err) => {
