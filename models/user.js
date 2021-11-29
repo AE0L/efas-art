@@ -15,8 +15,9 @@ import Gallery from './gallery'
 /**
  * utility function for hashing a raw string password
  *
+ * @async
  * @param {string} pass
- * @return {string} - hashed password
+ * @return {Promise<string>} - hashed password
  */
 async function encrypt_password(pass) {
     const salt = await bcrypt.genSalt()
@@ -33,7 +34,6 @@ async function encrypt_password(pass) {
  */
 export default class User {
     SAVE_STMT = `INSERT INTO users (user_id,first_name,last_name,username,pass_hash) VALUES (?,?,?,?,?)`
-    GET_STMT = `SELECT * FROM users WHERE username='(?)'`
 
     /**
      * Creates an instance of User.
@@ -45,8 +45,7 @@ export default class User {
      * @param {string} [id=null]
      * @memberof User
      */
-    constructor(email, first_name, last_name, username, password, id = null) {
-        this.email = email
+    constructor(first_name, last_name, username, password, id = null) {
         this.first_name = first_name
         this.last_name = last_name
         this.username = username
@@ -57,6 +56,7 @@ export default class User {
     /**
      * hashes the user's password
      *
+     * @async
      * @memberof User
      */
     async hash_pass() {
@@ -78,53 +78,61 @@ export default class User {
     /**
      * Get user's contact information
      *
-     * @returns {Contact}
+     * @async
+     * @returns {Promise<Contact>}
      * @memberof User
      */
-    async get contacts() {
-        const stmt = `SELECT * FROM contacts WHERE user_id='(?)'`
-        const params = [this.id]
-        const res = await db.get(stmt, params)
+    get contacts() {
+        return (async () => {
+            const stmt = `SELECT * FROM contacts WHERE user_id='(?)'`
+            const params = [this.id]
+            const res = await db.get(stmt, params)
 
-        if (res) {
-            return new Contact(this, res.email, res.phone, res.id)
-        }
+            if (res) {
+                return new Contact(this, res.email, res.phone, res.id)
+            }
 
-        return null
+            return null
+        })()
     }
 
     /**
      * Get user's gallery
      *
-     * @return {Gallery}
+     * @async
+     * @return {Promise<Gallery>}
      * @memberof User
      */
-    async get gallery() {
-        const stmt = `SELECT * FROM galleries WHERE user_id='(?)'`
-        const params = [this.id]
-        const res = await db.get(stmt, params)
+    get gallery() {
+        return (async () => {
+            const stmt = `SELECT * FROM galleries WHERE user_id='(?)'`
+            const params = [this.id]
+            const res = await db.get(stmt, params)
 
-        if (res) {
-            return new Gallery(this, res.id)
-        }
+            if (res) {
+                return new Gallery(this, res.id)
+            }
 
-        return null
+            return null
+        })()
     }
 
     /**
-     * get record from the database with the same username
+     * get user from the database if it exist
      *
      * @static
+     * @async
      * @param {string} login_username
-     * @return {User | null} - User object if record is found, otherwise false
+     * @return {Promise<User> | null} - User object if record is found, otherwise false
      * @memberof User
      */
-    static async get(login_username) {
-        const res = await db.get(this.GET_STMT, [login_username])
+    static async get_user(login_username) {
+        const stmt = `SELECT * FROM users WHERE username=(?)`
+        const res = await db.get(stmt, [login_username])
 
         if (res) {
-            const { id, email, first_name, last_name, username, pass_hash } = res
-            const user = new User(email, first_name, last_name, username, '', id)
+            const { user_id, first_name, last_name, username, pass_hash } = res
+            const user = new User(first_name, last_name, username, '', user_id)
 
             user.hash = pass_hash
 
@@ -137,6 +145,7 @@ export default class User {
     /**
      * checks if password string is identical to the stored hash
      *
+     * @async
      * @param {string} login_password
      * @return {Promise<boolean>} - true if the hash and password are identical otherwise false
      * @memberof User

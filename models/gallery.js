@@ -48,17 +48,20 @@ export default class Gallery {
      * @returns {array<ArtCollection>} - all the artwork collection in the gallery
      * @memberof Gallery
      */
-    async get art_collections() {
-        const stmt = `SELECT * FROM art_collection WHERE gallery_id=(?)`
-        const params = [this.id]
-        const rows = await db.all(stmt, params)
-        let collections = []
+    get art_collections() {
+        return (async () => {
+            const stmt = `SELECT * FROM art_collection WHERE gallery_id=(?)`
+            const params = [this.id]
+            const rows = await db.all(stmt, params)
+            let collections = []
 
-        for (let row of rows) {
-            collections.push(new ArtCollection(this, row.name, row.description, row.art_col_id))
-        }
+            for (let row of rows) {
+                collections.push(new ArtCollection(this, row.name, row.description, row.art_col_id))
+            }
 
-        return collections
+            return collections
+
+        })()
     }
 
     /**
@@ -67,17 +70,19 @@ export default class Gallery {
      * @returns {array<WatermarkCollection>} - all the watermark collection in the gallery
      * @memberof Gallery
      */
-    async get watermark_collections() {
-        const stmt = `SELECT * FROM watermark_collections WHERE gallery_id='(?)'`
-        const params = [this.id]
-        const rows = await db.all(stmt, params)
-        let collections = []
+    get watermark_collections() {
+        return (async () => {
+            const stmt = `SELECT * FROM watermark_collections WHERE gallery_id='(?)'`
+            const params = [this.id]
+            const rows = await db.all(stmt, params)
+            let collections = []
 
-        for (let row of rows) {
-            collections.push(new WatermarkCollection(this, row.name, row.description, row.watermark_id))
-        }
+            for (let row of rows) {
+                collections.push(new WatermarkCollection(this, row.name, row.description, row.watermark_id))
+            }
 
-        return collections
+            return collections
+        })()
     }
 
     /**

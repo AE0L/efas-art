@@ -13,6 +13,9 @@ router.use('/', require('./auth'))
 router.use('/user', require('./gallery'))
 
 router.get('/', (req, res) => {
+    if (req.session.user_id) {
+        res.redirect('/timeline')
+    }
     res.render('index')
 })
 

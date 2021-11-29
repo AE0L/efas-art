@@ -25,7 +25,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(body_parser.json())
 app.use(body_parser.urlencoded({ extended: true }))
 app.use(cookie_parser())
-app.use('/', require('./routes'))
 
 /* session handler */
 app.use(session({
@@ -41,6 +40,9 @@ app.use(session({
         ttl: 604800000
     })
 }))
+
+/* routes */
+app.use('/', require('./routes'))
 
 const port = process.env.PORT
 

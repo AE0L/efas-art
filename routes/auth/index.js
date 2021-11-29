@@ -28,22 +28,22 @@ router.post('/login', [
         res.send({ errors: errors })
     }
 
-    let { username, password } = req.body
-
     try {
-        const user = await User.get(username)
+        let { username, password } = req.body
+        const user = await User.get_user(username)
 
         if (user) {
             if (await user.verify_pass(password)) {
-                req.session.user_id = user.id
-                res.send({ success: true })
+                if (!req.session.user_id) {
+                    req.session.user_id = user.id
+                }
+                res.status(200).send({ success: true })
             }
         }
     } catch (e) {
         console.error(e)
+        res.end()
     }
-
-    res.send({ sucess: false })
 })
 
 
@@ -52,9 +52,18 @@ router.post('/login', [
  * @returns {object} - { sucess: <boolean> }
  */
 router.post('/register', [
-    check('email').isEmail().trim().escape().normalizeEmail(),
-    check('username').isLength({ min: 4 }).trim().escape(),
-    check('password').isLength({ min: 8, max: 20 }).trim(),
+    check('email')
+        .isEmail()
+            .withMessage('Invalid email')
+        .normalizeEmail(),
+    check('username')
+        .isLength({ min: 4 })
+            .withMessage('Invalid length')
+        .trim().escape(),
+    check('password')
+        .isLength({ min: 8, max: 20 })
+            .withMessage('Invalid length')
+        .trim(),
     check('first_name').trim().escape(),
     check('last_name').trim().escape()
 ], async (req, res) => {
@@ -67,7 +76,7 @@ router.post('/register', [
     let { email, first_name, last_name, username, password } = req.body
 
     try {
-        const user = new User(email, first_name, last_name, username, password)
+        const user = new User(first_name, last_name, username, password)
         const gallery = new Gallery(user)
         const contact = new Contact(user, email)
 
@@ -75,11 +84,22 @@ router.post('/register', [
         await user.save()
         await gallery.save()
         await contact.save()
+
+        res.send({ succcess: true })
     } catch (e) {
         console.error(e)
+        res.send({ sucess: false })
     }
 
-    res.send({ succcess: true })
+    res.end()
+})
+
+router.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) console.error(err)
+    })
+
+    res.redirect('/')
 })
 
 module.exports = router

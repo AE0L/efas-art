@@ -52,17 +52,19 @@ export default class WatermarkCollection {
      * @returns {array<Watermark>} - all the watermarks in this collection
      * @memberof WatermarkCollection
      */
-    async get watermaks() {
-        const stmt = `SELECT * FROM watermarks WHERE watermark_col_id='(?)'`
-        const params = [this.id]
-        const rows = await db.all(stmt, params)
-        let watermarks = []
+    get watermaks() {
+        return (async () => {
+            const stmt = `SELECT * FROM watermarks WHERE watermark_col_id='(?)'`
+            const params = [this.id]
+            const rows = await db.all(stmt, params)
+            let watermarks = []
 
-        for (let row of rows) {
-            watermarks.push(new Watermark(this, row.name, row.document, row.id))
-        }
+            for (let row of rows) {
+                watermarks.push(new Watermark(this, row.name, row.document, row.id))
+            }
 
-        return watermarks
+            return watermarks
+        })()
     }
 
     /**
@@ -72,16 +74,18 @@ export default class WatermarkCollection {
      * @returns {Watermark}
      * @memberof WatermarkCollection
      */
-    async get watermark(watermark_id) {
-        const stmt = `SELECT * FROM watermark WHERE watermark_id='(?)'`
-        const params = [watermark_id]
-        const res = await db.get(stmt, params)
+    get_watermark(watermark_id) {
+        return (async () => {
+            const stmt = `SELECT * FROM watermark WHERE watermark_id='(?)'`
+            const params = [watermark_id]
+            const res = await db.get(stmt, params)
 
-        if (res) {
-            return new Watermark(this, res.name, res.document, res.watermark_id)
-        }
+            if (res) {
+                return new Watermark(this, res.name, res.document, res.watermark_id)
+            }
 
-        return null
+            return null
+        })()
     }
 
     /**

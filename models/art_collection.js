@@ -51,17 +51,19 @@ export default class ArtCollection {
      * @return {array<Artwork>}
      * @memberof ArtCollection
      */
-    async get artworks() {
-        const stmt = `SELCT * FROM artworks WHERE art_col_id='(?)'`
-        const params = [art_col_id]
-        const rows = await db.all(stmt, params)
-        let collections = []
+    get artworks() {
+        return (async () => {
+            const stmt = `SELCT * FROM artworks WHERE art_col_id='(?)'`
+            const params = [art_col_id]
+            const rows = await db.all(stmt, params)
+            let collections = []
 
-        for (let row of rows) {
-            collections.push(new Artwork(this, row.name, row.tags, row.description, row.document, row.artwork_id))
-        }
+            for (let row of rows) {
+                collections.push(new Artwork(this, row.name, row.tags, row.description, row.document, row.artwork_id))
+            }
 
-        return collections
+            return collections
+        })()
     }
 
     /**
@@ -70,16 +72,18 @@ export default class ArtCollection {
      * @return {Artwork}
      * @memberof ArtCollection
      */
-    async get artwork(artwork_id) {
-        const stmt = `SELECT * FROM artworks WHERE artwork_id='(?)'`
-        const params = [artwork_id]
-        const res = await db.get(stmt, params)
+    get_artwork(artwork_id) {
+        return (async () => {
+            const stmt = `SELECT * FROM artworks WHERE artwork_id='(?)'`
+            const params = [artwork_id]
+            const res = await db.get(stmt, params)
 
-        if (res) {
-            return new Artwork(this, res.name, res.tags, res.description, res.document, res.artwork_id)
-        }
+            if (res) {
+                return new Artwork(this, res.name, res.tags, res.description, res.document, res.artwork_id)
+            }
 
-        return null
+            return null
+        })()
     }
 
     /**
