@@ -13,6 +13,7 @@ import sqliteStoreFactory from 'express-session-sqlite'
 import helmet from 'helmet'
 import path from 'path'
 import * as sqlite3 from 'sqlite3'
+import router from './routes'
 const app = express()
 
 /* template engine */
@@ -42,7 +43,7 @@ app.use(session({
 }))
 
 /* routes */
-app.use('/', require('./routes'))
+app.use('/', router)
 
 const port = process.env.PORT
 

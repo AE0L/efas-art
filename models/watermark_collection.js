@@ -1,6 +1,5 @@
 /** Watermark Collection model
  * 
- * @module models/
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -13,18 +12,17 @@ import Watermark from './watermark'
 /**
  * Watermark Collection model class
  *
- * @export
- * @class WatermarkCollection
+ * @class
+ * @memberof module:models
  */
-export default class WatermarkCollection {
+class WatermarkCollection {
     /**
      * Creates an instance of WatermarkCollection.
      * 
-     * @param {Gallery} gallery
+     * @param {module:models.Gallery} gallery
      * @param {string} name
      * @param {string} description
      * @param {string} [id=null]
-     * @memberof WatermarkCollection
      */
     constructor(gallery, name, description, id = null) {
         this.gallery = gallery
@@ -37,7 +35,6 @@ export default class WatermarkCollection {
      * Saves WatermarkCollection object into the database
      *
      * @return {Promise} - sqlite's run result 
-     * @memberof WatermarkCollection
      */
     save() {
         const stmt = `INSERT INTO watermark_collections (watermark_col_id, gallery_id, name, description) VALUES (?,?,?,?)`
@@ -49,8 +46,7 @@ export default class WatermarkCollection {
     /**
      * Get all watermarks in the collection
      *
-     * @returns {array<Watermark>} - all the watermarks in this collection
-     * @memberof WatermarkCollection
+     * @type {array<module:models.Watermark>}
      */
     get watermaks() {
         return (async () => {
@@ -71,8 +67,7 @@ export default class WatermarkCollection {
      * Get specific watermark with a watermark UUID
      *
      * @param {string} - watermark UUID to be queried
-     * @returns {Watermark}
-     * @memberof WatermarkCollection
+     * @returns {module:models.Watermark}
      */
     get_watermark(watermark_id) {
         return (async () => {
@@ -93,9 +88,10 @@ export default class WatermarkCollection {
      *
      * @static
      * @return {string} - unique UUID 
-     * @memberof WatermarkCollection
      */
     static gen_id() {
         return `WCID-${v4()}`
     }
 }
+
+export default WatermarkCollection

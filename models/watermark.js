@@ -1,6 +1,5 @@
 /** Watermark model
  * 
- * @module models/
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -12,10 +11,18 @@ import db from './db'
 /**
  * Watermark model class
  *
- * @export
- * @class Watermark
+ * @class
+ * @memberof module:models
  */
-export default class Watermark {
+class Watermark {
+    /**
+     * Creates an instance of Watermark.
+     * 
+     * @param {module:models.Watermark} watermark_col
+     * @param {string} name
+     * @param {string} document
+     * @param {string} [id=null]
+     */
     constructor(watermark_col, name, document, id = null) {
         this.watermark_col = watermark_col
         this.name = name
@@ -27,7 +34,6 @@ export default class Watermark {
      * Save Watermark object into the database
      *
      * @return {Promise} - sqlite's run result 
-     * @memberof Watermark
      */
     save() {
         const stmt = `INSERT INTO watermarks (watermark_id, watermark_col_id, name, document) VALUES (?,?,?,?)`
@@ -41,9 +47,10 @@ export default class Watermark {
      *
      * @static
      * @return {string} - unique UUID 
-     * @memberof Watermark
      */
     static gen_id() {
         return `WID-${v4()}`
     }
 }
+
+export default Watermark

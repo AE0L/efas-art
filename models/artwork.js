@@ -1,5 +1,5 @@
 /** Artwork model
- * @module models/
+ * 
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -11,19 +11,17 @@ import db from './db'
 /**
  * Artwork model class
  *
- * @export
- * @class Artwork
+ * @memberof module:models
  */
-export default class Artwork {
+class Artwork {
     /**
      * Creates an instance of Artwork.
-     * @param {ArtColleection} art_col
+     * @param {module:models.ArtCollection} art_col
      * @param {string} name
      * @param {string} tags
      * @param {string} description
      * @param {string} document
      * @param {string} [id=null]
-     * @memberof Artwork
      */
     constructor(art_col, name, tags, description, document, id = null) {
         this.art_col = art_col
@@ -38,7 +36,6 @@ export default class Artwork {
      * Saves Artwork object into the dabatase
      *
      * @return {Promise} - sqlite's run result
-     * @memberof Artwork
      */
     save() {
         const stmt = `INSERT INTO artworks (artwork_id, art_col_id, name, tags, description, document) VALUES (?,?,?,?,?,?)`
@@ -52,9 +49,10 @@ export default class Artwork {
      *
      * @static
      * @return {string} - unique UUID 
-     * @memberof Artwork
      */
     static gen_id() {
         return `AID-${v4()}`
     }
 }
+
+export default Artwork

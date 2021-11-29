@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config index.js",
-    "dev-start": "nodemon -i \"public/\" -r dotenv/config index.js"
+    "dev-start": "nodemon -i \"public/\" -r dotenv/config index.js",
+    "doc": "jsdoc -c ./.jsdoc.conf.json"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "express-session-sqlite": "^2.0.10",
     "express-validator": "^6.13.0",
     "helmet": "^4.6.0",
+    "jsdoc": "^3.6.7",
     "njwt": "^1.1.0",
     "nnode": "^0.3.3",
     "sqlite3": "^5.0.2",

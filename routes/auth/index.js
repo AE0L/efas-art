@@ -94,6 +94,9 @@ router.post('/register', [
     res.end()
 })
 
+/** POST /logout
+ * @summary destroys user's session and redirect to index
+ */
 router.post('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) console.error(err)

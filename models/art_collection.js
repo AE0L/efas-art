@@ -1,5 +1,5 @@
 /** Art Collection model
- * @module models/
+ * 
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -9,22 +9,22 @@ import { v4 } from 'uuid'
 import db from './db'
 import Artwork from './artwork'
 
-/**
- * Art Collection model class
- *
- * @export
- * @class ArtCollection
+/** 
+ * Art Collection model class 
+ * 
+ * @class
+ * @memberof module:models
  */
-export default class ArtCollection {
+class ArtCollection {
     SAVE_STMT = `INSERT INTO art_collections (art_col_id,gallery_id,name,description) VALUES (?,?,?,?)`
 
     /**
      * Creates an instance of ArtCollection.
-     * @param {Gallery} gallery
+     * 
+     * @param {module:models.Gallery} gallery
      * @param {string} name
      * @param {string} description
      * @param {string} [id=null]
-     * @memberof ArtCollection
      */
     constructor(gallery, name, description, id = null) {
         this.gallery = gallery
@@ -37,7 +37,6 @@ export default class ArtCollection {
      * save the Art Collection object in to the database
      *
      * @return {Promise} - sqlite's run result
-     * @memberof ArtCollection
      */
     save() {
         const params = [this.id, this.gallery.id, this.name, this.description]
@@ -48,8 +47,7 @@ export default class ArtCollection {
     /**
      * Get all the artworks in this collection
      *
-     * @return {array<Artwork>}
-     * @memberof ArtCollection
+     * @type {Array<module:models.Artwork>}
      */
     get artworks() {
         return (async () => {
@@ -69,8 +67,7 @@ export default class ArtCollection {
     /**
      * Get specific artwork using an artwork UUID
      *
-     * @return {Artwork}
-     * @memberof ArtCollection
+     * @return {module:models.Artwork}
      */
     get_artwork(artwork_id) {
         return (async () => {
@@ -90,10 +87,12 @@ export default class ArtCollection {
      * Generate a unique art collection UUID
      *
      * @static
-     * @memberof ArtCollection
      * @return {string} - unique UUID 
      */
     static gen_id() {
         return `ACID-${v4()}`
     }
 }
+
+/** @module models */
+export default ArtCollection

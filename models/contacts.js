@@ -1,5 +1,5 @@
 /** Contact model
- * @module models/
+ * 
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -11,17 +11,16 @@ import { v4 } from 'uuid'
 /**
  * Contact model class
  * 
- * @export
- * @class Contact
+ * @class
+ * @memberof module:models
  */
-export default class Contact {
+class Contact {
     /**
      * Creates an instance of Contact.
      * 
-     * @param {string} user
+     * @param {module:models.User} user
      * @param {string} email
      * @param {string} [id=null]
-     * @memberof Contact
      */
     constructor(user, email, phone, id = null) {
         this.user = user
@@ -34,7 +33,6 @@ export default class Contact {
      * Save the Contact object in the database
      *
      * @return {Promise} - sqlite run result
-     * @memberof Contact
      */
     save() {
         const stmt = `INSERT INTO contacts (contact_id,user_id,email) VALUES (?,?,?)`
@@ -48,9 +46,10 @@ export default class Contact {
      * 
      * @static
      * @return {string} - unique contact UUID 
-     * @memberof Contact
      */
     static gen_id() {
         return `CID-${v4()}`
     }
 }
+
+export default Contact

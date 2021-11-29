@@ -1,6 +1,5 @@
 /** User model
  * 
- * @module models/
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -29,10 +28,10 @@ async function encrypt_password(pass) {
 /**
  * User model class
  *
- * @export
- * @class User
+ * @class
+ * @memberof module:models
  */
-export default class User {
+class User {
     SAVE_STMT = `INSERT INTO users (user_id,first_name,last_name,username,pass_hash) VALUES (?,?,?,?,?)`
 
     /**
@@ -43,7 +42,6 @@ export default class User {
      * @param {string} username
      * @param {string} password
      * @param {string} [id=null]
-     * @memberof User
      */
     constructor(first_name, last_name, username, password, id = null) {
         this.first_name = first_name
@@ -57,7 +55,6 @@ export default class User {
      * hashes the user's password
      *
      * @async
-     * @memberof User
      */
     async hash_pass() {
         this.hash = await encrypt_password(this.password)
@@ -67,7 +64,6 @@ export default class User {
      * save the User object into the database
      *
      * @return {Promise} - sqlite's run result 
-     * @memberof User
      */
     save() {
         const params = [this.id, this.first_name, this.last_name, this.username, this.hash]
@@ -79,10 +75,9 @@ export default class User {
      * Get user's contact information
      *
      * @async
-     * @returns {Promise<Contact>}
-     * @memberof User
+     * @type {Promise<module:models.Contact>}
      */
-    get contacts() {
+    get contact() {
         return (async () => {
             const stmt = `SELECT * FROM contacts WHERE user_id='(?)'`
             const params = [this.id]
@@ -100,8 +95,7 @@ export default class User {
      * Get user's gallery
      *
      * @async
-     * @return {Promise<Gallery>}
-     * @memberof User
+     * @type {Promise<module:models.Gallery>}
      */
     get gallery() {
         return (async () => {
@@ -123,8 +117,7 @@ export default class User {
      * @static
      * @async
      * @param {string} login_username
-     * @return {Promise<User> | null} - User object if record is found, otherwise false
-     * @memberof User
+     * @return {Promise<module:models.User> | null} - User object if record is found, otherwise false
      */
     static async get_user(login_username) {
         const stmt = `SELECT * FROM users WHERE username=(?)`
@@ -148,7 +141,6 @@ export default class User {
      * @async
      * @param {string} login_password
      * @return {Promise<boolean>} - true if the hash and password are identical otherwise false
-     * @memberof User
      */
     async verify_pass(login_password) {
         return bcrypt.compare(login_password, this.hash)
@@ -160,9 +152,10 @@ export default class User {
      *
      * @static
      * @return {string} - unique user UUID
-     * @memberof User
      */
     static gen_uid() {
         return `UID-${v4()}`
     }
 }
+
+export default User

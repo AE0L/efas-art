@@ -1,6 +1,5 @@
 /** Base Router
  * 
- * @module routes/
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -23,4 +22,4 @@ router.get('/timeline', (req, res) => {
     res.render('timeline')
 })
 
-module.exports = router
+export default router

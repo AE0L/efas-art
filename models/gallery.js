@@ -1,6 +1,5 @@
 /** Gallery model
  * 
- * @module models/
  * @author Carl Justin Jimenez
  * @author Joseph Tupaen
  * @author Meryll Cornita
@@ -14,15 +13,15 @@ import db from './db'
 /**
  * Gallery model class
  *
- * @export
- * @class Gallery
+ * @class
+ * @memberof module:models
  */
-export default class Gallery {
+class Gallery {
     /**
      * Creates an instance of Gallery.
      * 
-     * @param {User} user
-     * @memberof Gallery
+     * @param {module:models.User} user
+     * @param {string} [id=null]
      */
     constructor(user, id = null) {
         this.user = user
@@ -33,7 +32,6 @@ export default class Gallery {
      * Saves the Gallery object to the database
      *
      * @return {Promise} - sqlite's run result
-     * @memberof Gallery
      */
     save() {
         const stmt = `INSERT INTO galleries (gallery_id, user_id) VALUES (?, ?)`
@@ -45,8 +43,7 @@ export default class Gallery {
     /**
      * Get all the art collections in the user's gallery
      *
-     * @returns {array<ArtCollection>} - all the artwork collection in the gallery
-     * @memberof Gallery
+     * @type {Array<module:models.ArtCollection>}
      */
     get art_collections() {
         return (async () => {
@@ -67,8 +64,7 @@ export default class Gallery {
     /**
      * Get all the watermark collections in the user's gallery
      *
-     * @returns {array<WatermarkCollection>} - all the watermark collection in the gallery
-     * @memberof Gallery
+     * @type {Array<module:models.WatermarkCollection>}
      */
     get watermark_collections() {
         return (async () => {
@@ -90,9 +86,10 @@ export default class Gallery {
      *
      * @static
      * @return {string} - unique gallery UUID 
-     * @memberof Gallery
      */
     static gen_id() {
         return `GID-${v4()}`
     }
 }
+
+export default Gallery
