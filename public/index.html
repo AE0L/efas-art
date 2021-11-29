@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+	
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewreport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +9,21 @@
 		<link rel="stylesheet" href="styles/reset.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="styles/landingstyles.css" />
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+		
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		
+		
 
 		<title>EFAS ART</title>
 	</head>
 
 	<body>
+		
 		<div class="container-fluid banner">
 			<div class="row">
 				<div class="col-md-12">
@@ -80,7 +87,8 @@
 			</div>
 
 			<!-- Signup Modal -->
-			<div class="modal fade" id="signup">
+			<div class="modal fade" id="signup" >
+
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content" id="modalcon">
 
@@ -92,10 +100,10 @@
 
 						<!-- Modal body -->
 						<div class="modal-body">
-							<form id="signup-form" method="post" action="/">
+							<form id="signup-form" method="post" action="/" novalidate >
 								<div class="form-group">
 									<label for="fullname" class="col-form-label">Email</label>
-									<input type="email" class="form-control" id="email" placeholder="Enter email"
+									<input type="email" class="form-control " id="email" placeholder="Enter email"
 										name="email" required>
 								</div>
 								<div class="form-group">
@@ -103,40 +111,52 @@
 									<div class="form-row">
 										<div class="col">
 											<input type="text" class="form-control" id="first-name"
-												placeholder="First Name" name="first_name" required>
+												placeholder="First Name" name="first_name" required
+												aria-describedby="inputGroupPrepend" >
 										</div>
 										<div class="col">
 											<input type="text" class="form-control" id="last-name"
-												placeholder="Last Name" name="last_name" required>
+												placeholder="Last Name" name="last_name" required
+												aria-describedby="inputGroupPrepend" >
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="username" class="col-form-label">Username:</label>
 									<input type="text" class="form-control" id="email" placeholder="Enter username"
-										name="username" required>
+										name="username" required
+										aria-describedby="inputGroupPrepend" >
 									<small class="form-text text-muted">Must be at least 4 characters
 										long</small>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputPassword1">Password</label>
-									<input type="password" class="form-control" id="password"
-										placeholder="Enter password" name="password" required>
-									<small class="form-text text-muted">Must be 8-20 characters long
+									<input type="password" class="form-control pass-valid" id="password"
+										placeholder="Enter password" name="password" required 
+										aria-describedby="inputGroupPrepend" >
+										<div class="invalid-feedback">
+											Password not a match.
+										  </div>
+									<small class="form-text text-muted" id="pass123">Must be 8-20 characters long
 										long</small>
+									
 								</div>
 								<div class="form-group">
 									<label for="exampleInputPassword1">Confirm Password</label>
-									<input type="password" class="form-control" id="conpassword"
-										placeholder="Confirm password" name="re-password" required>
+									<input type="password" class="form-control pass-valid" id="conpassword"
+										placeholder="Confirm password" name="repassword" required 
+										aria-describedby="inputGroupPrepend" >
 								</div>
+								<p id="password-does-not-match-text" class="text-danger" hidden>
+									Passwords do not match. 
+								  </p>
 							</form>
 						</div>
 
 						<!-- Modal footer -->
 						<div class="modal-footer">
 							<button type="submit" form="signup-form" class="btn btn-secondary" id="logbutton"
-								href="timeline.html">Sign-Up</button>
+								href="timeline.html" >Sign-Up</button>
 						</div>
 
 					</div>
@@ -148,7 +168,15 @@
 			EFAS ART &copy; 2021
 		</footer>
 
-		<script src="scripts/index.js"></script>
+		<!-------------jqueryvalidation.org-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.js"></script>
+		<script src="scripts/index.js"> </script>
+		<script src="passValidator/index.js"> </script>
+	
+
+	
 	</body>
 
 </html>
