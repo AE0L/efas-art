@@ -99,7 +99,7 @@ class User {
      */
     get gallery() {
         return (async () => {
-            const stmt = `SELECT * FROM galleries WHERE user_id='(?)'`
+            const stmt = `SELECT * FROM galleries WHERE user_id=(?)`
             const params = [this.id]
             const res = await db.get(stmt, params)
 

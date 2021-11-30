@@ -22,12 +22,14 @@ class WatermarkCollection {
      * @param {module:models.Gallery} gallery
      * @param {string} name
      * @param {string} description
+     * @param {Date} creation_date
      * @param {string} [id=null]
      */
-    constructor(gallery, name, description, id = null) {
+    constructor(gallery, name, description, creation_date, id = null) {
         this.gallery = gallery
         this.name = name
         this.description = description
+        this.creation_date = creation_date
         this.id = id || WatermarkCollection.gen_id()
     }
 
@@ -37,10 +39,17 @@ class WatermarkCollection {
      * @return {Promise} - sqlite's run result 
      */
     save() {
-        const stmt = `INSERT INTO watermark_collections (watermark_col_id, gallery_id, name, description) VALUES (?,?,?,?)`
-        const params = [this.id, this.gallery.id, this.name, this.description]
-
-        return db.run(stmt, params)
+        return db.run(`INSERT INTO watermark_collections (
+            watermark_col_id,
+            gallery_id,
+            name,
+            description
+        ) VALUES (?,?,?,?)`, [
+            this.id,
+            this.gallery.id,
+            this.name,
+            this.description
+        ])
     }
 
     /**
@@ -50,13 +59,21 @@ class WatermarkCollection {
      */
     get watermaks() {
         return (async () => {
-            const stmt = `SELECT * FROM watermarks WHERE watermark_col_id='(?)'`
-            const params = [this.id]
-            const rows = await db.all(stmt, params)
+            const rows = await db.all(`SELECT * FROM watermarks
+                WHERE watermark_col_id=(?)
+                ORDER BY creation_date`,
+                [this.id]
+            )
             let watermarks = []
 
             for (let row of rows) {
-                watermarks.push(new Watermark(this, row.name, row.document, row.id))
+                watermarks.push(new Watermark(
+                    this,
+                    row.name,
+                    row.document,
+                    row.creation_date,
+                    row.watermark_id
+                ))
             }
 
             return watermarks
@@ -69,14 +86,21 @@ class WatermarkCollection {
      * @param {string} - watermark UUID to be queried
      * @returns {module:models.Watermark}
      */
-    get_watermark(watermark_id) {
+    get_watermark(id) {
         return (async () => {
-            const stmt = `SELECT * FROM watermark WHERE watermark_id='(?)'`
-            const params = [watermark_id]
-            const res = await db.get(stmt, params)
+            const res = await db.get(`SELECT * FROM watermark
+                WHERE watermark_id=(?)`,
+                [id]
+            )
 
             if (res) {
-                return new Watermark(this, res.name, res.document, res.watermark_id)
+                return new Watermark(
+                    this,
+                    res.name,
+                    res.document,
+                    res.creation_date,
+                    res.watermark_id
+                )
             }
 
             return null

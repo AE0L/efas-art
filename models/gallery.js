@@ -34,10 +34,10 @@ class Gallery {
      * @return {Promise} - sqlite's run result
      */
     save() {
-        const stmt = `INSERT INTO galleries (gallery_id, user_id) VALUES (?, ?)`
-        const params = [this.id, this.user.id]
-
-        return db.run(stmt, params)
+        return db.run(
+            `INSERT INTO galleries (gallery_id, user_id) VALUES (?, ?)`,
+            [this.id, this.user.id]
+        )
     }
 
     /**
@@ -48,8 +48,7 @@ class Gallery {
     get art_collections() {
         return (async () => {
             const stmt = `SELECT * FROM art_collection WHERE gallery_id=(?)`
-            const params = [this.id]
-            const rows = await db.all(stmt, params)
+            const rows = await db.all(stmt, [this.id])
             let collections = []
 
             for (let row of rows) {
@@ -68,7 +67,7 @@ class Gallery {
      */
     get watermark_collections() {
         return (async () => {
-            const stmt = `SELECT * FROM watermark_collections WHERE gallery_id='(?)'`
+            const stmt = `SELECT * FROM watermark_collections WHERE gallery_id=(?)`
             const params = [this.id]
             const rows = await db.all(stmt, params)
             let collections = []

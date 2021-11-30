@@ -21,12 +21,14 @@ class Watermark {
      * @param {module:models.Watermark} watermark_col
      * @param {string} name
      * @param {string} document
+     * @param {Date} creation_date
      * @param {string} [id=null]
      */
-    constructor(watermark_col, name, document, id = null) {
+    constructor(watermark_col, name, document, creation_date, id = null) {
         this.watermark_col = watermark_col
         this.name = name
         this.document = document
+        this.creation_date = creation_date
         this.id = id || Watermark.gen_id()
     }
 
@@ -36,10 +38,19 @@ class Watermark {
      * @return {Promise} - sqlite's run result 
      */
     save() {
-        const stmt = `INSERT INTO watermarks (watermark_id, watermark_col_id, name, document) VALUES (?,?,?,?)`
-        const params = [this.id, this.watermark_col.id, this.name, this.document]
-
-        return db.run(stmt, params)
+        return db.run(`INSERT INTO watermarks (
+            watermark_id,
+            watermark_col_id, 
+            name, 
+            document,
+            creation_date
+        ) VALUES (?,?,?,?)`, [
+            this.id,
+            this.watermark_col.id,
+            this.name,
+            this.document,
+            this.creation_date
+        ])
     }
 
     /**

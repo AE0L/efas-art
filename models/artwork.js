@@ -21,14 +21,16 @@ class Artwork {
      * @param {string} tags
      * @param {string} description
      * @param {string} document
+     * @param {Date} creation_date
      * @param {string} [id=null]
      */
-    constructor(art_col, name, tags, description, document, id = null) {
+    constructor(art_col, name, tags, description, document, creation_date, id = null) {
         this.art_col = art_col
         this.name = name
         this.tags = tags
         this.description = description
         this.document = document
+        this.creation_date = creation_date
         this.id = id || Artwork.gen_id()
     }
 
@@ -38,10 +40,23 @@ class Artwork {
      * @return {Promise} - sqlite's run result
      */
     save() {
-        const stmt = `INSERT INTO artworks (artwork_id, art_col_id, name, tags, description, document) VALUES (?,?,?,?,?,?)`
-        const params = [this.id, this.art_col.id, this.name, this.tags, this.description, this.document]
-
-        return db.run(stmt, params)
+        return db.run(`INSERT INTO artworks (
+            artwork_id,
+            art_col_id,
+            name,
+            tags,
+            description,
+            creation_date,
+            document
+        ) VALUES (?,?,?,?,?,?,?)`, [
+            this.id,
+            this.art_col.id,
+            this.name,
+            this.tags,
+            this.description,
+            this.creation_date,
+            this.document
+        ])
     }
 
     /**
