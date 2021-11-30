@@ -11,16 +11,18 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="timeline.html" action="/" method="post">
+                <form id="login-form" action="timeline.html" action="/" method="post" class="needs-validation" novalidate oninput="login_form_validate()">
                     <div class="form-group">
                         <label for="username" class="col-form-label">Username:</label>
-                        <input type="text" class="form-control" id="email" placeholder="Enter username" required
+                        <input type="text" class="form-control" id="login_user" placeholder="Enter username" required
                             name="username">
+                        <div id="loginuser_feedback" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter password"
+                        <input type="password" class="form-control" id="login_pass" placeholder="Enter password"
                             name="password" required>
+                        <div id="loginpass_feedback" class="invalid-feedback"></div>
                     </div>
 
             </div>

@@ -121,15 +121,19 @@ class User {
      */
     static async get_user(login_username) {
         const stmt = `SELECT * FROM users WHERE username=(?)`
-        const res = await db.get(stmt, [login_username])
+        try {
+            const res = await db.get(stmt, [login_username])
 
-        if (res) {
-            const { user_id, first_name, last_name, username, pass_hash } = res
-            const user = new User(first_name, last_name, username, '', user_id)
+            if (res) {
+                const { user_id, first_name, last_name, username, pass_hash } = res
+                const user = new User(first_name, last_name, username, '', user_id)
 
-            user.hash = pass_hash
+                user.hash = pass_hash
 
-            return user
+                return user
+            }
+        } catch (e) {
+            console.error(e)
         }
 
         return null

@@ -1,51 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-		<%- include('global/head') %>
+    <head>
+        <%- include('global/head') %>
 
-		<link rel="stylesheet" type="text/css" href="styles/landingstyles.css" />
+        <link rel="stylesheet" type="text/css" href="styles/landingstyles.css" />
 
-		<title>EFAS ART</title>
-	</head>
+        <title>EFAS ART</title>
+    </head>
 
-	<body>
-		<div class="container-fluid banner">
-			<div class="row">
-				<div class="col-md-12">
-					<nav class="navbar navbar-md">
-						<a href="index.html">
-							<div class="navbar-brand">EFAS ART</div>
-						</a>
+    <body>
+        <div class="container-fluid banner">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-md">
+                        <a href="index.html">
+                            <div class="navbar-brand">EFAS ART</div>
+                        </a>
 
-						<ul class="nav">
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="modal" data-target="#signup" href="#">SIGN UP</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="modal" data-target="#signup" href="#">SIGN UP</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
 
-				<div class="col-md-8 offset-md-2 info">
-					<h1 class="text-center">EFAS ART</h1>
-					<p class="text-center">
-						Share your masterpiece without being robbed! <br>
-						Be creative, be proud, be safe, <br>
-						Be <em>efas!</em>
-					</p>
-					<a href="#" class="btn btn-md text-center" data-toggle="modal" data-target="#login">Log-In</a>
-				</div>
-			</div>
+                <div class="col-md-8 offset-md-2 info">
+                    <h1 class="text-center">EFAS ART</h1>
+                    <p class="text-center">
+                        Share your masterpiece without being robbed! <br>
+                        Be creative, be proud, be safe, <br>
+                        Be <em>efas!</em>
+                    </p>
+                    <a href="#" class="btn btn-md text-center" data-toggle="modal" data-target="#login">Log-In</a>
+                </div>
+            </div>
 
-			<%- include('index/login_modal') %>
+            <%- include('index/login_modal') %>
 
-			<%- include('index/signup_modal') %>
+            <%- include('index/signup_modal') %>
 
-		</div>
+        </div>
 
-		<%- include('global/footer') %>
+        <%- include('global/footer') %>
 
-		<script src="scripts/index.js"></script>
-	</body>
+        <script src="scripts/auth/validation.js"></script>
+        <script src="scripts/auth/signup.js"></script>
+        <script src="scripts/auth/login.js"></script>
+    </body>
 
 </html>

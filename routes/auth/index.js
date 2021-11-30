@@ -62,6 +62,12 @@ router.post('/login', [
                 }
                 res.status(200).send({ success: true })
             }
+        } else {
+            res.status(200).send({
+                success: false,
+                param: 'username',
+                reason: 'User not found'
+            })
         }
     } catch (e) {
         console.error(e)
@@ -136,13 +142,13 @@ router.post('/register', [
         await gallery.save()
         await contact.save()
 
-        res.send({ succcess: true })
+        res.send({ success: true })
     } catch (e) {
         console.error(e)
-        res.send({ sucess: false })
+        res.send({ success: false })
+    } finally {
+        res.end()
     }
-
-    res.end()
 })
 
 /**
@@ -151,7 +157,7 @@ router.post('/register', [
  *  post:
  *      summary: logout user and destroy session
  */
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) console.error(err)
     })
