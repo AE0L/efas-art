@@ -16,30 +16,30 @@ const router = express.Router()
 /**
  * @swagger
  * /login:
- *  post:
- *      summary: login user credentials
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          username:
- *                              type: string
- *                              description: username input
- *                          password:
- *                              type: string
- *                              description: password input
- *      responses:
- *          200:
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              succcess:
- *                                  type: boolean
+ *   post:
+ *     summary: login user credentials
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: username input
+ *               password:
+ *                 type: string
+ *                 description: password input
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 succcess:
+ *                   type: boolean
  */
 router.post('/login', [
     check('username').isLength({ min: 4 }).trim().escape(),
@@ -86,34 +86,34 @@ router.post('/login', [
 /**
  * @swagger
  * /register:
- *  post:
- *      summary: register user's credentials
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          email:
- *                              type: string
- *                          username:
- *                              type: string
- *                          password:
- *                              type: string
- *                          first_name:
- *                              type: string
- *                          last_name:
- *                              type: string
- *      responses:
- *          200:
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              success:
- *                                  type: boolean
+ *   post:
+ *     summary: register user's credentials
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               first_name:
+ *                 type: string
+ *               last_name:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
  */
 router.post('/register', [
     check('email')
