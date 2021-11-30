@@ -60,10 +60,16 @@ router.post('/login', [
                 if (!req.session.user_id) {
                     req.session.user_id = user.id
                 }
-                res.status(200).send({ success: true })
+                res.send({ success: true })
+            } else {
+                res.send({
+                    success: false,
+                    param: 'password',
+                    reason: 'Incorrect password'
+                })
             }
         } else {
-            res.status(200).send({
+            res.send({
                 success: false,
                 param: 'username',
                 reason: 'User not found'
