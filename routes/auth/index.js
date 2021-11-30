@@ -48,7 +48,7 @@ router.post('/login', [
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-        res.send({ errors: errors })
+        return res.send({ errors: errors })
     }
 
     try {
@@ -60,16 +60,17 @@ router.post('/login', [
                 if (!req.session.user_id) {
                     req.session.user_id = user.id
                 }
-                res.send({ success: true })
+                
+                return res.send({ success: true })
             } else {
-                res.send({
+                return res.send({
                     success: false,
                     param: 'password',
                     reason: 'Incorrect password'
                 })
             }
         } else {
-            res.send({
+            return res.send({
                 success: false,
                 param: 'username',
                 reason: 'User not found'
@@ -133,12 +134,35 @@ router.post('/register', [
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-        res.send({ errors: errors })
+        return res.send({ errors: errors })
     }
 
     let { email, first_name, last_name, username, password } = req.body
 
     try {
+        const tmp_user = await User.get_user(username)
+
+        if (tmp_user) {
+            const error = {
+                success: false,
+                errors: [{
+                    param: 'username',
+                    reason: 'User already exists'
+                }]
+            }
+
+            const user_cont = await tmp_user.contact
+
+            if (email === user_cont.email) {
+                error.errors.push({
+                    param: 'email',
+                    reason: 'Email is already registered'
+                })
+            }
+
+            return res.send(error)
+        }
+
         const user = new User(first_name, last_name, username, password)
         const gallery = new Gallery(user)
         const contact = new Contact(user, email)
@@ -148,10 +172,10 @@ router.post('/register', [
         await gallery.save()
         await contact.save()
 
-        res.send({ success: true })
+        return res.send({ success: true })
     } catch (e) {
         console.error(e)
-        res.send({ success: false })
+        return res.send({ success: false })
     } finally {
         res.end()
     }

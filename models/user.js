@@ -79,7 +79,7 @@ class User {
      */
     get contact() {
         return (async () => {
-            const stmt = `SELECT * FROM contacts WHERE user_id='(?)'`
+            const stmt = `SELECT * FROM contacts WHERE user_id=(?)`
             const params = [this.id]
             const res = await db.get(stmt, params)
 

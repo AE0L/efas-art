@@ -27,11 +27,36 @@ function signup_form_validate() {
         'Invalid username length'
     )
 
-    validate_input(email, email_feedback, 'Please input your email')
+    validate_input(_email, email_feedback, 'Please input your email')
     validate_input(firstname, firstname_feedback, 'Please input your first name')
     validate_input(lastname, lastname_feedback, 'Please input your last name')
 }
 
+const post_form = (form) => {
+    $.ajax({
+        type: 'POST',
+        data: $(form).serialize(),
+        cache: false,
+        url: 'register',
+        success: (data) => {
+            if (data.success) {
+                window.location.pathname = '/'
+            } else {
+                for (let error of data.errors) {
+                    if (error.param === 'email') {
+                        set_validity(_email, email_feedback, error.reason)
+                    } else if (error.param === 'username') {
+                        set_validity(username, username_feedback, error.reason)
+                    }
+                }
+            }
+        },
+        error: (err) => {
+            console.log('post fail', err)
+        }
+    })
+
+}
 
 $(document).ready(() => {
     $('#signup-form').submit(function(e) {
@@ -42,20 +67,7 @@ $(document).ready(() => {
             signup_form_validate()
             this.classList.add('was-validated')
         } else {
-            $.ajax({
-                type: 'POST',
-                data: $(this).serialize(),
-                cache: false,
-                url: 'register',
-                success: (data) => {
-                    if (data.success) {
-                        window.location.pathname = '/'
-                    }
-                },
-                error: (err) => {
-                    console.log('post fail', err)
-                }
-            })
+            post_form(this)
         }
     })
 })
