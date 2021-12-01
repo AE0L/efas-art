@@ -1,14 +1,14 @@
 body {
+	background: #fff;
+	background-color: #F1DAAD;
+	background-position: top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background: url("../assets/img/banner.png");
+	color: #080D10;
+	font-family: 'Raleway', sans-serif;
 	margin: 0;
 	padding: 0;
-	background: #fff;
-	font-family: 'Raleway', sans-serif;
-	color: #080D10;
-	background-color: #F1DAAD;
-	background: url("../assets/img/banner.png");
-	background-position: top;
-	background-size: cover;
-	background-repeat: no-repeat;
 }
 
 .banner {
@@ -47,27 +47,27 @@ body {
 }
 
 .banner .info h1 {
+	color: #080D10;
 	font-size: 2.5em;
 	font-weight: 700;
-	color: #080D10;
 	letter-spacing: 2px;
 }
 
 .banner .info p {
+	color: #080D10;
 	font-size: 2em;
 	font-weight: 500;
-	color: #080D10;
 	letter-spacing: 2px;
 }
 
 .banner .info a {
-	margin-left: 50%;
-	transform: translateX(-50%);
-	color: #080D10;
 	background: #814827;
-	padding: 10px 20px;
+	color: #080D10;
 	font-size: 2em;
 	font-weight: 600;
+	margin-left: 50%;
+	padding: 10px 20px;
+	transform: translateX(-50%);
 
 }
 
