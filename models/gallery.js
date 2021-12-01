@@ -7,20 +7,20 @@
  */
 import { v4 } from 'uuid'
 import ArtCollection from './art_collection'
-import WatermarkCollection from './watermark_collection'
 import db from './db'
+import User from './user'
+import WatermarkCollection from './watermark_collection'
 
 /**
  * Gallery model class
  *
  * @class
- * @memberof module:models
  */
 class Gallery {
     /**
      * Creates an instance of Gallery.
      * 
-     * @param {module:models.User} user
+     * @param {User} user
      * @param {string} [id=null]
      */
     constructor(user, id = null) {
@@ -41,29 +41,56 @@ class Gallery {
     }
 
     /**
+     * get a specific gallery with an ID
+     *
+     * @static
+     * @param {string} id
+     * @return {Promise<Gallery>} 
+     */
+    static async get(id) {
+        const res = db.get(`SELECT * FROM galleries
+            WHERE gallery_id=(?)`,
+            [id]
+        )
+
+        if (res) {
+            return new Gallery(
+                User.get(res.user_id),
+                res.gallery_id
+            )
+        }
+    }
+
+    /**
      * Get all the art collections in the user's gallery
      *
-     * @type {Array<module:models.ArtCollection>}
+     * @type {Promise<Array<ArtCollection>>}
      */
     get art_collections() {
         return (async () => {
-            const stmt = `SELECT * FROM art_collection WHERE gallery_id=(?)`
-            const rows = await db.all(stmt, [this.id])
+            const rows = await db.all(`SELECT * FROM art_collection
+                WHERE gallery_id=(?)`,
+                [this.id]
+            )
             let collections = []
 
             for (let row of rows) {
-                collections.push(new ArtCollection(this, row.name, row.description, row.art_col_id))
+                collections.push(new ArtCollection(
+                    this,
+                    row.name,
+                    row.description,
+                    row.art_col_id
+                ))
             }
 
             return collections
-
         })()
     }
 
     /**
      * Get all the watermark collections in the user's gallery
      *
-     * @type {Array<module:models.WatermarkCollection>}
+     * @type {Promise<Array<WatermarkCollection>>}
      */
     get watermark_collections() {
         return (async () => {

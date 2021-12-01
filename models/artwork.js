@@ -5,18 +5,19 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import { v4 } from 'uuid'
+import ArtCollection from './art_collection'
 import db from './db'
+import random_id from './util'
 
 /**
  * Artwork model class
- *
- * @memberof module:models
+ * 
+ * @class
  */
 class Artwork {
     /**
      * Creates an instance of Artwork.
-     * @param {module:models.ArtCollection} art_col
+     * @param {ArtCollection} art_col
      * @param {string} name
      * @param {string} tags
      * @param {string} description
@@ -60,13 +61,39 @@ class Artwork {
     }
 
     /**
+     * get specific artwork with an ID
+     *
+     * @static
+     * @param {string} id
+     * @return {Promise<Artwork>} 
+     */
+    static async get(id) {
+        const res = db.get(`SELECT * FROM artworks
+            WHERE artwork_id=(?)`,
+            [id]
+        )
+
+        if (res) {
+            return new Artwork(
+                ArtCollection.get(res.art_col_id),
+                res.name,
+                res.tags,
+                res.description,
+                res.document,
+                res.creation_date,
+                res.artwork_id
+            )
+        }
+    }
+
+    /**
      * generate a unique Artwork UUID
      *
      * @static
      * @return {string} - unique UUID 
      */
     static gen_id() {
-        return `AID-${v4()}`
+        return random_id('AID')
     }
 }
 

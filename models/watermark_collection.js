@@ -5,21 +5,20 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import { v4 } from 'uuid'
 import db from './db'
 import Watermark from './watermark'
+import random_id from './util'
 
 /**
  * Watermark Collection model class
  *
  * @class
- * @memberof module:models
  */
 class WatermarkCollection {
     /**
      * Creates an instance of WatermarkCollection.
      * 
-     * @param {module:models.Gallery} gallery
+     * @param {Gallery} gallery
      * @param {string} name
      * @param {string} description
      * @param {Date} creation_date
@@ -55,7 +54,7 @@ class WatermarkCollection {
     /**
      * Get all watermarks in the collection
      *
-     * @type {array<module:models.Watermark>}
+     * @type {Promise<Array<Watermark>>}
      */
     get watermaks() {
         return (async () => {
@@ -81,40 +80,13 @@ class WatermarkCollection {
     }
 
     /**
-     * Get specific watermark with a watermark UUID
-     *
-     * @param {string} - watermark UUID to be queried
-     * @returns {module:models.Watermark}
-     */
-    get_watermark(id) {
-        return (async () => {
-            const res = await db.get(`SELECT * FROM watermark
-                WHERE watermark_id=(?)`,
-                [id]
-            )
-
-            if (res) {
-                return new Watermark(
-                    this,
-                    res.name,
-                    res.document,
-                    res.creation_date,
-                    res.watermark_id
-                )
-            }
-
-            return null
-        })()
-    }
-
-    /**
      * Generate a unique watermark collection UUID
      *
      * @static
      * @return {string} - unique UUID 
      */
     static gen_id() {
-        return `WCID-${v4()}`
+        return random_id('WCID')
     }
 }
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Artwork</title>
+    <title>JSDoc: Class: WatermarkCollection</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Artwork</h1>
+    <h1 class="page-title">Class: WatermarkCollection</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Artwork<span class="signature">(art_col, name, tags, description, document, creation_date, id<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>WatermarkCollection<span class="signature">(gallery, name, description, creation_date, id<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Artwork model class</div>
+            <div class="class-description">Watermark Collection model class</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="Artwork"><span class="type-signature"></span>new Artwork<span class="signature">(art_col, name, tags, description, document, creation_date, id<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="WatermarkCollection"><span class="type-signature"></span>new WatermarkCollection<span class="signature">(gallery, name, description, creation_date, id<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -53,7 +53,7 @@
 
 
 <div class="description">
-    Creates an instance of Artwork.
+    Creates an instance of WatermarkCollection.
 </div>
 
 
@@ -93,13 +93,13 @@
 
         <tr>
             
-                <td class="name"><code>art_col</code></td>
+                <td class="name"><code>gallery</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="ArtCollection.html">ArtCollection</a></span>
+<span class="param-type"><a href="Gallery.html">Gallery</a></span>
 
 
             
@@ -163,77 +163,7 @@
 
         <tr>
             
-                <td class="name"><code>tags</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>description</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>document</code></td>
             
 
             <td class="type">
@@ -376,7 +306,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="artwork.js.html">artwork.js</a>, <a href="artwork.js.html#line17">line 17</a>
+        <a href="watermark_collection.js.html">watermark_collection.js</a>, <a href="watermark_collection.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -422,6 +352,82 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="watermaks"><span class="type-signature"></span>watermaks<span class="type-signature"> :Promise.&lt;Array.&lt;<a href="Watermark.html">Watermark</a>>></span></h4>
+
+
+
+
+<div class="description">
+    Get all watermarks in the collection
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Promise.&lt;Array.&lt;<a href="Watermark.html">Watermark</a>>></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="watermark_collection.js.html">watermark_collection.js</a>, <a href="watermark_collection.js.html#line59">line 59</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -440,7 +446,7 @@
 
 
 <div class="description">
-    generate a unique Artwork UUID
+    Generate a unique watermark collection UUID
 </div>
 
 
@@ -484,7 +490,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="artwork.js.html">artwork.js</a>, <a href="artwork.js.html#line95">line 95</a>
+        <a href="watermark_collection.js.html">watermark_collection.js</a>, <a href="watermark_collection.js.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -542,161 +548,6 @@
     
 
     
-    <h4 class="name" id=".get"><span class="type-signature">(async, static) </span>get<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Artwork.html">Artwork</a>>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    get specific artwork with an ID
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="artwork.js.html">artwork.js</a>, <a href="artwork.js.html#line70">line 70</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="Artwork.html">Artwork</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="save"><span class="type-signature"></span>save<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
     
 
@@ -705,7 +556,7 @@
 
 
 <div class="description">
-    Saves Artwork object into the dabatase
+    Saves WatermarkCollection object into the database
 </div>
 
 
@@ -749,7 +600,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="artwork.js.html">artwork.js</a>, <a href="artwork.js.html#line43">line 43</a>
+        <a href="watermark_collection.js.html">watermark_collection.js</a>, <a href="watermark_collection.js.html#line40">line 40</a>
     </li></ul></dd>
     
 

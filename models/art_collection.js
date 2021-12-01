@@ -5,22 +5,22 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import { v4 } from 'uuid'
-import db from './db'
 import Artwork from './artwork'
+import db from './db'
+import Gallery from './gallery'
+import random_id from './util'
 
 /** 
  * Art Collection model class 
  * 
  * @class
- * @memberof module:models
  */
 class ArtCollection {
 
     /**
      * Creates an instance of ArtCollection.
      * 
-     * @param {module:models.Gallery} gallery
+     * @param {Gallery} gallery
      * @param {string} name
      * @param {string} description
      * @param {Date} creation_date
@@ -56,9 +56,44 @@ class ArtCollection {
     }
 
     /**
+     * get specific artwork collection with an ID
+     *
+     * @static
+     * @param {string} id
+     * @return {Promise<ArtCollection>} 
+     */
+    static async get(id) {
+        const res = await db.get(`SELECT * FROM art_collection
+            WHERE art_col_id=(?)`,
+            [id]
+        )
+
+        if (res) {
+            return new ArtCollection(
+                Gallery.get(res.gallery_id),
+                res.name,
+                res.description,
+                res.creation_date,
+                res.art_col_id
+            )
+        }
+
+    }
+
+    /**
+     * get art collection's ID
+     *
+     * @readonly
+     * @type {string}
+     */
+    get id() {
+        return this.id.replace('ACID-', '')
+    }
+
+    /**
      * Get all the artworks in this collection
      *
-     * @type {Array<module:models.Artwork>}
+     * @type {Promise<Array<Artwork>>}
      */
     get artworks() {
         return (async () => {
@@ -86,43 +121,14 @@ class ArtCollection {
     }
 
     /**
-     * Get specific artwork using an artwork UUID
-     *
-     * @return {module:models.Artwork}
-     */
-    get_artwork(id) {
-        return (async () => {
-            const res = await db.get(`SELECT * FROM artworks
-                WHERE artwork_id=(?)`,
-                [id]
-            )
-
-            if (res) {
-                return new Artwork(
-                    this,
-                    res.name,
-                    res.tags,
-                    res.description,
-                    res.document,
-                    res.creation_date,
-                    res.artwork_id
-                )
-            }
-
-            return null
-        })()
-    }
-
-    /**
      * Generate a unique art collection UUID
      *
      * @static
      * @return {string} - unique UUID 
      */
     static gen_id() {
-        return `ACID-${v4()}`
+        return random_id('ACID')
     }
 }
 
-/** @module models */
 export default ArtCollection

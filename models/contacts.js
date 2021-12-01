@@ -12,13 +12,12 @@ import { v4 } from 'uuid'
  * Contact model class
  * 
  * @class
- * @memberof module:models
  */
 class Contact {
     /**
      * Creates an instance of Contact.
      * 
-     * @param {module:models.User} user
+     * @param {User} user
      * @param {string} email
      * @param {string} [id=null]
      */

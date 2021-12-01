@@ -201,7 +201,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_gallery.js.html">models/gallery.js</a>, <a href="models_gallery.js.html#line18">line 18</a>
+        <a href="gallery.js.html">gallery.js</a>, <a href="gallery.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -251,7 +251,7 @@
 
         
             
-<h4 class="name" id="art_collections"><span class="type-signature"></span>art_collections<span class="type-signature"> :Array.&lt;<a href="ArtCollection.html">ArtCollection</a>></span></h4>
+<h4 class="name" id="art_collections"><span class="type-signature"></span>art_collections<span class="type-signature"> :Promise.&lt;Array.&lt;<a href="ArtCollection.html">ArtCollection</a>>></span></h4>
 
 
 
@@ -266,7 +266,7 @@
     <ul>
         <li>
             
-<span class="param-type">Array.&lt;<a href="ArtCollection.html">ArtCollection</a>></span>
+<span class="param-type">Promise.&lt;Array.&lt;<a href="ArtCollection.html">ArtCollection</a>>></span>
 
 
         </li>
@@ -305,7 +305,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_gallery.js.html">models/gallery.js</a>, <a href="models_gallery.js.html#line47">line 47</a>
+        <a href="gallery.js.html">gallery.js</a>, <a href="gallery.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -323,7 +323,7 @@
 
         
             
-<h4 class="name" id="watermark_collections"><span class="type-signature"></span>watermark_collections<span class="type-signature"> :Array.&lt;<a href="WatermarkCollection.html">WatermarkCollection</a>></span></h4>
+<h4 class="name" id="watermark_collections"><span class="type-signature"></span>watermark_collections<span class="type-signature"> :Promise.&lt;Array.&lt;<a href="WatermarkCollection.html">WatermarkCollection</a>>></span></h4>
 
 
 
@@ -338,7 +338,7 @@
     <ul>
         <li>
             
-<span class="param-type">Array.&lt;<a href="WatermarkCollection.html">WatermarkCollection</a>></span>
+<span class="param-type">Promise.&lt;Array.&lt;<a href="WatermarkCollection.html">WatermarkCollection</a>>></span>
 
 
         </li>
@@ -377,7 +377,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_gallery.js.html">models/gallery.js</a>, <a href="models_gallery.js.html#line68">line 68</a>
+        <a href="gallery.js.html">gallery.js</a>, <a href="gallery.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -457,7 +457,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_gallery.js.html">models/gallery.js</a>, <a href="models_gallery.js.html#line89">line 89</a>
+        <a href="gallery.js.html">gallery.js</a>, <a href="gallery.js.html#line116">line 116</a>
     </li></ul></dd>
     
 
@@ -515,7 +515,162 @@
     
 
     
-    <h4 class="name" id="save"><span class="type-signature"></span>save<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id=".get"><span class="type-signature">(async, static) </span>get<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Gallery.html">Gallery</a>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    get a specific gallery with an ID
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="gallery.js.html">gallery.js</a>, <a href="gallery.js.html#line50">line 50</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Gallery.html">Gallery</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="save"><span class="type-signature"></span>save<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
     
 
     
@@ -567,7 +722,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_gallery.js.html">models/gallery.js</a>, <a href="models_gallery.js.html#line35">line 35</a>
+        <a href="gallery.js.html">gallery.js</a>, <a href="gallery.js.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -607,7 +762,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;any></span>
+<span class="param-type">Promise</span>
 
 
     </dd>
@@ -635,13 +790,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-models.html">models</a></li><li><a href="module-models_.html">models/</a></li><li><a href="module-routes_.html">routes/</a></li><li><a href="module-routes_auth.html">routes/auth</a></li></ul><h3>Classes</h3><ul><li><a href="ArtCollection.html">ArtCollection</a></li><li><a href="Artwork.module.exports.html">module.exports</a></li><li><a href="Contact.module.exports.html">module.exports</a></li><li><a href="Gallery.html">Gallery</a></li><li><a href="module-models_-Artwork.html">Artwork</a></li><li><a href="module-models_-Contact.html">Contact</a></li><li><a href="module-models_-User.html">User</a></li><li><a href="module-models_-Watermark.html">Watermark</a></li><li><a href="module-models_-WatermarkCollection.html">WatermarkCollection</a></li><li><a href="User.module.exports.html">module.exports</a></li><li><a href="WatermarkCollection.module.exports.html">module.exports</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ArtCollection.html">ArtCollection</a></li><li><a href="Artwork.html">Artwork</a></li><li><a href="Contact.html">Contact</a></li><li><a href="Gallery.html">Gallery</a></li><li><a href="User.html">User</a></li><li><a href="Watermark.html">Watermark</a></li><li><a href="WatermarkCollection.html">WatermarkCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#encrypt_password">encrypt_password</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Nov 29 2021 13:23:30 GMT+0800 (Philippine Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Dec 01 2021 08:42:10 GMT+0800 (Philippine Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

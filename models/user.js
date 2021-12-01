@@ -29,13 +29,12 @@ async function encrypt_password(pass) {
  * User model class
  *
  * @class
- * @memberof module:models
  */
 class User {
-    SAVE_STMT = `INSERT INTO users (user_id,first_name,last_name,username,pass_hash) VALUES (?,?,?,?,?)`
 
     /**
      * Creates an instance of User.
+     * 
      * @param {string} email
      * @param {string} first_name
      * @param {string} last_name
@@ -66,22 +65,33 @@ class User {
      * @return {Promise} - sqlite's run result 
      */
     save() {
-        const params = [this.id, this.first_name, this.last_name, this.username, this.hash]
-
-        return db.run(this.SAVE_STMT, params)
+        return db.run(`INSERT INTO users (
+            user_id,
+            first_name,
+            last_name,
+            username,
+            pass_hash
+        ) VALUES (?,?,?,?,?)`, [
+            this.id,
+            this.first_name,
+            this.last_name,
+            this.username,
+            this.hash
+        ])
     }
 
     /**
      * Get user's contact information
      *
      * @async
-     * @type {Promise<module:models.Contact>}
+     * @type {Promise<Contact>}
      */
     get contact() {
         return (async () => {
-            const stmt = `SELECT * FROM contacts WHERE user_id=(?)`
-            const params = [this.id]
-            const res = await db.get(stmt, params)
+            const res = await db.get(`SELECT * FROM contacts
+                WHERE user_id=(?)`,
+                [this.id]
+            )
 
             if (res) {
                 return new Contact(this, res.email, res.phone, res.id)
@@ -95,13 +105,14 @@ class User {
      * Get user's gallery
      *
      * @async
-     * @type {Promise<module:models.Gallery>}
+     * @type {Promise<Gallery>}
      */
     get gallery() {
         return (async () => {
-            const stmt = `SELECT * FROM galleries WHERE user_id=(?)`
-            const params = [this.id]
-            const res = await db.get(stmt, params)
+            const res = await db.get(`SELECT * FROM galleries
+                WHERE user_id=(?)`,
+                [this.id]
+            )
 
             if (res) {
                 return new Gallery(this, res.id)
@@ -112,31 +123,60 @@ class User {
     }
 
     /**
+     * get user with an ID
+     *
+     * @static
+     * @param {string} id
+     * @return {Promise<User>} 
+     */
+    static async get(id) {
+        const res = await db.get(`SELECT * FROM users
+            WHERE user_id=(?)`,
+            [id]
+        )
+
+        if (res) {
+            const user = new User(
+                res.first_name,
+                res.last_name,
+                res.username,
+                '',
+                res.user_id
+            )
+
+            user.hash = res.pass_hash
+
+            return user
+        }
+    }
+
+    /**
      * get user from the database if it exist
      *
      * @static
      * @async
      * @param {string} login_username
-     * @return {Promise<module:models.User> | null} - User object if record is found, otherwise false
+     * @return {Promise<User>}
      */
     static async get_user(login_username) {
-        const stmt = `SELECT * FROM users WHERE username=(?)`
-        try {
-            const res = await db.get(stmt, [login_username])
+        const res = await db.get(`SELECT * FROM users
+            WHERE username=(?)`,
+            [login_username]
+        )
 
-            if (res) {
-                const { user_id, first_name, last_name, username, pass_hash } = res
-                const user = new User(first_name, last_name, username, '', user_id)
+        if (res) {
+            const user = new User(
+                res.first_name,
+                res.last_name,
+                res.username,
+                '',
+                res.user_id
+            )
 
-                user.hash = pass_hash
+            user.hash = res.pass_hash
 
-                return user
-            }
-        } catch (e) {
-            console.error(e)
+            return user
         }
-
-        return null
     }
 
     /**
@@ -148,7 +188,6 @@ class User {
      */
     async verify_pass(login_password) {
         return bcrypt.compare(login_password, this.hash)
-
     }
 
     /**

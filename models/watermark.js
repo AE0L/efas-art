@@ -5,20 +5,19 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import { v4 } from 'uuid'
 import db from './db'
+import random_id from './util'
 
 /**
  * Watermark model class
  *
  * @class
- * @memberof module:models
  */
 class Watermark {
     /**
      * Creates an instance of Watermark.
      * 
-     * @param {module:models.Watermark} watermark_col
+     * @param {WatermarkCollection} watermark_col
      * @param {string} name
      * @param {string} document
      * @param {Date} creation_date
@@ -60,7 +59,7 @@ class Watermark {
      * @return {string} - unique UUID 
      */
     static gen_id() {
-        return `WID-${v4()}`
+        return random_id('WID')
     }
 }
 
