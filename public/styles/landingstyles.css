@@ -4,7 +4,7 @@ body {
 	background-position: top;
 	background-repeat: no-repeat;
 	background-size: cover;
-	background: url("../assets/img/banner.png");
+	background: url('../assets/img/banner.png');
 	color: #080D10;
 	font-family: 'Raleway', sans-serif;
 	margin: 0;
