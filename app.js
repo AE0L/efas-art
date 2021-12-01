@@ -60,6 +60,17 @@ app.use(session({
 /* routes */
 app.use('/', router)
 
+/* 404 page */
+app.use((req, res, next) => {
+    res.status(400)
+
+    if (req.accepts('html')) {
+        return res.render('404', { url: req.url })
+    }
+
+    res.type('txt').send('not found')
+})
+
 const port = process.env.PORT
 
 app.listen(port, () => {

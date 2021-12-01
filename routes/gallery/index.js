@@ -2,8 +2,8 @@ import express from 'express'
 import User from '../../models/user'
 const router = express.Router()
 
-router.use('/gallery', require('./artworks'))
-router.use('/gallery', require('./watermarks'))
+router.use('/', require('./artworks'))
+router.use('/', require('./watermarks'))
 
 /**
  * @swagger

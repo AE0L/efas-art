@@ -5,10 +5,11 @@
  * @author Paula Millorin
  */
 import express from 'express'
+import path from 'path'
 const router = express.Router()
 
 router.use('/', require('./auth'))
-router.use('/user', require('./gallery'))
+router.use('/', require('./gallery'))
 
 /**
  * @swagger
