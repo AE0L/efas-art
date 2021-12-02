@@ -1,3 +1,4 @@
+/*Sign-up Validation*/
 function signup_form_validate() {
     validate_input(
         conpassword,
