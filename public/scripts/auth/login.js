@@ -1,3 +1,4 @@
+/*Log-in Validation*/
 function login_form_validate() {
     validate_input(
         login_user,
