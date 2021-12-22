@@ -5,6 +5,8 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
+import fs from 'fs'
+import google_util from './google'
 import body_parser from 'body-parser'
 import cookie_parser from 'cookie-parser'
 import express from 'express'
@@ -60,6 +62,14 @@ app.use(session({
 /* routes */
 app.use('/', router)
 
+// app.get('/test/google', (req, res) => {
+//     const auth = google_util.authorize(require('./efas-art-api-8115a4968f02.json'))
+
+//     google_util.access_drive(auth, google_util.list_files, `'1HKa_hOx92NxpObCACEYIk0I6F-qAZ-6k' in parents`)
+
+//     return res.send({ result: 'test' })
+// })
+
 /* 404 page */
 app.use((req, res, next) => {
     res.status(400)
@@ -70,6 +80,9 @@ app.use((req, res, next) => {
 
     res.type('txt').send('not found')
 })
+
+/* google drive api */
+global.gauth = google_util.authorize(require('./efas-art-api-8115a4968f02.json'))
 
 const port = process.env.PORT
 

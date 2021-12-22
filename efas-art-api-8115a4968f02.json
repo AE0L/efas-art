@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "efas-art-api",
+  "private_key_id": "8115a4968f020cae07f5f89798b382c8d8edbe3d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCfdTJE5m0s3dgR\nj0NfzegMZ7BWgzOJcK3auOD+DAAEU/WKh0dlAI/vzGwMFF1LsRW1OsN71LROHZlw\ndr1ypgQ1AiDGBXlZgtJ5FcFELDNSNg+sNbQhEIiWJhj6TDXfWiYQ6/2EhgavqRp5\nzZWtC+TchCrJTYd5T8SC+T6CVG77xAGTxmEtbDeHddHwowH7IxuGV0FbrFTnJ0Ae\n5kKo6ewdAt76GS2gvAJ3DUb6kJXdBEYNJ/mwDudOlM24ODCVpGyw0gxXsb7VyH3C\nlLNkbd9p7NfWm40k+OpFAy6y/o7+21bntPStbYGbUbeR1ugBwCbWPlfdw9zDCCJ6\nNSKO0vo9AgMBAAECggEACD0zuvwl/Xi7+pJKsqdOu19bLOksD0ivbvr5Ax9nG9Ij\nwIPjZDxec48+MPSXansMqlfONHaF13hvjnBQMx2RX5TL0TeEsOOR0PhXC1j2UOPi\ntOz0cPXr/Mgcp8gqy27awyqSZ5fOPiLQb6U3++A+s8cvd8XF/3Zn6rWKrYzDzEXc\nPP0oQuINutMOFfc+jCQ5UXUwEON4PsxlDxEEqa3Wq5z6RvdqjLIB2z7lzRKFfsfl\nhtK0VFw//BBADpQv9aJpX0tg+i46os1N+CxF47Me71Zmx0iUo4y5ATX9UNOixGJe\n6qCS2SC2pAarpVDWRfOme9lDXDNeJ32KWyGtTkcmMQKBgQDWwqsWedImThAK2WoM\nYnhW+8eIAomAfttcK9hM0xDeE3e9rZrZq4uvxppYZb9wVjxeiJZ5sDAsMyNaU1fV\nHXLdYrKCXCbkA2ar/A9KGTIE4UjX/SMbTTr7tE7d1noc78XRP5jG98acTYTCLthA\nKAD7HjflGrQP/vUh9as9/sGQbQKBgQC+E+0GUYZnHWdymza6aQmcXXc1fwvzXTq4\nnWALXcuSVzYM/E4hwEO6tuS+dtrk0/UlgxOiNBqBGTH5v3bfq1i9KOi6Os3LHRRK\nSIjYrGXR/n6H6k1W+d3oEZVpk9nFk4sh+noTT1xVfrCwqt9jbgXS3sU1by9zCiP8\nXZoroUoPEQKBgQCDgbMIUVKJGDYknpuct9Oe2BCHzZ3rbELg/ww1hu2GP3+MS7lN\n3wjrev7acHu4y2WuMY+LNoNZHXthfTWEj8Ldo+lRgCJkb1y4peGq6yDA8j8L27ta\npYEfznqYxxQBkiWdC4d/Fwyse5921P6g0p4/J3LsvNxUCziKMghJLy3SRQKBgGcr\ngZfQYFdPynqWbNo5cRICWVYcI2xwyhKyuRLyUjCYTao2uGHxbdHGu9n1wVI7CfDW\neK2uAkTYXBvnJKq64mup7MhIarM4kW7QeBbDXHDi5eL39gqjjSMNiD/KFIX9U6OZ\nxPD+PmvZXCZIWQArE9YlPH2IYATdGDM+yxOrc/tBAoGAaGOa237vyTLdNy4VbF0X\nczFX5dtcun5pXj2hn+i8K3EoKLgEpDTw05CCXG/IK+fOiE3KgWuef1VIiarmmAWJ\nm0xy95ak0U1yW4667KIwiV5aYx7azTrIPugWgzrtTIn2Xq7/cuvuft/ZY+4qSp/Y\n6rQ2Fl2I8CUvsJCf7/xJDPg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "efas-art@efas-art-api.iam.gserviceaccount.com",
+  "client_id": "103409265550673998319",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/efas-art%40efas-art-api.iam.gserviceaccount.com"
+}

@@ -31,8 +31,8 @@ router.get('/', (req, res) => {
  *  get:
  *      summary: server timeline page
  */
-router.get('/timeline', (req, res) => {
-    res.render('timeline')
+router.get('/home', (req, res) => {
+    res.render('home')
 })
 
 export default router

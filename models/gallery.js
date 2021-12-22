@@ -5,7 +5,6 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import { v4 } from 'uuid'
 import ArtCollection from './art_collection'
 import db from './db'
 import User from './user'
@@ -108,13 +107,13 @@ class Gallery {
     }
 
     /**
-     * generate a unique gallery UUID
+     * generate a unique gallery UID
      *
      * @static
-     * @return {string} - unique gallery UUID 
+     * @return {string} - unique gallery UID 
      */
     static gen_id() {
-        return `GID-${v4()}`
+        return `GID-${random_id()}`
     }
 }
 

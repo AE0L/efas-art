@@ -6,7 +6,7 @@
  * @author Paula Millorin
  */
 import db from './db'
-import { v4 } from 'uuid'
+import random_id from './util'
 
 /**
  * Contact model class
@@ -41,13 +41,13 @@ class Contact {
     }
 
     /**
-     * generate unique contact UUID
+     * generate unique contact UID
      * 
      * @static
-     * @return {string} - unique contact UUID 
+     * @return {string} - unique contact UID 
      */
     static gen_id() {
-        return `CID-${v4()}`
+        return `CID-${random_id()}`
     }
 }
 

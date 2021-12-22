@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 16px;">
+
+    <head>
+        <%- include('global/head') %>
+
+        <title>Works</title>
+
+        <script type="application/ld+json">
+            {
+                "@context": "http://schema.org",
+                "@type": "Organization",
+                "name": "",
+                "logo": "assets/img/263399287_1088069948615472_7008189826270424465_n.jpg"
+            }
+        </script>
+
+        <script class="u-script" type="text/javascript" src="scripts/jquery.js" defer=""></script>
+        <script class="u-script" type="text/javascript" src="scripts/efas.js" defer=""></script>
+
+        <%- include('styles/index') %>
+
+    </head>
+
+    <body class="u-body u-gradient" style="background-image: linear-gradient(#f1daad, #d0b49f);">
+
+        <%- include('partials/nav-bar') %>
+
+        <section class="u-clearfix u-section-1" id="sec-5719">
+            <div class="u-clearfix u-sheet u-sheet-1">
+                <span class="u-icon u-icon-rectangle u-text-custom-color-3 u-icon-1" data-href="Profile.html"
+                    data-page-id="2761021782">
+                    <%- include('svg/home_user') %>
+                </span>
+                <h4 class="u-text u-text-1">John Doe</h4>
+                <p class="u-large-text u-text u-text-variant u-text-2">@john_doe</p>
+                <div
+                    class="u-border-3 u-border-grey-dark-1 u-expanded-width-lg u-expanded-width-xl u-line u-line-horizontal u-line-1">
+                </div>
+                <a href="#sec-f4e1"
+                    class="u-active-custom-color-1 u-border-none u-btn u-btn-round u-button-style u-custom-color-5 u-dialog-link u-hover-custom-color-2 u-radius-50 u-text-custom-color-4 u-btn-1">
+                    create work
+                </a>
+                <div class="u-expanded-width u-list u-list-1">
+                    <div class="u-repeater u-repeater-1">
+                        <%- include('data/home_art', {
+                            name: 'Cupcake',
+                            img: 'assets/img/Cupcakepink_brown.png',
+                            desc: 'Sample text. Click to select the text box. Click again or double click to start editing the text.'
+                        }) %>
+
+                        <%- include('data/home_art', {
+                            name: 'JK',
+                            img: 'assets/img/jungkook_BE_simple_vector.png',
+                            desc: 'Sample text. Click to select the text box. Click again or double click to start editing the text.'
+                        }) %>
+
+                        <%- include('data/home_art', {
+                            name: 'Cactus',
+                            img: 'assets/img/Cactus.png',
+                            desc: 'Sample text. Click to select the text box. Click again or double click to start editing the text.'
+                        }) %>
+                    </div>
+                </div>
+                <a href="#sec-43aa"
+                    class="u-active-custom-color-1 u-border-none u-btn u-btn-round u-button-style u-custom-color-5 u-dialog-link u-hover-custom-color-2 u-radius-50 u-text-custom-color-4 u-btn-5">
+                    create work
+                </a>
+            </div>
+
+
+        </section>
+        <section class="u-clearfix u-section-2" id="sec-5d45">
+            <div class="u-clearfix u-sheet u-sheet-1"></div>
+        </section>
+
+        <%- include('partials/footer') %>
+
+        <section class="u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-section-9"
+            id="sec-f4e1">
+            <div class="u-container-style u-dialog u-gradient u-dialog-1">
+                <div class="u-container-layout u-container-layout-1">
+                    <h3 class="u-align-center u-text u-text-black u-text-default u-text-1">Choose a Collection first!
+                    </h3>
+                    <a href="Collections.html" data-page-id="247943266"
+                        class="u-btn u-button-style u-none u-text-active-custom-color-2 u-text-custom-color-4 u-text-hover-custom-color-3 u-btn-1">go
+                        to collections<span style="font-size: 1.125rem;">
+                            <span style="font-size: 1.5rem;">
+                                <span class="u-text-custom-color-4"></span>
+                            </span>
+                        </span>&nbsp;<span class="u-icon u-text-custom-color-4">
+                            <%- include('svg/home_logout') %>
+                        </span>
+                    </a>
+                </div><button class="u-dialog-close-button u-icon u-text-grey-40 u-icon-2"><svg class="u-svg-link"
+                        preserveAspectRatio="xMidYMin slice" viewBox="0 0 16 16" style="">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-efe9"></use>
+                    </svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 16 16" x="0px" y="0px"
+                        id="svg-efe9">
+                        <rect x="7" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -3.3138 8.0002)" width="2"
+                            height="16">
+                        </rect>
+                        <rect x="0" y="7" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -3.3138 8.0002)" width="16"
+                            height="2">
+                        </rect>
+                    </svg></button>
+            </div>
+        </section>
+    </body>
+
+</html>

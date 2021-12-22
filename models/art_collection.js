@@ -77,7 +77,6 @@ class ArtCollection {
                 res.art_col_id
             )
         }
-
     }
 
     /**
@@ -121,10 +120,10 @@ class ArtCollection {
     }
 
     /**
-     * Generate a unique art collection UUID
+     * Generate a unique art collection UID
      *
      * @static
-     * @return {string} - unique UUID 
+     * @return {string} - unique UID 
      */
     static gen_id() {
         return random_id('ACID')

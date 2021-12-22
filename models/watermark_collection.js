@@ -8,6 +8,7 @@
 import db from './db'
 import Watermark from './watermark'
 import random_id from './util'
+import Gallery from './gallery'
 
 /**
  * Watermark Collection model class
@@ -52,8 +53,31 @@ class WatermarkCollection {
     }
 
     /**
-     * Get all watermarks in the collection
+     * get specific waatermark collection with an ID
      *
+     * @static
+     * @param {string} id
+     * @return {Promise<WatermarkCollection>} 
+     */
+    static async get(id) {
+        const res = await db.get(`SELECT * FROM watermark_collections
+            WHERE watermark_col_id=(?)`,
+            [id]
+        )
+
+        if (res) {
+            return new WatermarkCollection(
+                Gallery.get(res.gallery_id),
+                res.name,
+                res.description,
+                res.creation_date,
+                res.watermark_col_id
+            )
+        }
+
+    }
+
+    /**
      * @type {Promise<Array<Watermark>>}
      */
     get watermaks() {
@@ -80,10 +104,10 @@ class WatermarkCollection {
     }
 
     /**
-     * Generate a unique watermark collection UUID
+     * Generate a unique watermark collection UID
      *
      * @static
-     * @return {string} - unique UUID 
+     * @return {string} - unique UID 
      */
     static gen_id() {
         return random_id('WCID')

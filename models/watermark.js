@@ -7,6 +7,7 @@
  */
 import db from './db'
 import random_id from './util'
+import WatermarkCollection from './watermark_collection'
 
 /**
  * Watermark model class
@@ -53,10 +54,34 @@ class Watermark {
     }
 
     /**
-     * Generate a unique watermark UUID
+     * get specific watermark with an ID
      *
      * @static
-     * @return {string} - unique UUID 
+     * @param {string} id
+     * @return {Promise<Watermark} 
+     */
+    static async get(id) {
+        const res = db.get(`SELECT * FROM watermarks
+            WHERE watermark_id=(?)`,
+            [id]
+        )
+
+        if (res) {
+            return new Watermark(
+                WatermarkCollection.get(res.watermark_col_id),
+                res.name,
+                res.document,
+                res.creation_date,
+                res.watermark_id
+            )
+        }
+    }
+
+    /**
+     * Generate a unique watermark UID
+     *
+     * @static
+     * @return {string} - unique UID 
      */
     static gen_id() {
         return random_id('WID')

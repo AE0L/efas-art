@@ -6,6 +6,9 @@
  * @author Paula Millorin
  */
 import ArtCollection from './art_collection'
+import { access_drive, upload_files } from '../google'
+import { file_extension, mime_type } from '../utils/index'
+import fs from 'fs'
 import db from './db'
 import random_id from './util'
 
@@ -25,7 +28,7 @@ class Artwork {
      * @param {Date} creation_date
      * @param {string} [id=null]
      */
-    constructor(art_col, name, tags, description, document, creation_date, id = null) {
+    constructor(art_col, name, tags, description, creation_date, document, id = null) {
         this.art_col = art_col
         this.name = name
         this.tags = tags
@@ -35,13 +38,26 @@ class Artwork {
         this.id = id || Artwork.gen_id()
     }
 
+    async store(tmp_path) {
+        const ext = file_extension(this.document)
+        const res = access_drive(global.gauth, upload_files, [{
+            metadata: {
+                name: `${this.id}.${ext}`
+            },
+            media: {
+                mimeType: mime_type(ext),
+                body: fs.createReadStream(tmp_path)
+            }
+        }])
+    }
+
     /**
      * Saves Artwork object into the dabatase
      *
      * @return {Promise} - sqlite's run result
      */
     save() {
-        return db.run(`INSERT INTO artworks (
+        const res = db.run(`INSERT INTO artworks (
             artwork_id,
             art_col_id,
             name,
@@ -87,10 +103,10 @@ class Artwork {
     }
 
     /**
-     * generate a unique Artwork UUID
+     * generate a unique Artwork UID
      *
      * @static
-     * @return {string} - unique UUID 
+     * @return {string} - unique UID 
      */
     static gen_id() {
         return random_id('AID')

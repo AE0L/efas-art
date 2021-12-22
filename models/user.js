@@ -5,11 +5,12 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import { v4 } from 'uuid'
 import bcrypt from 'bcrypt'
 import db from './db'
 import Contact from './contacts'
 import Gallery from './gallery'
+import random_id from './util'
+import { access_drive, upload_files } from '../google'
 
 /**
  * utility function for hashing a raw string password
@@ -62,10 +63,17 @@ class User {
     /**
      * save the User object into the database
      *
+     * @async
      * @return {Promise} - sqlite's run result 
      */
-    save() {
-        return db.run(`INSERT INTO users (
+    async save() {
+        const g_res = access_drive(global.gauth, upload_files, [{
+            metadata: {
+                
+            }
+        }])
+
+        const db_res = db.run(`INSERT INTO users (
             user_id,
             first_name,
             last_name,
@@ -191,13 +199,13 @@ class User {
     }
 
     /**
-     * generates a unique user UUID
+     * generates a unique user UID
      *
      * @static
-     * @return {string} - unique user UUID
+     * @return {string} - unique user UID
      */
     static gen_uid() {
-        return `UID-${v4()}`
+        return `UID-${random_id()}`
     }
 }
 

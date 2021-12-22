@@ -22,14 +22,15 @@
     "express-session": "^1.17.2",
     "express-session-sqlite": "^2.0.10",
     "express-validator": "^6.13.0",
+    "googleapis": "^92.0.0",
     "helmet": "^4.6.0",
     "jsdoc": "^3.6.7",
+    "multer": "^1.4.3",
     "njwt": "^1.1.0",
     "nnode": "^0.3.3",
     "sqlite3": "^5.0.2",
     "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.1.6",
-    "uuid": "^8.3.2"
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "eslint": "^8.3.0"
