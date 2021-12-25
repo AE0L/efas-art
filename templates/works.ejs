@@ -6,12 +6,12 @@
 
         <title>Works</title>
 
-        <%- include('styles/fonts/Roboto') %> 
+        <%- include('styles/fonts/Roboto') %>
 
-        <%- include('styles/home') %>
+        <%- include('styles/works') %>
 
         <link rel="stylesheet" href="styles/Works.css" media="screen">
-
+        
         <%- include('scripts/efas') %>
 
         <%- include('scripts/logo') %>
@@ -24,16 +24,17 @@
 
         <section class="u-clearfix u-section-1" id="sec-5719">
             <div class="u-clearfix u-sheet u-sheet-1">
-                    <%- include('svg/user') %>
+
+                <%- include('svg/user') %>
+
                 <h4 class="u-text u-text-1">John Doe</h4>
                 <p class="u-large-text u-text u-text-variant u-text-2">@john_doe</p>
                 <div
                     class="u-border-3 u-border-grey-dark-1 u-expanded-width-lg u-expanded-width-xl u-line u-line-horizontal u-line-1">
                 </div>
                 <a href="#sec-f4e1"
-                    class="u-active-custom-color-1 u-border-none u-btn u-btn-round u-button-style u-custom-color-5 u-dialog-link u-hover-custom-color-2 u-radius-50 u-text-custom-color-4 u-btn-1">
-                    create work
-                </a>
+                    class="u-active-custom-color-1 u-border-none u-btn u-btn-round u-button-style u-custom-color-5 u-dialog-link u-hover-custom-color-2 u-radius-50 u-text-custom-color-4 u-btn-1">create
+                    work</a>
                 <div class="u-expanded-width u-list u-list-1">
                     <div class="u-repeater u-repeater-1">
                         <%- include('data/art-prev', {
@@ -55,10 +56,10 @@
                         }) %>
                     </div>
                 </div>
+
                 <a href="#sec-43aa"
-                    class="u-active-custom-color-1 u-border-none u-btn u-btn-round u-button-style u-custom-color-5 u-dialog-link u-hover-custom-color-2 u-radius-50 u-text-custom-color-4 u-btn-5">
-                    create work
-                </a>
+                    class="u-active-custom-color-1 u-border-none u-btn u-btn-round u-button-style u-custom-color-5 u-dialog-link u-hover-custom-color-2 u-radius-50 u-text-custom-color-4 u-btn-5">create
+                    work</a>
             </div>
 
 
@@ -67,8 +68,23 @@
             <div class="u-clearfix u-sheet u-sheet-1"></div>
         </section>
 
-        <%- include('partials/footer') %>
 
+
+
+
+
+
+
+
+        <footer class="u-align-center u-clearfix u-footer u-gradient u-footer" id="sec-c1f9">
+            <div class="u-clearfix u-sheet u-sheet-1">
+                <p class="u-small-text u-text u-text-variant u-text-1"> Share your masterpiece without being
+                    robbed!<br>Be creative, be proud, be safe,<br>Be&nbsp;<i>efas!</i>
+                    <br>
+                    <br> EFAS ART © 2021
+                </p>
+            </div>
+        </footer>
         <section class="u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-section-9"
             id="sec-f4e1">
             <div class="u-container-style u-dialog u-gradient u-dialog-1">
@@ -81,9 +97,15 @@
                             <span style="font-size: 1.5rem;">
                                 <span class="u-text-custom-color-4"></span>
                             </span>
-                        </span>&nbsp;<span class="u-icon u-text-custom-color-4">
-                            <%- include('svg/home_logout') %>
-                        </span>
+                        </span>&nbsp;<span class="u-icon u-text-custom-color-4"><svg class="u-svg-content"
+                                viewBox="0 -32 426.66667 426" style="width: 1em; height: 1em;">
+                                <path
+                                    d="m213.332031 181.667969c0 4.265625-1.277343 8.53125-3.625 11.730469l-106.667969 160c-3.839843 5.761718-10.238281 9.601562-17.707031 9.601562h-64c-11.730469 0-21.332031-9.601562-21.332031-21.332031 0-4.269531 1.28125-8.535157 3.625-11.734375l98.773438-148.265625-98.773438-148.269531c-2.34375-3.199219-3.625-7.464844-3.625-11.730469 0-11.734375 9.601562-21.335938 21.332031-21.335938h64c7.46875 0 13.867188 3.839844 17.707031 9.601563l106.667969 160c2.347657 3.199218 3.625 7.464844 3.625 11.734375zm0 0">
+                                </path>
+                                <path
+                                    d="m426.667969 181.667969c0 4.265625-1.28125 8.53125-3.628907 11.730469l-106.664062 160c-3.839844 5.761718-10.242188 9.601562-17.707031 9.601562h-64c-11.734375 0-21.335938-9.601562-21.335938-21.332031 0-4.269531 1.28125-8.535157 3.628907-11.734375l98.773437-148.265625-98.773437-148.269531c-2.347657-3.199219-3.628907-7.464844-3.628907-11.730469 0-11.734375 9.601563-21.335938 21.335938-21.335938h64c7.464843 0 13.867187 3.839844 17.707031 9.601563l106.664062 160c2.347657 3.199218 3.628907 7.464844 3.628907 11.734375zm0 0">
+                                </path>
+                            </svg><img></span>
                     </a>
                 </div><button class="u-dialog-close-button u-icon u-text-grey-40 u-icon-2"><svg class="u-svg-link"
                         preserveAspectRatio="xMidYMin slice" viewBox="0 0 16 16" style="">
@@ -92,14 +114,13 @@
                         version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 16 16" x="0px" y="0px"
                         id="svg-efe9">
                         <rect x="7" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -3.3138 8.0002)" width="2"
-                            height="16">
-                        </rect>
+                            height="16"></rect>
                         <rect x="0" y="7" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -3.3138 8.0002)" width="16"
-                            height="2">
-                        </rect>
+                            height="2"></rect>
                     </svg></button>
             </div>
         </section>
+
     </body>
 
 </html>

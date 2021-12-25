@@ -19,7 +19,7 @@ router.use('/', require('./gallery'))
  */
 router.get('/', (req, res) => {
     if (req.session.user_id) {
-        res.redirect('/timeline')
+        res.redirect('/home')
     }
 
     res.render('index')
@@ -32,7 +32,19 @@ router.get('/', (req, res) => {
  *      summary: server timeline page
  */
 router.get('/home', (req, res) => {
-    res.render('home')
+    res.render('works')
+})
+
+router.get('/profile', (req, res) => {
+    res.render('profile')
+})
+
+router.get('/works', (req, res) => {
+    res.render('works')
+})
+
+router.get('/collections', (req, res) => {
+    res.render('collections')
 })
 
 export default router
