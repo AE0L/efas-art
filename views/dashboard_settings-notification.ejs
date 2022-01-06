@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/dashboard.css">
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div id="content-cont" class="container my-5">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 4 }) %>
+
+                <div class="d-flex align-items-start">
+                    <%- include('partials/dashboard/settings-nav', { active: 3 }) %>
+
+                    <div id="setting-cont" class="border-start border-dark ms-5 ps-5 w-50" style="min-height: 100%;">
+                        <form>
+                            <div class="mb-3">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Who liked your post</label>
+                            </div>
+
+                            <div class="mb-3">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Who commented on your post</label>
+                            </div>
+
+                            <button type="submit" class="mt-3 btn btn-primary">Save changes</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

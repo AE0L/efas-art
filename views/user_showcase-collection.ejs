@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page.css">
+        <link rel="stylesheet" href="/css/user-page_works.css">
+
+        <style>
+            #col-works-cont {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                justify-items: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 0 }) %>
+
+        <div id="content-cont" class="container mb-5">
+            <%- include('partials/user/header', { followed: false }) %>
+
+            <main>
+                <%- include('partials/user/nav', { 
+                    user_id: '123456',
+                    active: 2
+                }) %>
+
+                <div class="container-fluid d-flex align-items-center mb-2">
+                    <a href="/u/12345/collections" class="text-dark">
+                        <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
+                    </a>
+                    <h3 class="m-0"><%= col_name %></h3>
+                </div>
+
+                <div class="container-fluid py-3">
+                    <p class="lead" style="text-indent: 2em;">In aliquip eiusmod adipisicing enim tempor pariatur velit qui nulla adipisicing deserunt et reprehenderit. Magna ullamco sit aliqua nisi qui tempor sit consequat anim eu. Elit aliqua aute qui deserunt commodo Lorem exercitation aliqua. Eiusmod commodo fugiat deserunt proident voluptate in eu non fugiat. Id eiusmod ex eu exercitation ipsum mollit exercitation excepteur eiusmod. Exercitation magna id dolor aliquip quis quis amet ullamco laborum in eu.</p>
+                </div>
+
+                <div id="col-works-cont" class="container-fluid px-0 gap-3 mb-5">
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

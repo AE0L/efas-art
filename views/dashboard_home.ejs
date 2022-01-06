@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/dashboard.css">
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div id="content-cont" class="container my-5">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 1 }) %>
+
+                <div class="d-flex mb-3">
+                    <h3 class="m-0">Recently uploaded works</h3>
+                    <a href="/profile/artworks" class="nav-link ms-auto p-0">
+                        <small class="text-muted">view all</small>
+                    </a>
+                </div>
+
+                <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/cupcake.png',
+                        art_title: 'Cupcake'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/jungkook.png',
+                        art_title: 'Jungkook'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/cupcake.png',
+                        art_title: 'Cupcake'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/jungkook.png',
+                        art_title: 'Jungkook'
+                    }) %>
+                </div>
+
+                <div class="d-flex mt-5 mb-3">
+                    <h3 class="m-0">Newest collections</h3>
+                    <a href="/profile/artworks/collections" class="nav-link ms-auto p-0">
+                        <small class="text-muted">view all</small>
+                    </a>
+                </div>
+
+                <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
+                    <div class="my-3 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">create a new collection</text>
+                        <button class="m-4 btn btn-primary">Create a collection</button>
+                    </div>
+                </div>
+
+                <div class="d-flex mt-5 mb-3">
+                    <h3 class="m-0">Recently used watermarks</h3>
+                    <a href="/profile/watermarks" class="nav-link ms-auto p-0">
+                        <small class="text-muted">view all</small>
+                    </a>
+                </div>
+
+                <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
+                    <div class="my-3 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">create a watermark</text>
+                        <button class="m-4 btn btn-primary">Create watermark</button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

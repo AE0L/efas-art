@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page.css">
+        <link rel="stylesheet" href="/css/user-page_works.css">
+
+        <style>
+            #allworks-cont {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                justify-items: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 0 }) %>
+
+        <div id="content-cont" class="container mb-5">
+            <%- include('partials/user/header', { followed: false }) %>
+
+            <main>
+                <%- include('partials/user/nav', { 
+                    user_id: '123456',
+                    active: 1
+                }) %>
+
+                <h3 class="mb-3">All works</h3>
+
+                <div id="allworks-cont" class="container-fluid gap-3 mb-5">
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+
+                    <%- include('data/user_art', {
+                        art_id: '123456',
+                        art_src: '/img/cactus.png',
+                        art_title: 'Cactus'
+                    }) %>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

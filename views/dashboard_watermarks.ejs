@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+        <link rel="stylesheet" href="/css/dashboard.css">
+
+        <style>
+            #all-watermark-cont {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                justify-items: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div id="content-cont" class="container my-5">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 3 }) %>
+
+                <div class="d-flex align-items-center mb-3">
+                    <h3 class="m-0">Collections</h3>
+                    <a href="/profile/watermarks/collections" class="nav-link ms-auto p-0">
+                        <button class="btn btn-primary btn-rounded">Manage</button>
+                    </a>
+                </div>
+
+                <div id="recent-cont" class="container-fluid px-0 d-flex gap-3 pb-4 mb-5 custom-scroll">
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/watermark-sig-1.jpg',
+                        col_title: 'Signatures',
+                        type: 'wtm'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/watermark-sig-2.png',
+                        col_title: 'Signatures 2',
+                        type: 'wtm'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/watermark-pic.png',
+                        col_title: 'Pic watermarks',
+                        type: 'wtm'
+                    }) %>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <h3 class="m-0">All watermarks</h3>
+                    <a href="/profile/artworks/collections" class="nav-link ms-auto p-0">
+                        <button class="btn btn-primary btn-rounded">Add a watermark</button>
+                    </a>
+                </div>
+
+                <div id="all-watermark-cont" class="px-0 gap-3 pb-4">
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/watermark-sig-1.jpg',
+                        art_title: 'P.Smith'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/watermark-sig-2.png',
+                        art_title: 'Scribble'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/watermark-pic.png',
+                        art_title: 'Vector'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/watermark-sig-1.jpg',
+                        art_title: 'P.Smith'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/watermark-sig-2.png',
+                        art_title: 'Scribble'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/watermark-pic.png',
+                        art_title: 'Vector'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/watermark-sig-1.jpg',
+                        art_title: 'P.Smith'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/watermark-sig-2.png',
+                        art_title: 'Scribble'
+                    }) %>
+
+                    <%- include('data/dashboard_art', {
+                        art_id: '123456',
+                        art_src: '/img/watermark-pic.png',
+                        art_title: 'Vector'
+                    }) %>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

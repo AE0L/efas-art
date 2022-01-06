@@ -1,0 +1,19 @@
+:root {
+    --card-collection-width: 300px;
+    --card-collection-height: 300px;
+}
+
+.col-card {
+    min-width: var(--card-collection-width);
+    max-width: var(--card-collection-width);
+
+    min-height: var(--card-collection-height);
+    max-height: var(--card-collection-height);
+    
+    overflow: hidden;
+}
+
+.col-card > .card-img-overlay {
+    background: rgba(53, 53, 49, 0.8);
+    color: #FAFAFA;
+}

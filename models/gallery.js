@@ -9,6 +9,7 @@ import ArtCollection from './art_collection'
 import db from './db'
 import User from './user'
 import WatermarkCollection from './watermark_collection'
+import random_id from './util'
 
 /**
  * Gallery model class

@@ -1,0 +1,29 @@
+:root {
+    --card-art-width: 200px;
+    --card-art-height: 200px;
+}
+
+.art-card {
+    min-width: var(--card-art-width);
+    max-width: var(--card-art-width);
+    min-height: var(--card-art-height);
+    max-height: var(--card-art-height);
+    background: #FAFAFA;
+}
+
+.art-img {
+    object-fit: cover;
+    object-position: top;
+    width: 100%;
+}
+
+.art-img-cont {
+    height: 200px;
+    overflow-y: hidden;
+    background-color: rgba(75, 136, 162, 0.75);
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+#recent-cont {
+    overflow-x: auto;
+}

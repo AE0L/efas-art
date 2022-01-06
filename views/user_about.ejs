@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 0 }) %>
+
+        <div id="content-cont" class="container mb-5">
+            <%- include('partials/user/header', { followed: true }) %>
+
+            <main>
+                <%- include('partials/user/nav', { 
+                    user_id: '123456',
+                    active: 3
+                }) %>
+
+                <div class="row mb-5">
+                    <div class="col-4 d-flex align-items-center justify-content-center">
+                        <img src="/img/cupcake.png" alt="" width="250" height="250">
+                    </div>
+                    <div class="col">
+                        <div class="container-fluid">
+                            <h1 class="display-1 my-3">John Doe</h1>
+                            <p class="lead mt-4">Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id suscipit ex. Suspendisse rhoncus laoreet purus quis elementum. Phasellus sed efficitur dolor, et ultricies sapien. Quisque fringilla sit amet dolor commodo efficitur. Aliquam et sem odio. In ullamcorper nisi nunc, et molestie ipsum iaculis sit amet.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

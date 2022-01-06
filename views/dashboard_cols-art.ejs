@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+        <link rel="stylesheet" href="/css/dashboard.css">
+
+        <style>
+            :root {
+                --card-collection-width: 150px;
+                --card-collection-height: 150px;
+            }
+
+            .art-col-cont::after {
+                content: "" !important;
+                flex: auto !important;
+            }
+
+            .row {
+                --bs-gutter-x: unset;
+            }
+
+            #all-col-cont {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                justify-items: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div id="content-cont" class="container my-5">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 2 }) %>
+
+                <div class="container-fluid d-flex align-items-center mb-3">
+                    <a href="/profile/artworks" class="text-dark">
+                        <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
+                    </a>
+                    <h3 class="m-0">All collections</h3>
+                    <a href="#" class="nav-link ms-auto p-0">
+                        <button class="btn btn-primary">create new collectionn</button>
+                    </a>
+                </div>
+
+
+                <div id="all-col-cont" class="container-fluid px-0 gap-3 pb-4">
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/cactus.png',
+                        col_title: 'Cactus',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/cupcake.png',
+                        col_title: 'Cupcake',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/jungkook.png',
+                        col_title: 'Jungkook',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/cactus.png',
+                        col_title: 'Cactus',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/cupcake.png',
+                        col_title: 'Cupcake',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/jungkook.png',
+                        col_title: 'Jungkook',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/cactus.png',
+                        col_title: 'Cactus',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/cupcake.png',
+                        col_title: 'Cupcake',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/jungkook.png',
+                        col_title: 'Jungkook',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/cactus.png',
+                        col_title: 'Cactus',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/cupcake.png',
+                        col_title: 'Cupcake',
+                        type: 'art'
+                    }) %>
+
+                    <%- include('data/dashboard_collection', {
+                        col_id: '123456',
+                        col_src: '/img/jungkook.png',
+                        col_title: 'Jungkook',
+                        type: 'art'
+                    }) %>
+
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

@@ -1,0 +1,7 @@
+<div class="col-card dash-col-card card w-100 h-100" style="border: none; font-size: initial;">
+    <img class="card-img align-self-center" src="<%= col_src %>" alt="">
+    <div class="card-img-overlay d-flex flex-column justify-content-end">
+        <h4 class="card-title text-truncate"><%= col_title %></h4>
+    </div>
+    <a href="/profile/<% if (type === 'art') { %>artworks<% } else { %>watermarks<% } %>/collection/<%= col_id %>" class="stretched-link"></a>
+</div>

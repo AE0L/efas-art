@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/dashboard.css">
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+
+        <style>
+            .setting-cont {}
+
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div id="content-cont" class="container my-5">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 4 }) %>
+
+                <div class="d-flex align-items-start">
+                    <%- include('partials/dashboard/settings-nav', { active: 1 }) %> 
+                    
+                    <div id="setting-cont" class="border-start border-dark ms-5 ps-5 w-50">
+                        <form>
+                            <div class="mb-3">
+                                <label for="first-name" class="form-label">First Name</label>
+                                <input type="email" class="form-control" id="first-name">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="last-name" class="form-label">Last Name</label>
+                                <input type="email" class="form-control" id="last-name">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="email" class="form-control" id="username">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bio" class="form-label">Bio</label>
+                                <textarea class="form-control" id="bio" rows="3"></textarea>
+                            </div>
+
+                            <button type="submit" class="mt-3 btn btn-primary">Save changes</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

@@ -35,7 +35,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swagger_spec))
 
 /* template engine */
 app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, 'templates'))
+app.set('views', path.join(__dirname, 'views'))
 
 /* middlewares */
 app.use(helmet({ contentSecurityPolicy: false }))

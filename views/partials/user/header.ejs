@@ -1,0 +1,25 @@
+<header class="container-fluid d-flex py-5 justify-content-start" style="font-family: 'Raleway', sans-serif;">
+    <div class="row w-100">
+        <div class="col-auto d-flex align-items-center">
+            <img class="rounded-circle border border-dark" src="/img/cupcake.png" alt="pfp" width="100" height="100" style="background-color: #353531">
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <h1 class="display-3 col">John Doe</h1>
+            </div>
+
+            <div class="row">
+                <h2 class="lead col">@john_doe</h2>
+            </div>
+        </div>
+
+        <div class="col-auto pt-3">
+            <% if (!followed) { %>
+                <button id="follow-btn" type="button" class="btn btn-primary">follow</button>
+            <% } else { %>
+                <button type="button" class="btn btn-secondary">following</button>
+            <% } %>
+        </div>
+    </div>
+</header>

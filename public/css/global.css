@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Roboto&display=swap');
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    padding-top: 71px;
+    background-color: #D0B49F;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+    display: grid;
+}
+
+body::-webkit-scrollbar,
+.custom-scroll::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+}
+
+body::-webkit-scrollbar-thumb,
+.custom-scroll::-webkit-scrollbar-thumb {
+    background-color: #353531;
+}
+
+body::-webkit-scrollbar-track,
+.custom-scroll::-webkit-scrollbar-track {
+    background-color: rgb(53, 53, 49, 0.4);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Nunito', serif;
+}
+
+.card > h1,
+.card > h2,
+.card > h3,
+.card > h4,
+.card > h5,
+.card > h6 {
+    font-family: 'Roboto', sans-serif;
+}
+
+div#content-cont {
+    max-width: 80%;
+}
+
+.text-muted {
+    color: rgb(0, 0, 0, 0.5) !important;
+}
+
+.btn-primary {
+    font-family: 'Roboto', sans-serif;
+    background-color: #4B88A2;
+    border-color: #4B88A2;
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+    background-color: #3e6f85;
+    border-color: #3e6f85;
+}
+
+.btn-rounded {
+    border-radius: 40px;
+}
