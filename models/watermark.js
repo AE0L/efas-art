@@ -84,7 +84,7 @@ class Watermark {
      * @return {string} - unique UID 
      */
     static gen_id() {
-        return random_id('WID')
+        return random_id()
     }
 }
 

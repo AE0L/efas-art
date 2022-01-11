@@ -47,7 +47,7 @@ class Contact {
      * @return {string} - unique contact UID 
      */
     static gen_id() {
-        return `CID-${random_id()}`
+        return random_id()
     }
 }
 

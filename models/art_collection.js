@@ -126,7 +126,7 @@ class ArtCollection {
      * @return {string} - unique UID 
      */
     static gen_id() {
-        return random_id('ACID')
+        return random_id()
     }
 }
 

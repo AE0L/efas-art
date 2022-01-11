@@ -10,6 +10,8 @@ import db from './db'
 import User from './user'
 import WatermarkCollection from './watermark_collection'
 import random_id from './util'
+import { google } from 'googleapis'
+import gutil from '../google'
 
 /**
  * Gallery model class
@@ -23,9 +25,11 @@ class Gallery {
      * @param {User} user
      * @param {string} [id=null]
      */
-    constructor(user, id = null) {
+    constructor(user, id = null, art_col_dir = null, watermark_col_dir = null) {
         this.user = user
         this.id = id || Gallery.gen_id()
+        this.art_col_dir = art_col_dir
+        this.watermark_col_dir = watermark_col_dir
     }
 
     /**
@@ -35,8 +39,17 @@ class Gallery {
      */
     save() {
         return db.run(
-            `INSERT INTO galleries (gallery_id, user_id) VALUES (?, ?)`,
-            [this.id, this.user.id]
+            `INSERT INTO galleries (
+                gallery_id,
+                user_id,
+                art_col_dir,
+                watermark_col_dir
+            ) VALUES (?,?,?,?)`, [
+                this.id,
+                this.user.id,
+                this.art_col_dir,
+                this.watermark_col_dir
+            ]
         )
     }
 
@@ -56,7 +69,9 @@ class Gallery {
         if (res) {
             return new Gallery(
                 User.get(res.user_id),
-                res.gallery_id
+                res.gallery_id,
+                res.art_col_dir,
+                res.watermark_col_dir
             )
         }
     }
@@ -107,6 +122,38 @@ class Gallery {
         })()
     }
 
+    async gen_art_col_dir(root_dir) {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+        const meta = {
+            name: 'ART_COLLECTIONS',
+            mimeType: gutil.constants.mime.folder,
+            parents: [root_dir]
+        }
+
+        const res = await gd.files.create({
+            resource: meta,
+            fields: 'id'
+        })
+
+        this.art_col_dir = res.data.id
+    }
+
+    async gen_watermark_col_dir(root_dir) {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+        const meta = {
+            name: 'WATERMARK_COLLECTIONS',
+            mimeType: gutil.constants.mime.folder,
+            parents: [root_dir]
+        }
+
+        const res = await gd.files.create({
+            resource: meta,
+            fields: 'id'
+        })
+
+        this.watermark_col_dir = res.data.id
+    }
+
     /**
      * generate a unique gallery UID
      *
@@ -114,7 +161,7 @@ class Gallery {
      * @return {string} - unique gallery UID 
      */
     static gen_id() {
-        return `GID-${random_id()}`
+        return random_id()
     }
 }
 

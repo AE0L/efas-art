@@ -7,7 +7,10 @@ const USER_FOLDER = process.env.USER_FOLDER
 export default {
     constants: {
         root: ROOT_FOLDER,
-        user: USER_FOLDER
+        user: USER_FOLDER,
+        mime: {
+            folder: 'application/vnd.google-apps.folder'
+        }
     },
 
 
@@ -34,6 +37,11 @@ export default {
     access_drive: (auth, action, ...args) => {
         const drive = google.drive({ version: 'v3', auth });
         action(drive, ...args)
+    },
+
+
+    initiate_user_folder: (auth, id) => {
+
     },
 
 

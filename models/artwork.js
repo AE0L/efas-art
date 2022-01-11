@@ -109,7 +109,7 @@ class Artwork {
      * @return {string} - unique UID 
      */
     static gen_id() {
-        return random_id('AID')
+        return random_id()
     }
 }
 

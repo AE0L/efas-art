@@ -110,7 +110,7 @@ class WatermarkCollection {
      * @return {string} - unique UID 
      */
     static gen_id() {
-        return random_id('WCID')
+        return random_id()
     }
 }
 

@@ -60,7 +60,7 @@ router.post('/login', [
                 if (!req.session.user_id) {
                     req.session.user_id = user.id
                 }
-                
+
                 return res.send({ success: true })
             } else {
                 return res.send({
@@ -120,15 +120,19 @@ router.post('/register', [
         .isEmail()
             .withMessage('Invalid email')
         .normalizeEmail(),
+
     check('username')
         .isLength({ min: 4 })
             .withMessage('Invalid length')
         .trim().escape(),
+
     check('password')
         .isLength({ min: 8, max: 20 })
             .withMessage('Invalid length')
         .trim(),
+
     check('first_name').trim().escape(),
+
     check('last_name').trim().escape()
 ], async (req, res) => {
     const errors = validationResult(req)
@@ -167,12 +171,15 @@ router.post('/register', [
         const gallery = new Gallery(user)
         const contact = new Contact(user, email)
 
+
+        await user.gen_root_dir()
+        await gallery.gen_art_col_dir(user.root_dir)
+        await gallery.gen_watermark_col_dir(user.root_dir)
+
         await user.hash_pass()
         await user.save()
         await gallery.save()
         await contact.save()
-
-        return res.send({ success: true })
     } catch (e) {
         console.error(e)
         return res.send({ success: false })

@@ -5,7 +5,6 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import fs from 'fs'
 import google_util from './google'
 import body_parser from 'body-parser'
 import cookie_parser from 'cookie-parser'
@@ -18,6 +17,8 @@ import * as sqlite3 from 'sqlite3'
 import router from './routes'
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
+import { google } from 'googleapis'
+import { inspect } from 'util'
 const app = express()
 
 /* swagger */
@@ -59,16 +60,41 @@ app.use(session({
     })
 }))
 
+/* google drive api */
+global.gauth = google_util.authorize(require('./efas-art-api-8115a4968f02.json'))
+
 /* routes */
 app.use('/', router)
 
-// app.get('/test/google', (req, res) => {
-//     const auth = google_util.authorize(require('./efas-art-api-8115a4968f02.json'))
+app.get('/test/google', async (req, res) => {
+    const auth = global.gauth
+    const drive = google.drive({ version: 'v3', auth })
 
-//     google_util.access_drive(auth, google_util.list_files, `'1HKa_hOx92NxpObCACEYIk0I6F-qAZ-6k' in parents`)
+    drive.files.list({
+        fields: 'files(name, id, parents)'
+    }, (err, r) => {
+        r.data.files.forEach(file => {
+            console.log(inspect(file))
+        })
+    })
 
-//     return res.send({ result: 'test' })
-// })
+    res.send('done')
+})
+
+app.get('/test/delete', async (req, res) => {
+    const gd = google.drive({ version: 'v3', auth: global.gauth })
+    const id = '1xUlUB2KaLiHTeQ0MI54MucyJlnuGdm9p'
+
+    gd.files.delete({
+        fileId: id,
+    }, (err, r) => {
+        if (err) return console.log(err)
+
+        console.log('deleted:', id)
+    })
+
+    res.send('done')
+})
 
 /* 404 page */
 app.use((req, res, next) => {
@@ -80,9 +106,6 @@ app.use((req, res, next) => {
 
     res.type('txt').send('not found')
 })
-
-/* google drive api */
-global.gauth = google_util.authorize(require('./efas-art-api-8115a4968f02.json'))
 
 const port = process.env.PORT
 
