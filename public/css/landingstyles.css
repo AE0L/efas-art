@@ -1,0 +1,94 @@
+/* CSS for the Landing/Index, Login, Sign-up Page */
+body {
+	background: #fff;
+	background-color: #F1DAAD;
+	background-position: top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background: url('../img/banner.png');
+	color: #080D10;
+	font-family: 'Raleway', sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.banner {
+	height: 100vh;
+	width: 100%;
+
+}
+
+.banner .navbar {
+	margin-top: 4%;
+}
+
+.banner .navbar-brand {
+	color: #080D10;
+	font-size: 1.8em;
+	font-weight: 700;
+	margin-left: 10%;
+}
+
+.banner .nav {
+	margin-right: 10%;
+}
+
+.banner .nav li a {
+	color: #080D10;
+	font-size: 1.2em;
+}
+
+.banner .nav li a:hover {
+	color: #814827;
+}
+
+.banner .info {
+	margin-top: 15%;
+	transform: translateY(-15%);
+}
+
+.banner .info h1 {
+	color: #080D10;
+	font-size: 2.5em;
+	font-weight: 700;
+	letter-spacing: 2px;
+}
+
+.banner .info p {
+	color: #080D10;
+	font-size: 2em;
+	font-weight: 500;
+	letter-spacing: 2px;
+}
+
+.banner .info a {
+	background: #814827;
+	color: #080D10;
+	font-size: 2em;
+	font-weight: 600;
+	margin-left: 50%;
+	padding: 10px 20px;
+	transform: translateX(-50%);
+
+}
+
+.banner .info a:hover {
+	background: #EAC135;
+}
+
+#logbutton {
+	background: #814827;
+	color: #FAFAFA;
+}
+
+#logbutton:hover {
+	background: #EAC135;
+}
+
+#modalcon {
+	background: #FAFAFA;
+}
+
+.btn.btn-md.text-center {
+	color: #FDF7FA;
+}
