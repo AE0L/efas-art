@@ -9,6 +9,8 @@ import db from './db'
 import Watermark from './watermark'
 import random_id from './util'
 import Gallery from './gallery'
+import { google } from 'googleapis'
+import gutil from '../google'
 
 /**
  * Watermark Collection model class
@@ -43,12 +45,16 @@ class WatermarkCollection {
             watermark_col_id,
             gallery_id,
             name,
-            description
-        ) VALUES (?,?,?,?)`, [
+            description,
+            creation_date,
+            col_dir
+        ) VALUES (?,?,?,?,?,?)`, [
             this.id,
             this.gallery.id,
             this.name,
-            this.description
+            this.description,
+            this.creation_date,
+            this.col_dir
         ])
     }
 
@@ -67,7 +73,7 @@ class WatermarkCollection {
 
         if (res) {
             return new WatermarkCollection(
-                Gallery.get(res.gallery_id),
+                await Gallery.get(res.gallery_id),
                 res.name,
                 res.description,
                 res.creation_date,
@@ -80,13 +86,14 @@ class WatermarkCollection {
     /**
      * @type {Promise<Array<Watermark>>}
      */
-    get watermaks() {
+    get watermarks() {
         return (async () => {
             const rows = await db.all(`SELECT * FROM watermarks
                 WHERE watermark_col_id=(?)
                 ORDER BY creation_date`,
                 [this.id]
             )
+
             let watermarks = []
 
             for (let row of rows) {
@@ -101,6 +108,21 @@ class WatermarkCollection {
 
             return watermarks
         })()
+    }
+
+    async gen_col_dir() {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+        const meta = {
+            name: this.id,
+            mimeType: gutil.constants.mime.folder,
+            parents: [this.gallery.watermark_col_dir]
+        }
+        const res = await gd.files.create({
+            resource: meta,
+            fields: 'id'
+        })
+
+        this.col_dir = res.data.id
     }
 
     /**

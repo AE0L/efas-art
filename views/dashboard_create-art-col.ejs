@@ -33,16 +33,17 @@
                     <h3 class="m-0">Create an art collection</h3>
                 </div>
 
-                <form class="container">
+                <form class="container" method="post">
                     <div class="mb-3">
                         <label for="" class="form-label">Collection's name</label>
-                        <input type="text" class="form-control" placeholder="Enter the collection's name here">
+                        <input name="col_name" type="text" class="form-control"
+                            placeholder="Enter the collection's name here" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="" class="form-label">Collection's description</label>
-                        <textarea name="" id="" cols="30" rows="10" class="form-control"
-                            placeholder="Give a description for this art collection collection"></textarea>
+                        <textarea name="col_desc" cols="30" rows="10" class="form-control"
+                            placeholder="Give a description for this art collection collection" required></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Create collection</button>

@@ -125,7 +125,7 @@ class User {
             )
 
             if (res) {
-                return new Gallery(this, res.id, res.art_col_dir, res.watermark_col_dir)
+                return new Gallery(this, res.gallery_id, res.art_col_dir, res.watermark_col_dir)
             }
 
             return null

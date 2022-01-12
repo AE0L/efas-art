@@ -27,21 +27,21 @@
                 <%- include('partials/dashboard/nav', { active: 3 }) %>
 
                 <div class="container-fluid d-flex align-items-center mb-3">
-                    <a href="/profile/artworks" class="text-dark">
+                    <a href="/profile/watermarks" class="text-dark">
                         <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
                     </a>
                     <h3 class="m-0">Create a watermark collection</h3>
                 </div>
 
-                <form class="container">
+                <form class="container" method="post">
                     <div class="mb-3">
                         <label for="" class="form-label">Collection's name</label>
-                        <input type="text" class="form-control" placeholder="Enter the collection's name here">
+                        <input name="col_name" type="text" class="form-control" placeholder="Enter the collection's name here">
                     </div>
 
                     <div class="mb-3">
                         <label for="" class="form-label">Collection's description</label>
-                        <textarea name="" id="" cols="30" rows="10" class="form-control"
+                        <textarea name="col_desc" id="" cols="30" rows="10" class="form-control"
                             placeholder="Give a description for this watermark collection"></textarea>
                     </div>
 

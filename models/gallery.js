@@ -61,14 +61,14 @@ class Gallery {
      * @return {Promise<Gallery>} 
      */
     static async get(id) {
-        const res = db.get(`SELECT * FROM galleries
+        const res = await db.get(`SELECT * FROM galleries
             WHERE gallery_id=(?)`,
             [id]
         )
 
         if (res) {
             return new Gallery(
-                User.get(res.user_id),
+                await User.get(res.user_id),
                 res.gallery_id,
                 res.art_col_dir,
                 res.watermark_col_dir
@@ -94,6 +94,7 @@ class Gallery {
                     this,
                     row.name,
                     row.description,
+                    row.creation_date,
                     row.art_col_id
                 ))
             }
@@ -109,13 +110,20 @@ class Gallery {
      */
     get watermark_collections() {
         return (async () => {
-            const stmt = `SELECT * FROM watermark_collections WHERE gallery_id=(?)`
-            const params = [this.id]
-            const rows = await db.all(stmt, params)
+            const rows = await db.all(`SELECT * FROM watermark_collections
+                WHERE gallery_id=(?)`,
+                [this.id]
+            )
             let collections = []
 
             for (let row of rows) {
-                collections.push(new WatermarkCollection(this, row.name, row.description, row.watermark_id))
+                collections.push(new WatermarkCollection(
+                    this,
+                    row.name,
+                    row.description,
+                    row.creation_date,
+                    row.watermark_col_id
+                ))
             }
 
             return collections

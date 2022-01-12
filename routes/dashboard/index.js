@@ -29,7 +29,7 @@ router.get('/', load_user_dashboard, async (req, res) => {
     wats.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date))
 
     const date_now = moment()
-    const date_week_before = moment().subtract(7, 'days')
+    const date_week_before = moment().subtract(21, 'days')
 
     let rec_arts = arts.filter(art => {
         let art_mom = moment(art.creation_date)
@@ -53,19 +53,19 @@ router.get('/', load_user_dashboard, async (req, res) => {
         pic: a.document
     }))
 
-
     let rec_art_cols = art_collections.filter(art_col => {
-        let art_col_mom = moment(art_col.creation_date)
-        return art_col_mom.isBetween(date_week_before, date_now)
+        let art_col_mom = moment(new Date(art_col.creation_date))
+        return art_col_mom.isBetween(date_week_before, date_now, undefined, '[]')
     })
 
     rec_art_cols = rec_art_cols.map(async (ac) => {
         const _arts = await ac.artworks
+        const pic = _arts.length <= 0 ? process.env.COL_PLACEHOLDER : _arts[0].document
 
         return {
             id: ac.id,
             title: ac.name,
-            pic: _arts[0].document
+            pic: pic
         }
     })
 
@@ -73,7 +73,7 @@ router.get('/', load_user_dashboard, async (req, res) => {
         user: { id: user.id },
         rec_arts: rec_arts,
         rec_wats: rec_wats,
-        rec_art_cols: rec_art_cols,
+        rec_art_cols: await Promise.all(rec_art_cols),
     })
 })
 

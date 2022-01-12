@@ -41,20 +41,20 @@
                 </div>
 
                 <% if (wat_cols.length > 0) { %>
-                    <% wat_cols.forEach(col => { %>
-                        <div id="recent-cont" class="container-fluid px-0 d-flex gap-3 pb-4 mb-5 custom-scroll">
+                    <div id="recent-cont" class="container-fluid px-0 d-flex gap-3 pb-4 mb-5 custom-scroll">
+                        <% wat_cols.forEach(col => { %>
                             <%- include('data/dashboard_collection', {
                                 col_id: col.id,
                                 col_title: col.title,
                                 col_src: col.pic,
                                 type: 'wtm'
                             }) %>
-                        </div>
-                    <% }) %>
+                        <% }) %>
+                    </div>
                 <% } else { %>
                     <div class="my-5 container-fluid d-flex flex-column align-items-center">
                         <text class="text-muted">you don't have any watermark collection</text>
-                        <button class="m-4 btn btn-primary">Create a collection</button>
+                        <a href="/profile/watermarks/collection/create" role="button" class="m-4 btn btn-primary">Create a collection</a>
                     </div>
                 <% } %>
 
@@ -66,15 +66,15 @@
                 </div>
 
                 <% if (wats.length > 0) { %>
-                    <% wats.forEach(wat => { %>
-                        <div id="all-artwork-cont" class="px-0 gap-3 pb-4">
+                    <div id="all-artwork-cont" class="px-0 gap-3 pb-4">
+                        <% wats.forEach(wat => { %>
                             <%- include('data/dashboard_art', {
                                 art_id: wat.id,
                                 art_title: wat.title,
                                 art_src: wat.pic
                             }) %>
-                        </div>
-                    <% }) %>
+                        <% }) %>
+                    </div>
                 <% } else { %>
                     <div class="my-5 container-fluid d-flex flex-column align-items-center">
                         <text class="text-muted">you don't have any watermark</text>

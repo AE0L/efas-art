@@ -53,25 +53,25 @@
                     </a>
                     <h3 class="m-0">All collections</h3>
                     <a href="#" class="nav-link ms-auto p-0">
-                        <button class="btn btn-primary">create new collectionn</button>
+                        <a href="/profile/artworks/collection/create" role="button" class="btn btn-primary">create new collectionn</a>
                     </a>
                 </div>
 
                 <% if (art_cols.length > 0) { %>
-                    <% art_cols.forEach(col => { %>
-                        <div id="all-col-cont" class="container-fluid px-0 gap-3 pb-4">
+                    <div id="all-col-cont" class="container-fluid px-0 gap-3 pb-4">
+                        <% art_cols.forEach(col => { %>
                             <%- include('data/dashboard_collection', {
                                 col_id: col.id,
                                 col_title: col.title,
                                 col_src: col.pic,
                                 type: 'art'
                             }) %>
-                        </div>
-                    <% }) %>
+                        <% }) %>
+                    </div>
                 <% } else { %>
                     <div class="my-5 container-fluid d-flex flex-column align-items-center">
                         <text class="text-muted">you don't have any collection yet</text>
-                        <button class="m-4 btn btn-primary">Create a new art collection</button>
+                        <a href="/profile/artworks/collection/create" role="button" class="m-4 btn btn-primary">Create a new art collection</a>
                     </div>
                 <% } %>
             </main>

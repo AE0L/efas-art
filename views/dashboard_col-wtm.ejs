@@ -47,70 +47,41 @@
             <main>
                 <%- include('partials/dashboard/nav', { active: 3 }) %>
 
-                <div class="container-fluid d-flex align-items-center mb-3">
-                    <a href="/profile/artworks" class="text-dark">
+                <div class="container-fluid d-flex align-items-center mb-2">
+                    <a href="/profile/watermarks" class="text-dark">
                         <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
                     </a>
                     <h3 class="m-0"><%= col.name %></h3>
+                    <a href="/profile/artworks/collections" class="nav-link ms-auto p-0">
+                        <button class="btn btn-primary btn-rounded">
+                            <i class="fas fa-edit me-1"></i>
+                            Edit
+                        </button>
+                    </a>
                 </div>
 
+                <div class="container-fluid py-3">
+                    <p class="lead" style="text-indent: 2em;"><%= col.desc %></p>
 
-                <div id="all-col-cont" class="container-fluid px-0 gap-3 pb-4">
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/watermark-sig-1.jpg',
-                        art_title: 'P.Smith'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/watermark-sig-2.png',
-                        art_title: 'Scribble'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/watermark-pic.png',
-                        art_title: 'Vector'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/watermark-sig-1.jpg',
-                        art_title: 'P.Smith'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/watermark-sig-2.png',
-                        art_title: 'Scribble'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/watermark-pic.png',
-                        art_title: 'Vector'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/watermark-sig-1.jpg',
-                        art_title: 'P.Smith'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/watermark-sig-2.png',
-                        art_title: 'Scribble'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/watermark-pic.png',
-                        art_title: 'Vector'
-                    }) %>
-                
+                    <small class="ms-auto text-muted">Created on <%= col.date %></small>
                 </div>
+
+                <% if (col.wats.length > 0) { %>
+                    <div id="all-col-cont" class="container-fluid px-0 gap-3 pb-4">
+                        <% col.wats.forEach(wats => { %>
+                            <%- include('data/dashboard_art', {
+                                art_id: wats.id,
+                                art_title: wats.title,
+                                art_src: wats.pic
+                            }) %>
+                        <% }) %>
+                    </div>
+                <% } else { %>
+                    <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">this collection doesn't contain any watermark yet</text>
+                        <button class="m-4 btn btn-primary">Create/upload a watermark</button>
+                    </div>
+                <% } %>
             </main>
         </div>
 

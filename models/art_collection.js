@@ -9,6 +9,8 @@ import Artwork from './artwork'
 import db from './db'
 import Gallery from './gallery'
 import random_id from './util'
+import { google } from 'googleapis'
+import gutil from '../google'
 
 /** 
  * Art Collection model class 
@@ -45,13 +47,15 @@ class ArtCollection {
             gallery_id,
             name,
             description,
-            creation_date
-        ) VALUES (?,?,?,?,?)`, [
+            creation_date,
+            col_dir
+        ) VALUES (?,?,?,?,?,?)`, [
             this.id,
             this.gallery.id,
             this.name,
             this.description,
-            this.creation_date
+            this.creation_date,
+            this.col_dir
         ])
     }
 
@@ -70,23 +74,13 @@ class ArtCollection {
 
         if (res) {
             return new ArtCollection(
-                Gallery.get(res.gallery_id),
+                await Gallery.get(res.gallery_id),
                 res.name,
                 res.description,
                 res.creation_date,
                 res.art_col_id
             )
         }
-    }
-
-    /**
-     * get art collection's ID
-     *
-     * @readonly
-     * @type {string}
-     */
-    get id() {
-        return this.id.replace('ACID-', '')
     }
 
     /**
@@ -99,7 +93,7 @@ class ArtCollection {
             const rows = await db.all(`SELECT * FROM artworks 
                 WHERE art_col_id=(?)
                 ORDER BY creation_date`,
-                [art_col_id]
+                [this.id]
             )
             let arts = []
 
@@ -117,6 +111,21 @@ class ArtCollection {
 
             return arts
         })()
+    }
+
+    async gen_col_dir() {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+        const meta = {
+            name: this.id,
+            mimeType: gutil.constants.mime.folder,
+            parents: [this.gallery.art_col_dir]
+        }
+        const res = await gd.files.create({
+            resource: meta,
+            fields: 'id'
+        })
+
+        this.col_dir = res.data.id
     }
 
     /**

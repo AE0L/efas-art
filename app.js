@@ -66,10 +66,6 @@ global.gauth = google_util.authorize(require('./efas-art-api-8115a4968f02.json')
 /* routes */
 app.use('/', router)
 
-app.use('/test', (req, res) => {
-    res.render('dashboard_create_wtm_col')
-})
-
 app.get('/test/google', async (req, res) => {
     const auth = global.gauth
     const drive = google.drive({ version: 'v3', auth })
