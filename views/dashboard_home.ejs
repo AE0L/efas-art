@@ -33,24 +33,22 @@
                     </a>
                 </div>
 
-                <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
-                    <% if (rec_arts.length > 0) { %>
-                        <% rec_arts.forEach(rec_art => { %>
+                <% if (rec_arts.length > 0) { %>
+                    <% rec_arts.forEach(rec_art => { %>
+                        <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
                             <%- include('data/dashboard_art', {
                                 art_id: rec_art.id,
                                 art_title: rec_art.title,
                                 art_src: rec_art.pic
                             }) %>
-                        <% }) %>
-                    <% } else { %>
-                        <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
-                            <div class="my-3 container-fluid d-flex flex-column align-items-center">
-                                <text class="text-muted">upload a new work</text>
-                                <button class="m-4 btn btn-primary">Upload new work</button>
-                            </div>
                         </div>
-                    <% } %>
-                </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">upload a new work</text>
+                        <button class="m-4 btn btn-primary">Upload new work</button>
+                    </div>
+                <% } %>
 
                 <div class="d-flex mt-5 mb-3">
                     <h3 class="m-0">Newest collections</h3>
@@ -59,23 +57,23 @@
                     </a>
                 </div>
 
-                <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
-                    <% if (rec_art_cols.length > 0) { %>
-                        <% rec_art_cols.forEach(col => { %>
+                <% if (rec_art_cols.length > 0) { %>
+                    <% rec_art_cols.forEach(col => { %>
+                        <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
                             <%- include('data/dashboard_collection', {
                                 col_id: col.id,
                                 col_title: col.title,
                                 col_src: col.pic,
                                 type: 'art'
                             }) %>
-                        <% }) %>
-                    <% } else { %>
-                        <div class="my-3 container-fluid d-flex flex-column align-items-center">
-                            <text class="text-muted">create a new collection</text>
-                            <button class="m-4 btn btn-primary">Create a collection</button>
                         </div>
-                    <% } %>
-                </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">create a new collection</text>
+                        <button class="m-4 btn btn-primary">Create a collection</button>
+                    </div>
+                <% } %>
 
                 <div class="d-flex mt-5 mb-3">
                     <h3 class="m-0">Recently used watermarks</h3>
@@ -84,23 +82,22 @@
                     </a>
                 </div>
 
-                <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
-                    <% if (rec_wats.length > 0) { %>
-                        <% rec_wats.forEach(wat => { %>
+                <% if (rec_wats.length > 0) { %>
+                    <% rec_wats.forEach(wat => { %>
+                        <div class="overflow-auto container px-0 d-flex gap-3 pb-3 custom-scroll">
                             <%- include('data/dashboard_art', {
                                 art_id: wat.id,
                                 art_title: wat.title,
                                 art_src: wat.pic
                             }) %>
-                        <% }) %>
-                    <% } else { %>
-                        <div class="my-3 container-fluid d-flex flex-column align-items-center">
-                            <text class="text-muted">create a watermark</text>
-                            <button class="m-4 btn btn-primary">Create watermark</button>
                         </div>
-                    <% } %>
-                </div>
-
+                    <% }) %>
+                <% } else { %>
+                    <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">create a watermark</text>
+                        <button class="m-4 btn btn-primary">Create watermark</button>
+                    </div>
+                <% } %>
             </main>
         </div>
 

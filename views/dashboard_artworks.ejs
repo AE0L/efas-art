@@ -40,50 +40,23 @@
                     </a>
                 </div>
 
-
-                <div id="recent-cont" class="container-fluid px-0 d-flex gap-3 pb-4 mb-5 custom-scroll">
-                    <%- include('data/dashboard_collection', {
-                        col_id: '123456',
-                        col_src: '/img/cactus.png',
-                        col_title: 'Cactus',
-                        type: 'art'
-                    }) %>
-
-                    <%- include('data/dashboard_collection', {
-                        col_id: '123456',
-                        col_src: '/img/cupcake.png',
-                        col_title: 'Cupcake',
-                        type: 'art'
-                    }) %>
-
-                    <%- include('data/dashboard_collection', {
-                        col_id: '123456',
-                        col_src: '/img/jungkook.png',
-                        col_title: 'Jungkook',
-                        type: 'art'
-                    }) %>
-
-                    <%- include('data/dashboard_collection', {
-                        col_id: '123456',
-                        col_src: '/img/cactus.png',
-                        col_title: 'Cactus',
-                        type: 'art'
-                    }) %>
-
-                    <%- include('data/dashboard_collection', {
-                        col_id: '123456',
-                        col_src: '/img/cupcake.png',
-                        col_title: 'Cupcake',
-                        type: 'art'
-                    }) %>
-
-                    <%- include('data/dashboard_collection', {
-                        col_id: '123456',
-                        col_src: '/img/jungkook.png',
-                        col_title: 'Jungkook',
-                        type: 'art'
-                    }) %>
-                </div>
+                <% if (art_cols.length > 0) { %>
+                    <% art_cols.forEach(col => { %>
+                        <div id="recent-cont" class="container-fluid px-0 d-flex gap-3 pb-4 mb-5 custom-scroll">
+                            <%- include('data/dashboard_collection', {
+                                col_id: col.id,
+                                col_title: col.title,
+                                col_src: col.pic,
+                                type: 'art'
+                            }) %>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">create a new collection</text>
+                        <button class="m-4 btn btn-primary">Create a collection</button>
+                    </div>
+                <% } %>
 
                 <div class="d-flex align-items-center mb-3">
                     <h3 class="m-0">All Works</h3>
@@ -92,87 +65,22 @@
                     </a>
                 </div>
 
-
-                <div id="all-artwork-cont" class="px-0 gap-3 pb-4">
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cupcake.png',
-                        art_title: 'Cupcake'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/jungkook.png',
-                        art_title: 'Jungkook'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cupcake.png',
-                        art_title: 'Cupcake'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/jungkook.png',
-                        art_title: 'Jungkook'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/dashboard_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                </div>
+                <% if (arts.length > 0) { %>
+                    <% arts.forEach(art => { %>
+                        <div id="all-artwork-cont" class="px-0 gap-3 pb-4">
+                            <%- include('data/dashboard_art', {
+                                art_id: art.id,
+                                art_title: art.title,
+                                art_src: art.pic
+                            }) %>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">Upload an artwork</text>
+                        <button class="m-4 btn btn-primary">Upload new artwork</button>
+                    </div>
+                <% } %>
             </main>
         </div>
 

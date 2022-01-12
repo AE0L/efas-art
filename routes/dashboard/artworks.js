@@ -20,7 +20,8 @@ router.get('/', load_user_dashboard, async (req, res) => {
         const _arts = await art_col.artworks
 
         return {
-            name: art_col.name,
+            id: art_col.id,
+            title: art_col.name,
             pic: _arts[0].document
         }
     })
@@ -30,13 +31,11 @@ router.get('/', load_user_dashboard, async (req, res) => {
 
         art_cols: art_cols,
 
-        arts: arts.map(art => {
-            return {
-                id: art.id,
-                name: art.name,
-                pic: art.document
-            }
-        })
+        arts: arts.map(art => ({
+            id: art.id,
+            title: art.name,
+            pic: art.document
+        }))
     })
 })
 
