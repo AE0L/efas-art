@@ -57,29 +57,23 @@
                     </a>
                 </div>
 
-
-                <div id="all-col-cont" class="container-fluid px-0 gap-3 pb-4">
-                    <%- include('data/dashboard_collection', {
-                        col_id: '123456',
-                        col_src: '/img/watermark-sig-1.jpg',
-                        col_title: 'Signatures',
-                        type: 'wtm'
-                    }) %>
-
-                    <%- include('data/dashboard_collection', {
-                        col_id: '123456',
-                        col_src: '/img/watermark-sig-2.png',
-                        col_title: 'Signatures 2',
-                        type: 'wtm'
-                    }) %>
-
-                    <%- include('data/dashboard_collection', {
-                        col_id: '123456',
-                        col_src: '/img/watermark-pic.png',
-                        col_title: 'Pic watermarks',
-                        type: 'wtm'
-                    }) %>
-                </div>
+                <% if (wat_cols.length > 0) { %>
+                    <% wat_cols.forEach(col => { %>
+                        <div id="all-col-cont" class="container-fluid px-0 gap-3 pb-4">
+                            <%- include('data/dashboard_collection', {
+                                col_id: col.id,
+                                col_title: col.title,
+                                col_src: col.pic,
+                                type: 'wtm'
+                            }) %>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">you don't have any collection yet</text>
+                        <button class="m-4 btn btn-primary">Create a new watermark collection</button>
+                    </div>
+                <% } %>
             </main>
         </div>
 

@@ -20,6 +20,7 @@ router.get('/', load_user_dashboard, async (req, res) => {
         const _wats = await wat_col.watermarks
 
         return {
+            id: wat_col.id,
             name: wat_col.name,
             pic: _wats[0].document
         }
@@ -30,13 +31,11 @@ router.get('/', load_user_dashboard, async (req, res) => {
 
         wat_cols: wat_cols,
 
-        wats: wats.map(wat => {
-            return {
-                id: wat.id,
-                name: wat.name,
-                pic: wat.document
-            }
-        })
+        wats: wats.map(wat => ({
+            id: wat.id,
+            name: wat.name,
+            pic: wat.document
+        }))
     })
 })
 
@@ -47,6 +46,7 @@ router.get('/collections', load_user_dashboard, async (req, res) => {
         const wats = await wat_col.watermarks
 
         return {
+            id: wat_col.id,
             name: wat_col.name,
             pic: wats[0].document
         }
