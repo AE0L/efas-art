@@ -46,6 +46,7 @@ router.get('/collections', load_user_dashboard, async (req, res) => {
         const arts = await art_col.artworks
 
         return {
+            id: art_col.id,
             name: art_col.name,
             pic: arts[0].document
         }
