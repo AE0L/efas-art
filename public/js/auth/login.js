@@ -35,7 +35,7 @@ $(document).ready(() => {
                 url: 'login',
                 success: (data) => {
                     if (data.success) {
-                        window.location.pathname = '/timeline'
+                        window.location.pathname = '/'
                     } else {
                         if (data.param === 'username') {
                             set_validity(login_user, loginuser_feedback, data.reason)

@@ -1,9 +1,10 @@
 import express from 'express'
 import ArtCollection from '../../models/art_collection'
+import { load_user_dashboard } from '../middlewares'
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', load_user_dashboard, async (req, res) => {
     const { user, art_collections } = req.data
 
     let arts = []
@@ -39,7 +40,7 @@ router.get('/', async (req, res) => {
     })
 })
 
-router.get('/collections', async (req, res) => {
+router.get('/collections', load_user_dashboard, async (req, res) => {
     const { user, art_collections } = req.data
 
     const art_cols = await art_collections.map(async art_col => {
@@ -57,7 +58,7 @@ router.get('/collections', async (req, res) => {
     })
 })
 
-router.get('/collection/:col_id', async (req, res) => {
+router.get('/collection/:col_id', load_user_dashboard, async (req, res) => {
     const { user } = req.data
     const col = await ArtCollection.get(req.params.col_id)
     const artworks = await col.artworks

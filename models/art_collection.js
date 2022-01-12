@@ -63,7 +63,7 @@ class ArtCollection {
      * @return {Promise<ArtCollection>} 
      */
     static async get(id) {
-        const res = await db.get(`SELECT * FROM art_collection
+        const res = await db.get(`SELECT * FROM art_collections
             WHERE art_col_id=(?)`,
             [id]
         )

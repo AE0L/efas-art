@@ -22,6 +22,6 @@ router.get('/home', authenticate, (req, res) => {
 router.use('/', auth)
 router.use('/u', authenticate, user)
 router.use('/artworks', authenticate, artworks)
-router.use('/dashboard', authenticate, dashboard)
+router.use('/profile', authenticate, dashboard)
 
 export default router

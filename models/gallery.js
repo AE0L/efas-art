@@ -83,7 +83,7 @@ class Gallery {
      */
     get art_collections() {
         return (async () => {
-            const rows = await db.all(`SELECT * FROM art_collection
+            const rows = await db.all(`SELECT * FROM art_collections
                 WHERE gallery_id=(?)`,
                 [this.id]
             )

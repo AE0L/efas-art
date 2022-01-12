@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/dashboard.css">
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div id="content-cont" class="container my-5">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 2 }) %>
+
+                <div class="container-fluid d-flex align-items-center mb-3">
+                    <a href="/profile/artworks" class="text-dark">
+                        <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
+                    </a>
+                    <h3 class="m-0">Create an art collection</h3>
+                </div>
+
+                <form class="container">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Collection's name</label>
+                        <input type="text" class="form-control" placeholder="Enter the collection's name here">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Collection's description</label>
+                        <textarea name="" id="" cols="30" rows="10" class="form-control"
+                            placeholder="Give a description for this art collection collection"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create collection</button>
+                </form>
+
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

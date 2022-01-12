@@ -1,11 +1,13 @@
 import express from 'express'
 import moment from 'moment'
 import artworks from './artworks'
-import { load_user } from '../middlewares'
+import watermarks from './watermarks'
+import settings from './settings'
+import { load_user_dashboard } from '../middlewares'
 
 const router = express.Router()
 
-router.get('/', load_user, async (req, res) => {
+router.get('/', load_user_dashboard, async (req, res) => {
     const { user, art_collections, wat_collections } = req.data
 
     let arts = []
@@ -44,5 +46,7 @@ router.get('/', load_user, async (req, res) => {
 })
 
 router.use('/artworks', artworks)
+router.use('/watermarks', watermarks)
+router.use('/settings', settings)
 
 export default router

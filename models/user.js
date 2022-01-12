@@ -52,6 +52,9 @@ class User {
         this.password = password
         this.id = id || User.gen_uid()
         this.root_dir = root_dir
+        this.bio_text = ''
+        this.birth_date = ''
+        this.profile_pic = ''
     }
 
     /**
@@ -122,7 +125,7 @@ class User {
             )
 
             if (res) {
-                return new Gallery(this, res.id)
+                return new Gallery(this, res.id, res.art_col_dir, res.watermark_col_dir)
             }
 
             return null
@@ -153,6 +156,9 @@ class User {
             )
 
             user.hash = res.pass_hash
+            user.bio = res.bio_text
+            user.birth_date = res.birth_date
+            user.profile_pic = res.profile_pic
 
             return user
         }
@@ -183,6 +189,9 @@ class User {
             )
 
             user.hash = res.pass_hash
+            user.bio = res.bio_text
+            user.birth_date = res.birth_date
+            user.profile_pic = res.profile_pic
 
             return user
         }

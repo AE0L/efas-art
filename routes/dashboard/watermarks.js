@@ -1,9 +1,10 @@
 import express from 'express'
 import WatermarkCollection from '../../models/watermark_collection'
+import { load_user_dashboard } from '../middlewares'
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', load_user_dashboard, async (req, res) => {
     const { user, wat_collections } = req.data
 
     let wats = []
@@ -39,7 +40,7 @@ router.get('/', async (req, res) => {
     })
 })
 
-router.get('/collections', async (req, res) => {
+router.get('/collections', load_user_dashboard, async (req, res) => {
     const { user, wat_collections } = req.data
 
     const wat_cols = await wat_collections.map(async wat_col => {
@@ -57,7 +58,7 @@ router.get('/collections', async (req, res) => {
     })
 })
 
-router.get('/collection/:col_id', async (req, res) => {
+router.get('/collection/:col_id', load_user_dashboard, async (req, res) => {
     const { user } = req.data
     const col = await WatermarkCollection.get(req.params.col_id)
     const wats = await col.watermaks
