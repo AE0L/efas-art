@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+        <link rel="stylesheet" href="/css/dashboard.css">
+
+        <style>
+            #all-artwork-cont {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                justify-items: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div id="content-cont" class="container my-5">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 2 }) %>
+
+                <h3 class="m-0">All liked artworks</h3>
+
+                <% if (bookmarks.length > 0) { %>
+                    <div id="recent-cont" class="container-fluid px-0 d-flex gap-3 pb-4 mb-5 custom-scroll">
+                        <% bookmarks.forEach(bookmark => { %>
+                                <%- include('data/dashboard_bookmarks', {
+                                    art_id: bookmark.id,
+                                    art_title: bookmark.title,
+                                    art_user: bookmark.user,
+                                    art_pic: bookmark.pic
+                                }) %>
+                        <% }) %>
+                    </div>
+                <% } else { %>
+                    <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                        <text class="text-muted">you haven't liked any artwork yet</text>
+                    </div>
+                <% } %>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

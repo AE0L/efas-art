@@ -60,8 +60,26 @@ async function authenticate(req, res, next) {
     }
 }
 
+async function load_artwork(req, res, next) {
+    const { artwork_id } = req.params
+    const art = await Artwork.get(artwork_id)
+    const col = art.art_col
+    const gallery = col.gallery
+    const user = gallery.user
+
+    req.data = {
+        user: user,
+        gallery: gallery,
+        col: col,
+        art: art
+    }
+
+    next()
+}
+
 export {
     load_user,
     load_user_dashboard,
-    authenticate
+    authenticate,
+    load_artwork
 }

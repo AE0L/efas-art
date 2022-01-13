@@ -28,10 +28,18 @@
                     <div class="art-cont_details container pt-5">
                         <div class="d-flex justify-content-between mb-3" style="align-items: center">
                             <h1 class="display-4"><%= art.title %></h1>
-                            <button type="button" class="like-btn btn btn-primary">
-                                <i class="far fa-heart me-1"></i>
-                                Like
-                            </button>
+
+                            <% if (art.liked) { %>
+                                <button type="button" class="like-btn btn btn-secondary">
+                                    <i class="fas fa-heart me-1"></i>
+                                    Liked
+                                </button>
+                            <% } else { %>
+                                <button type="button" class="like-btn btn btn-primary">
+                                    <i class="far fa-heart me-1"></i>
+                                    Like
+                                </button>
+                            <% } %>
                         </div>
 
                         <% art.desc.forEach(p => { %>

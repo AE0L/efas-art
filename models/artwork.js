@@ -107,6 +107,15 @@ class Artwork {
 
         return comments
     }
+
+    async is_liked(user) {
+        const res = await db.get(`
+            SELECT * FROM reactions
+            WHERE artwork_id=(?) AND user_id=(?)
+        `, [this.id, user.id])
+
+        return res ? res.liked : false
+    }
 }
 
 export default Artwork

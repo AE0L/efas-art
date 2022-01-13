@@ -1,25 +1,46 @@
 import express from 'express'
-import Artwork from '../../models/artwork'
+import Reaction from '../../models/reaction'
+import { load_artwork } from '../middlewares'
 
 const router = express.Router()
 
-router.get('/:artwork_id', async (req, res) => {
-    const art = await Artwork.get(req.params.artwork_id)
-    const user = art.art_col.gallery.user
+router.get('/:artwork_id', load_artwork, async (req, res) => {
+    try {
+        const { user, art } = req.data
+        const liked = await art.is_liked(user)
 
-    res.render('user_showcase-artwork', {
-        user: {
-            id: user.id,
-            handle: `@${user.username}`
-        },
+        res.render('user_showcase-artwork', {
+            user: {
+                id: user.id,
+                handle: `@${user.username}`
+            },
 
-        art: {
-            id: art.id,
-            name: art.name,
-            desc: art.description,
-            pic: art.document
-        }
-    })
+            art: {
+                id: art.id,
+                title: art.name,
+                desc: art.description,
+                liked: liked,
+                pic: art.document
+            }
+        })
+    } catch (err) {
+        console.error(err)
+        res.redirect('/404')
+    }
+})
+
+router.get('/:artwork_id/like', load_artwork, async (req, res) => {
+    try {
+        const { user, art } = req.data
+        const reaction = new Reaction(user, art, true)
+
+        await reaction.save()
+
+        return res.send({ success: true })
+    } catch (err) {
+        console.error(err)
+        return res.send({ success: false })
+    }
 })
 
 export default router
