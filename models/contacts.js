@@ -25,7 +25,7 @@ class Contact {
         this.user = user
         this.email = email
         this.phone = phone
-        this.id = id || Contact.gen_id()
+        this.id = id || random_id()
     }
 
     /**
@@ -38,16 +38,6 @@ class Contact {
         const params = [this.id, this.user.id, this.email]
 
         return db.run(stmt, params)
-    }
-
-    /**
-     * generate unique contact UID
-     * 
-     * @static
-     * @return {string} - unique contact UID 
-     */
-    static gen_id() {
-        return random_id()
     }
 }
 

@@ -29,7 +29,7 @@ class Watermark {
         this.name = name
         this.document = document
         this.creation_date = creation_date
-        this.id = id || Watermark.gen_id()
+        this.id = id || random_id()
     }
 
     /**
@@ -75,16 +75,6 @@ class Watermark {
                 res.watermark_id
             )
         }
-    }
-
-    /**
-     * Generate a unique watermark UID
-     *
-     * @static
-     * @return {string} - unique UID 
-     */
-    static gen_id() {
-        return random_id()
     }
 }
 

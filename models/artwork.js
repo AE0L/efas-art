@@ -6,9 +6,7 @@
  * @author Paula Millorin
  */
 import ArtCollection from './art_collection'
-import { access_drive, upload_files } from '../google'
-import { file_extension, mime_type } from '../utils/index'
-import fs from 'fs'
+import Comment from './comment'
 import db from './db'
 import random_id from './util'
 
@@ -35,20 +33,7 @@ class Artwork {
         this.description = description
         this.document = document
         this.creation_date = creation_date
-        this.id = id || Artwork.gen_id()
-    }
-
-    async store(tmp_path) {
-        const ext = file_extension(this.document)
-        const res = access_drive(global.gauth, upload_files, [{
-            metadata: {
-                name: `${this.id}.${ext}`
-            },
-            media: {
-                mimeType: mime_type(ext),
-                body: fs.createReadStream(tmp_path)
-            }
-        }])
+        this.id = id || random_id()
     }
 
     /**
@@ -57,7 +42,7 @@ class Artwork {
      * @return {Promise} - sqlite's run result
      */
     save() {
-        const res = db.run(`INSERT INTO artworks (
+        return db.run(`INSERT INTO artworks (
             artwork_id,
             art_col_id,
             name,
@@ -102,14 +87,25 @@ class Artwork {
         }
     }
 
-    /**
-     * generate a unique Artwork UID
-     *
-     * @static
-     * @return {string} - unique UID 
-     */
-    static gen_id() {
-        return random_id()
+    async get_comments() {
+        const rows = await db.get(`
+            SELECT * FROM comments
+            WHERE artwork_id=(?)
+        `, [this.id])
+
+        const comments = []
+
+        for (let row of rows) {
+            comments.push(new Comment(
+                await User.get(row.user_id),
+                this,
+                row.comment_text,
+                row.comment_date,
+                row.comment_id
+            ))
+        }
+
+        return comments
     }
 }
 

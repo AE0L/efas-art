@@ -5,12 +5,12 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import db from './db'
-import Watermark from './watermark'
-import random_id from './util'
-import Gallery from './gallery'
 import { google } from 'googleapis'
 import gutil from '../google'
+import db from './db'
+import Gallery from './gallery'
+import random_id from './util'
+import Watermark from './watermark'
 
 /**
  * Watermark Collection model class
@@ -32,7 +32,7 @@ class WatermarkCollection {
         this.name = name
         this.description = description
         this.creation_date = creation_date
-        this.id = id || WatermarkCollection.gen_id()
+        this.id = id || random_id()
     }
 
     /**
@@ -123,16 +123,6 @@ class WatermarkCollection {
         })
 
         this.col_dir = res.data.id
-    }
-
-    /**
-     * Generate a unique watermark collection UID
-     *
-     * @static
-     * @return {string} - unique UID 
-     */
-    static gen_id() {
-        return random_id()
     }
 }
 

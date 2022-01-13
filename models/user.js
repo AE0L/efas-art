@@ -6,12 +6,13 @@
  * @author Paula Millorin
  */
 import bcrypt from 'bcrypt'
-import db from './db'
-import Contact from './contacts'
-import Gallery from './gallery'
-import random_id from './util'
 import { google } from 'googleapis'
 import gutil from '../google'
+import Contact from './contacts'
+import db from './db'
+import Follow from './follow'
+import Gallery from './gallery'
+import random_id from './util'
 
 /**
  * utility function for hashing a raw string password
@@ -50,8 +51,9 @@ class User {
         this.last_name = last_name
         this.username = username
         this.password = password
-        this.id = id || User.gen_uid()
+        this.id = id || random_id()
         this.root_dir = root_dir
+
         this.bio_text = ''
         this.birth_date = ''
         this.profile_pic = ''
@@ -197,6 +199,26 @@ class User {
         }
     }
 
+    async get_follows() {
+        const rows = await db.get(`
+            SELECT * FROM follows
+            WHERE user_id=(?)
+        `, [this.id])
+
+        const follows = []
+
+        for (let row of rows) {
+            follows.push(new Follow(
+                this,
+                await User.get(row.followed_id),
+                row.followed_date,
+                row.follow_id
+            ))
+        }
+
+        return follows
+    }
+
     /**
      * checks if password string is identical to the stored hash
      *
@@ -223,16 +245,6 @@ class User {
         })
 
         this.root_dir = res.data.id
-    }
-
-    /**
-     * generates a unique user UID
-     *
-     * @static
-     * @return {string} - unique user UID
-     */
-    static gen_uid() {
-        return random_id()
     }
 }
 

@@ -5,13 +5,13 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
+import { google } from 'googleapis'
+import gutil from '../google'
 import ArtCollection from './art_collection'
 import db from './db'
 import User from './user'
-import WatermarkCollection from './watermark_collection'
 import random_id from './util'
-import { google } from 'googleapis'
-import gutil from '../google'
+import WatermarkCollection from './watermark_collection'
 
 /**
  * Gallery model class
@@ -27,7 +27,7 @@ class Gallery {
      */
     constructor(user, id = null, art_col_dir = null, watermark_col_dir = null) {
         this.user = user
-        this.id = id || Gallery.gen_id()
+        this.id = id || random_id()
         this.art_col_dir = art_col_dir
         this.watermark_col_dir = watermark_col_dir
     }
@@ -160,16 +160,6 @@ class Gallery {
         })
 
         this.watermark_col_dir = res.data.id
-    }
-
-    /**
-     * generate a unique gallery UID
-     *
-     * @static
-     * @return {string} - unique gallery UID 
-     */
-    static gen_id() {
-        return random_id()
     }
 }
 
