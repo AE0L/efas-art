@@ -12,80 +12,7 @@
 
         <link rel="stylesheet" href="/css/user-page.css">
         <link rel="stylesheet" href="/css/user-page_collections.css">
-
-        <style>
-            .art-cont {
-                min-width: 700px;
-                background: #353531;
-                overflow: hidden;
-                color: #FAFAFA !important;
-            }
-
-            .art-cont_wrapper {
-                width: 100%;
-                display: grid;
-                justify-content: center;
-            }
-
-            .art-cont_details {
-                padding-left: 10%;
-                padding-right: 10%;
-            }
-
-            .art-cont_details p {
-                color: rgb(200, 200, 200);
-            }
-
-            * {
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-            }
-
-            .art-cont img {
-                width: auto;
-                max-height: calc(100vh - 71px);
-                background-color: #FAFAFA;
-            }
-
-            #content-cont {
-                width: 100%;
-            }
-
-            .username-cont {
-                display: grid;
-                grid-template-columns: auto 1fr;
-                gap: .5em;
-                align-items: center;
-            }
-
-            .username-cont #username {
-                white-space: nowrap;
-            }
-
-            .user-comment-cont {
-                display: grid;
-                grid-template-columns: auto 1fr auto;
-                gap: 1em;
-            }
-
-            .no-comments {
-                justify-self: center;
-                color: rgba(200, 200, 200, 1);
-            }
-
-            .user-arts-prev-cont {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
-            }
-
-            .user-arts-prev-cont img {
-                background: #fafafa;
-            }
-
-            .like-btn {
-                height: fit-content;
-            }
-        </style>
+        <link rel="stylesheet" href="/css/user-page_show-art.css">
     </head>
 
     <body>
@@ -95,37 +22,30 @@
             <div class="container d-flex my-5 mx-auto">
                 <div class="art-cont rounded d-flex-column container-fluid text-light p-0 pb-5">
                     <div class="art-cont_wrapper">
-                        <img src="/img/sunset.jpg" alt="art" class="img-fluid">
+                        <img src="<%= art.pic %>" alt="art" class="img-fluid">
                     </div>
 
                     <div class="art-cont_details container pt-5">
                         <div class="d-flex justify-content-between mb-3" style="align-items: center">
-                            <h1 class="display-4">Sunset</h1>
+                            <h1 class="display-4"><%= art.title %></h1>
                             <button type="button" class="like-btn btn btn-primary">
                                 <i class="far fa-heart me-1"></i>
                                 Like
                             </button>
                         </div>
-                        <p>
-                            Enim aute tempor dolore commodo occaecat officia qui veniam amet consectetur ea minim esse.
-                            Qui aliquip ullamco ea occaecat laboris nulla elit commodo ea labore proident. Adipisicing
-                            enim ad cillum duis reprehenderit commodo nisi nostrud culpa ad consectetur labore laborum.
-                        </p>
-                        <p>
-                            Cupidatat aute adipisicing elit veniam. Eiusmod duis esse incididunt nulla. Deserunt
 
-                            consectetur aliqua enim in elit anim enim labore pariatur. Veniam ut veniam aliqua velit
-                            ullamco in. Aute id qui proident ullamco adipisicing quis reprehenderit culpa elit non
-                            ullamco sint.
-                        </p>
+                        <% art.desc.forEach(p => { %>
+                            <p><%= p %></p>
+                        <% }) %>
 
                         <div class="art-cont_tags py-5">
                             <h2>Tags</h2>
                             <div class="pt-3 d-flex gap-2">
-                                <span class="badge rounded-pill bg-light text-dark">landscape</span>
-                                <span class="badge rounded-pill bg-light text-dark">digital art</span>
-                                <span class="badge rounded-pill bg-light text-dark">sunset</span>
-                                <span class="badge rounded-pill bg-light text-dark">city</span>
+                                <% art.tags.forEach(tag => { %>
+                                    <span class="badge rounded-pill bg-light text-dark">
+                                        <%= tag %>
+                                    </span>
+                                <% }) %>
                             </div>
                         </div>
                     </div>
@@ -135,7 +55,7 @@
                     <div class="art-cont_details mt-5">
                         <h2>Comments</h2>
                         <form class="user-comment-cont pt-3">
-                            <img class="rounded-circle" src="/img/cupcake.png" alt="pfp" width="40" height="40"
+                            <img class="rounded-circle" src="<%= user.pic %>" alt="pfp" width="40" height="40"
                                 style="background-color: #FAFAFA">
                             <input class="form-control" placeholder="Leave a comment" type="text" aria-label="Search">
                             <button class="btn btn-primary" type="submit">
@@ -143,21 +63,28 @@
                                 comment
                             </button>
                         </form>
-                        <div class="comments-cont d-flex justify-content-center my-5">
-                            <span class="no-comments">there are no comments yet</span>
-                        </div>
+
+                        <% if (art.comments.length > 0) { %>
+                            <% art.comments.forEach(comment => { %>
+                                <p><%= comment.text %></p>
+                            <% }) %>
+                        <% } else { %>
+                            <div class="comments-cont d-flex justify-content-center my-5">
+                                <span class="no-comments">there are no comments yet</span>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
 
                 <div class="username-div w-auto container-fluid ps-5 pe-0">
                     <div class="username-cont mw-100">
                         <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="/img/cupcake.png" alt="pfp" width="40" height="40"
+                            <img class="rounded-circle" src="<%= user.pic %>" alt="pfp" width="40" height="40"
                                 style="background-color: #FAFAFA">
                         </div>
 
                         <div>
-                            <span id="username">John Doe</sp>
+                            <span id="username"><%= user.name %></span>
                         </div>
                     </div>
 
@@ -171,26 +98,14 @@
                         <span class="text-muted">view all</span>
                     </div>
                     <div class="user-arts-prev-cont gap-2 w-100">
-                        <div class="user-arts-prev">
-                            <img src="/img/sunset.jpg" alt="" width="75" height="75">
-                        </div>
-                        <div class="user-arts-prev">
-                            <img src="/img/cupcake.png" alt="" width="75" height="75">
-                        </div>
-                        <div class="user-arts-prev">
-                            <img src="/img/cactus.png" alt="" width="75" height="75">
-                        </div>
-                        <div class="user-arts-prev">
-                            <img src="/img/jungkook.png" alt="" width="75" height="75">
-                        </div>
-                        <div class="user-arts-prev">
-                            <img src="/img/sunset.jpg" alt="" width="75" height="75">
-                        </div>
+                        <% user.rec_arts.forEach(art => { %>
+                            <div class="user-arts-prev">
+                                <img src="<%= art.pic %>" alt="" width="75" height="75">
+                            </div>
+                        <% }) %>
                     </div>
                 </div>
             </div>
-
-
         </main>
 
         <%- include('partials/footer') %>
