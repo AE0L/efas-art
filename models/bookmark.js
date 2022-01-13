@@ -3,45 +3,45 @@ import random_id from './util'
 import User from './user'
 import Artwork from './artwork'
 
-class Reaction {
-    constructor(user, artwork, liked, id = null) {
+class Bookmark {
+    constructor(user, artwork, bookmarked_date, id = null) {
         this.user = user
-        this.artwork = artwork
-        this.liked = liked
+        this.artwork = artwork,
+        this.bookmarked_date = bookmarked_date
         this.id = id || random_id()
     }
 
     async save() {
         return db.run(`
-            INSERT INTO reactions (
-                reaction_id,
+            INSERT INTO bookmarks (
+                bookmark_id,
                 user_id,
                 artwork_id,
-                liked
+                bookmarked_date
             ) VALUES (?,?,?,?)
         `, [
             this.id,
             this.user.id,
             this.artwork.id,
-            this.liked
+            this.bookmarked_date
         ])
     }
 
     static async get(id) {
         const res = await db.get(`
-            SELECT * FROM reactions
-            WHERE reaction_id=(?)
+            SELECT * FROM bookmarks
+            WHERE bookmark_id=(?)
         `, [id])
 
         if (res) {
-            return new Reaction(
+            return new Bookmark(
                 await User.get(res.user_id),
                 await Artwork.get(res.artwork_id),
-                res.liked,
-                res.reaction_id
+                res.bookmarked_date,
+                res.bookmark_id
             )
         }
     }
 }
 
-export default Reaction
+export default Bookmark
