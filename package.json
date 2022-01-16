@@ -2,10 +2,11 @@
   "name": "efas-art",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon -i \"public/\" -r dotenv/config index.js",
-    "doc": "jsdoc -c ./.jsdoc.conf.json"
+    "start": "nodemon -i \"public/\" --experimental-specifier-resolution=node -r dotenv/config app.js",
+    "doc": "jsdoc -c ./.jsdoc.conf.json",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -23,16 +24,17 @@
     "express-validator": "^6.14.0",
     "googleapis": "^92.0.0",
     "helmet": "^4.6.0",
-    "jsdoc": "^3.6.7",
+    "jsdoc": "^3.5.5",
     "moment": "^2.29.1",
     "multer": "^1.4.4",
     "njwt": "^1.2.0",
     "nnode": "^0.3.3",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^4.2.0",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0"
   },
   "devDependencies": {
-    "eslint": "^8.6.0"
+    "eslint": "^8.6.0",
+    "jest": "^27.4.7"
   }
 }
