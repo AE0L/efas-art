@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="index.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    </head>
+
+    <body>
+        <div class="canvas-box">
+            <button id="addCollectionBtn">Save to Collection</button>
+            <button id="downloadBtn" onclick="downloadCanvas(canvas)">Download</button>
+            <div class="canvasContainer">
+                <canvas id="canvas" ></canvas>
+            </div>
+        </div>
+
+        <div class="controls">
+            <h2 id="controls-label">Edit Controls</h2>
+            <div class="opacityGroup">
+                <h4 id="opacityGroupLabel">Opacity Slider</h4>
+                <input value="100" type="range" id="opacitySlider">
+            </div>
+
+            <div class="drawGroup">
+                <h4 id="drawGroupLabel">Add Signature</h4>
+                <button id="toggleDraw">Signature Mode: OFF</button>
+                <button id="exitDraw" hidden>Signature Mode: ON</button>
+                <div class="lineWeightSlider">
+                    <label for="lineWeight" id="weightCounter"> 1</label>
+                    <label for="lineWeight" id="weightLabel">Line Weight:</label><input value="1" type="range" min="1" max="10" step="0.1" id="lineWeight" disabled>
+                </div>
+                <label for="lineColor" id="colorLabel">Line Color:</label>
+                <input type="color" id="lineColor" disabled>
+            </div>
+
+            <div class="textGroup">
+                <h4 id="addTextLabel">Add Text</h4>
+                <button id="addText">Add Text</button>
+                <label id="fontColorLabel">Font Color:</label>
+                <input type="color" id="textColor" disabled>
+                <label id="fontFamilyLabel">Font Family:</label>
+                <select id="fontFamily" disabled>
+                    <option value="arial" selected>Arial</option>
+                    <option value="helvetica">Helvetica</option>
+                    <option value="myriad pro">Myriad Pro</option>
+                    <option value="delicious">Delicious</option>
+                    <option value="verdana">Verdana</option>
+                    <option value="georgia">Georgia</option>
+                    <option value="courier">Courier</option>
+                    <option value="comic sans ms">Comic Sans MS</option>
+                    <option value="impact">Impact</option>
+                    <option value="monaco">Monaco</option>
+                    <option value="optima">Optima</option>
+                    <option value="hoefler text">Hoefler Text</option>
+                    <option value="plaster">Plaster</option>
+                    <option value="engagement">Engagement</option>
+                </select>
+                <label id="fontSliderLabel">Font Weight</label>
+                <label id="fontSliderCounter">0</label>
+                <input type="range" min="1" max="120" step="1" id="fontSize" disabled>
+                <div class="fontStyle">
+                    <input type='checkbox' name='fonttype' id="textBold" disabled>Bold   
+                    <input type='checkbox' name='fonttype' id="textItalic" disabled>Italic
+                    <input type='checkbox' name='fonttype' id="textUnderline" disabled>Underline
+                </div>
+            </div>
+            <button id="clearCanvas" onclick="clearCanvas(canvas)">Clear Canvas</button>
+        </div>
+       
+        <div class=wmGallery>
+            <h2 id="gallery-label">Watermarker Photos</h2>
+            <div class="galleryContainer">
+                <div class="gallery">
+                    <img onclick="geturl(this)" src="/img/w.png" alt="">
+                    <img onclick="geturl(this)" src="/img/wm1.png" alt="">
+                    <img onclick="geturl(this)" src="/img/wm2.png" alt="">
+                    <img onclick="geturl(this)" src="/img/wm3.png" alt="">
+                    <img onclick="geturl(this)" src="/img/wm4.jpg" alt="">
+                    <img onclick="geturl(this)" src="/img/wm4.png" alt="">
+                    <img onclick="geturl(this)" src="/img/wm5.jpg" alt="">
+                </div>
+            </div>
+        </div>  
+
+    
+
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="/lib/fabric.min.js"></script>
+        <script src="index.js"></script>
+        
+
+    </body>
+</html>
