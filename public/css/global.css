@@ -48,7 +48,7 @@ h6 {
 }
 
 div#content-cont {
-    max-width: 80%;
+    max-width: 80% !important;
 }
 
 .text-muted {

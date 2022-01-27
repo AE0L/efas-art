@@ -70,21 +70,23 @@ router.get('/upload', load_user_dashboard, async (req, res) => {
     const { mode } = req.query
 
     if (mode) {
-        if (mode === 'upload') {
-            try {
-                const user = req.data.user.src
-                const gal = await user.gallery
-                const cols = await gal.watermark_collections
+        try {
+            const user = req.data.user.src
+            const gal = await user.gallery
+            const cols = await gal.watermark_collections
 
+            if (mode === 'upload') {
                 res.render('dashboard_watermark-upload', {
                     cols: cols.map(col => ({ id: col.id, name: col.name }))
                 })
-            } catch (e) {
-                console.trace(e)
-                return res.redirect('/404')
+            } else if (mode == 'create') {
+                res.render('dashboard_editor-watermark', {
+                    cols: cols.map(col => ({ id: col.id, name: col.name }))
+                })
             }
-        } else if (mode == 'create') {
-            res.redirect('/profile/watermarks/create')
+        } catch (e) {
+            console.trace(e)
+            return res.redirect('/404')
         }
     } else {
         res.render('dashboard_watermark-choose')

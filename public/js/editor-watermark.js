@@ -230,6 +230,8 @@ $("#toggleDraw").click(function() {
 });
 
 $("#addText").click(function() {
+    $('#toggleDraw').click()
+
     canvas.add(new fabric.IText('Tap and Type', {
         fontFamily: 'arial',
         left: 100,

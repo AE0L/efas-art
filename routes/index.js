@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/home', authenticate, (req, res) => {
-    res.render('user_works')
+    res.redirect('/profile')
 })
 
 router.use('/', auth)
