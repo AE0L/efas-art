@@ -4,6 +4,11 @@ body {
     position: relative;
 }
 
+h1 {
+    margin-left: 10px;
+    margin-top: 50px;
+}
+
 .canvas-box {
     position: absolute;
     display: block;
@@ -33,64 +38,44 @@ body {
     max-height: 100%;
 }
 
-
-#gallery-label{
+#bgColor {
+    display: inline-block;
+    height: 40%;
+    width: 10%;
     position: absolute;
-    top: 10%; left: 10%;
-    transform: translate(-50%,-50%);
+    overflow: auto;
+    top: 68%; left: 9%;
+    transform: translate(-50%,-50%); 
 }
 
-.galleryContainer{
-    border: 1px solid black;
-    width: 95%;
+#hexLabel {
+    display: inline-block;
+    width: 20%;
     position: absolute;
-    padding: 20px;
-    overflow-x: auto;  
-    overflow-y: hidden;
-    height: auto;
-    margin: 0 auto;
-    top: 60%; left: 50%;
-    transform: translate(-50%,-50%);
-    background-color: rgb(208, 222, 245);
-    border-radius: 10px;
+    overflow: auto;
+    top: 49%; left: 27%;
+    transform: translate(-50%,-50%); 
 }
 
-.wmGallery {
+#hexValue {
+    display: inline-block;
+    width: 20%;
     position: absolute;
-    display: block;
-    overflow:auto;
-    top: 530px;
-    height: 200px;
-    overflow-y: hidden;
-    width: 100%;
-    background-color: rgb(239, 244, 252);
-    border-radius: 10px;
+    overflow: auto;
+    top: 49%; left: 43%;
+    transform: translate(-50%,-50%); 
 }
 
-.gallery > img{
-    max-width:100%;
-    max-height: 100%;
-    width: 80px;
-    height: 80px;
-    position: relative;
-}
-
-.gallery{
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    grid-gap: 20px;
-    
-}
-
-#opacitySlider{
-    width: 500px;
+.transparentGroup {
+    display: inline-block;
+    width: 46%;
     position: absolute;
-    top: 70%; left: 50%;
-    transform: translate(-50%,-50%);
+    overflow: auto;
+    top: 68%; left: 75%;
+    transform: translate(-50%,-50%); 
 }
 
-#drawGroupLabel , #addTextLabel, #opacityGroupLabel{
+#drawGroupLabel , #addTextLabel, #bgGroupLabel{
     width: 500px;
     position: absolute;
     top: 0%; left: 50%;
@@ -169,7 +154,7 @@ body {
     border-color: green;
 }
 
-.opacityGroup {
+.bgGroup {
     display: inline-block;
     background-color: rgb(208, 222, 245);
     border-radius: 10px;
@@ -276,7 +261,7 @@ body {
     width: 48%;
     position: absolute;
     overflow: auto;
-    top: 60%; left: 68%;
+    top: 59%; left: 68%;
     transform: translate(-50%,-50%); 
 }
 
@@ -296,7 +281,7 @@ body {
     width: 40%;
     position: absolute;
     overflow: auto;
-    top: 71%; left: 115%;
+    top: 71%; left: 113%;
     transform: translate(-50%,-50%); 
 }
 
@@ -344,17 +329,7 @@ body {
     width: 20%;
     position: absolute;
     overflow: auto;
-    top: 97%; left: 37%;
-    transform: translate(-50%,-50%);
-}
-
-#downloadBtn {
-    display: inline-block;
-    height: 8%;
-    width: 20%;
-    position: absolute;
-    overflow: auto;
-    top: 97%; left: 62%;
+    top: 97%; left: 50%;
     transform: translate(-50%,-50%);
 }
 

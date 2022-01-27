@@ -1,0 +1,174 @@
+body {
+    font-family: sans-serif;
+    max-width: 100%;
+    position: relative;
+}
+
+h1 {
+    position: absolute;
+    left: 20px;
+}
+
+.canvas-box {
+    position: absolute;
+    display: block;
+    /* border: 1px solid black; */
+    width: 60%;
+    height: 520px;
+}
+
+.canvasContainer {
+    display: inline-block;
+    /* border: 1px solid black; */
+    width: 840px;
+    height: 480px;
+    position: absolute;
+    overflow: auto;
+    top: 330px; left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: rgb(239, 244, 252);
+}
+
+#canvas {
+    display: block;
+    max-height: 100%;
+}
+
+
+#gallery-label{
+    position: absolute;
+    top: 2%; left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.galleryContainer{
+    border: 1px solid black;
+    position: absolute;
+    display: block;
+    overflow:auto;
+    height: 340px;
+    overflow-y: auto;
+    width: 90%;
+    background-color: rgb(239, 244, 252);
+    top: 45%; left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgb(208, 222, 245);
+    border-radius: 10px;
+    
+}
+
+.gallery > img{
+    max-width:100%;
+    max-height: 100%;
+    width: 80px;
+    height: 80px;
+    position: relative;
+}
+
+.gallery{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    grid-gap: 20px;
+    align-items: center;
+    justify-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#opacitySlider{
+    width: 350px;
+    position: absolute;
+    top: 72%; left: 60%;
+    transform: translate(-50%,-50%);
+}
+
+#opacityGroupLabel{
+    width: 500px;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+#controls-label {
+    display: inline-block;
+    position: absolute;
+    top: 1%; left: 50%;
+    transform: translate(-50%,-50%);  
+}
+
+#clearCanvas {
+    position: absolute;
+    right: 240px;
+    top: 400px;
+    height:40px;
+    width: 180px;
+}
+
+
+.opacityGroup {
+    display: inline-block;
+    border-radius: 10px;
+    height: 15%;
+    width: 95%;
+    position: absolute;
+    overflow: auto;
+    top: 80%; left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.wmPhotos {
+    position: absolute;
+    display: inline-block;
+    
+    /* border: 1px solid black; */
+    overflow: auto;
+    width: 39%;
+    height: 520px;
+    background-color: rgb(239, 244, 252);
+    border-radius: 10px;
+    top: 350px; left: 80%;
+    transform: translate(-50%,-50%);
+}
+
+
+#clearCanvas {
+    display: inline-block;
+    border: 1px solid black;
+    height: 8%;
+    width: 30%;
+    position: absolute;
+    overflow: auto;
+    top: 94%; left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+#addCollectionBtn {
+    display: inline-block;
+    height: 40px;
+    width: 25%;
+    position: absolute;
+    overflow: auto;
+    top: 115%; left: 37%;
+    transform: translate(-50%,-50%);
+}
+
+#downloadBtn {
+    display: inline-block;
+    height: 40px;
+    width: 20%;
+    position: absolute;
+    overflow: auto;
+    top: 115%; left: 62%;
+    transform: translate(-50%,-50%);
+}
+
+button {
+    border-radius: 10px;
+    border: solid;
+    border-width: 1px;
+}
