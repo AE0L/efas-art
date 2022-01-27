@@ -5,13 +5,11 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import { google } from 'googleapis'
-import gutil from '../google'
-import ArtCollection from './art_collection'
-import db from './db'
-import User from './user'
-import random_id from './util'
-import WatermarkCollection from './watermark_collection'
+const { google } = require('googleapis')
+const gutil = require('../google')
+const db = require('./db')
+const { User } = require('./user')
+const { random_id } = require('./util')
 
 /**
  * Gallery model class
@@ -82,6 +80,8 @@ class Gallery {
      * @type {Promise<Array<ArtCollection>>}
      */
     get art_collections() {
+        const ArtCollection = require('./art_collection')
+
         return (async () => {
             const rows = await db.all(`SELECT * FROM art_collections
                 WHERE gallery_id=(?)`,
@@ -95,7 +95,8 @@ class Gallery {
                     row.name,
                     row.description,
                     row.creation_date,
-                    row.art_col_id
+                    row.art_col_id,
+                    row.col_dir
                 ))
             }
 
@@ -109,6 +110,8 @@ class Gallery {
      * @type {Promise<Array<WatermarkCollection>>}
      */
     get watermark_collections() {
+        const WatermarkCollection = require('./watermark_collection')
+
         return (async () => {
             const rows = await db.all(`SELECT * FROM watermark_collections
                 WHERE gallery_id=(?)`,
@@ -122,7 +125,8 @@ class Gallery {
                     row.name,
                     row.description,
                     row.creation_date,
-                    row.watermark_col_id
+                    row.watermark_col_id,
+                    row.col_dir
                 ))
             }
 
@@ -130,12 +134,12 @@ class Gallery {
         })()
     }
 
-    async gen_art_col_dir(root_dir) {
+    async gen_art_col_dir() {
         const gd = google.drive({ version: 'v3', auth: global.gauth })
         const meta = {
             name: 'ART_COLLECTIONS',
             mimeType: gutil.constants.mime.folder,
-            parents: [root_dir]
+            parents: [this.user.root_dir]
         }
 
         const res = await gd.files.create({
@@ -146,12 +150,12 @@ class Gallery {
         this.art_col_dir = res.data.id
     }
 
-    async gen_watermark_col_dir(root_dir) {
+    async gen_watermark_col_dir() {
         const gd = google.drive({ version: 'v3', auth: global.gauth })
         const meta = {
             name: 'WATERMARK_COLLECTIONS',
             mimeType: gutil.constants.mime.folder,
-            parents: [root_dir]
+            parents: [this.user.root_dir]
         }
 
         const res = await gd.files.create({
@@ -161,6 +165,29 @@ class Gallery {
 
         this.watermark_col_dir = res.data.id
     }
+
+    remove() {
+        return db.run(`
+            DELETE FROM galleries
+            WHERE gallery_id=?
+        `, [this.id])
+    }
+
+    remove_art_col_dir() {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+
+        return gd.files.delete({
+            fileId: this.art_col_dir
+        })
+    }
+
+    remove_watermark_col_dir() {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+
+        return gd.files.delete({
+            fileId: this.watermark_col_dir
+        })
+    }
 }
 
-export default Gallery
+module.exports = Gallery

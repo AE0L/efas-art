@@ -1,18 +1,44 @@
-import express from 'express'
-import WatermarkCollection from '../../models/watermark_collection'
-import moment from 'moment'
-import { load_user_dashboard } from '../middlewares'
+const router = require('express').Router()
+const moment = require('moment')
+const multer = require('multer')
+const slugify = require('slugify')
+const path = require('path')
+const fs = require('fs')
+const WatermarkCollection = require('../../models/watermark_collection')
+const { load_user_dashboard } = require('../middlewares')
+const Watermark = require('../../models/watermark')
+const upload_watermark = multer({
+    storage: multer.diskStorage({
+        destination: (_req, _res, cb) => {
+            cb(null, 'uploads/watermarks')
+        },
 
-const router = express.Router()
+        filename: (req, file, callback) => {
+            const name = slugify(file.originalname, { lower: true })
+            callback(null, `${moment().toDate().getTime()}-${req.data.user.id}-${name}`)
+        }
+    }),
+
+    fileFilter: (_, file, callback) => {
+        if (file.mimetype !== 'image/png') {
+            req.file_error = 'only .png image allowed'
+            callback(null, false)
+        }
+
+        callback(null, true)
+    }
+}).single('watermark_img')
+
+router.use('/', load_user_dashboard, require('./watermark_collection'))
 
 router.get('/', load_user_dashboard, async (req, res) => {
     const { user, wat_collections } = req.data
     const wats = []
 
-    wat_collections.forEach(async (col) => {
+    for (const col of wat_collections) {
         const watermarks = await col.watermarks
         wats.push(...watermarks)
-    })
+    }
 
     wats.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date))
 
@@ -40,70 +66,76 @@ router.get('/', load_user_dashboard, async (req, res) => {
     })
 })
 
-router.get('/collections', load_user_dashboard, async (req, res) => {
-    const { user, wat_collections } = req.data
+router.get('/upload', load_user_dashboard, async (req, res) => {
+    const { mode } = req.query
 
-    const wat_cols = await wat_collections.map(async wat_col => {
-        const wats = await wat_col.watermarks
-        const pic = wats.length <= 0 ? process.env.COL_PLACEHOLDER : wats[0].document
+    if (mode) {
+        if (mode === 'upload') {
+            try {
+                const user = req.data.user.src
+                const gal = await user.gallery
+                const cols = await gal.watermark_collections
 
-        return {
-            id: wat_col.id,
-            title: wat_col.name,
-            pic: pic
-        }
-    })
-
-    res.render('dashboard_cols-wtm', {
-        user: { id: user.id },
-        wat_cols: await Promise.all(wat_cols)
-    })
-})
-
-router.get('/collection/create', load_user_dashboard, async (req, res) => {
-    res.render('dashboard_create-wtm-col')
-})
-
-router.post('/collection/create', load_user_dashboard, async(req, res) => {
-    try {
-        const { col_name, col_desc } = req.body
-        const { gallery } = req.data
-        const wat_col = new WatermarkCollection(gallery, col_name, col_desc, moment())
-
-        await wat_col.gen_col_dir()
-        await wat_col.save()
-
-        res.redirect('/profile/watermarks/')
-    } catch (err) {
-        console.error(err)
-        res.redirect('/404')
-    }
-})
-
-router.get('/collection/:col_id', load_user_dashboard, async (req, res) => {
-    try {
-        const { user } = req.data
-        const col = await WatermarkCollection.get(req.params.col_id)
-        const wats = await col.watermarks
-
-        if (col.gallery.user.id !== user.id) {
-            return res.redirect('/404')
-        }
-
-        res.render('dashboard_col-wtm', {
-            user: { id: user.id },
-            col: {
-                id: col.id,
-                name: col.name,
-                desc: col.description,
-                date: col.creation_date,
-                wats: wats.map(wat => ({ name: wat.name, pic: wat.document }))
+                res.render('dashboard_watermark-upload', {
+                    cols: cols.map(col => ({ id: col.id, name: col.name }))
+                })
+            } catch (e) {
+                console.trace(e)
+                return res.redirect('/404')
             }
-        })
-    } catch(err) {
-        console.error(err)
-        res.redirect('/404')
+        } else if (mode == 'create') {
+            res.redirect('/profile/watermarks/create')
+        }
+    } else {
+        res.render('dashboard_watermark-choose')
     }
 })
 
-export default router
+router.post('/upload', load_user_dashboard, upload_watermark, async (req, res) => {
+    if (req.file_error) {
+        console.error(req.file_error)
+        return res.send({ success: false, msg: req.file_error })
+    }
+
+    try {
+        const watermark_img = req.file
+        const { watermark_name, watermark_col } = req.body
+        const col = await WatermarkCollection.get(watermark_col)
+        const wat = new Watermark(col, watermark_name, moment().toLocaleString())
+        const img_path = path.resolve(__dirname, '../../', watermark_img.path)
+
+        await wat.upload(img_path, col.col_dir)
+        await wat.save()
+        await fs.promises.unlink(img_path)
+
+        return res.send({ success: true })
+    } catch (e) {
+        console.error(e)
+        return res.redirect('/404')
+    }
+})
+
+router.get('/create', load_user_dashboard, (req, res) => {
+    res.render('dashboard_editor-watermark')
+})
+
+router.post('/create', load_user_dashboard, upload_watermark, async (req, res) => {
+    try {
+        const watermark_img = req.file
+        const { watermark_name, watermark_col } = req.body
+        const col = await WatermarkCollection.get(watermark_col)
+        const wat = new Watermark(col, watermark_name, moment().toLocaleString())
+        const img_path = path.resolve(__dirname, '../../', watermark_img.path)
+
+        await wat.upload(img_path, col.col_dir)
+        await wat.save()
+        await fs.promises.unlink(img_path)
+
+        return res.send({ success: true })
+    } catch (e) {
+        console.trace(e)
+        return res.redirect('/404')
+    }
+})
+
+module.exports = router

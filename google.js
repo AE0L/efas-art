@@ -1,10 +1,11 @@
-import { google } from 'googleapis'
+const { google } = require('googleapis')
+const path = require('path')
 
 const SCOPES = [process.env.G_SCOPE]
 const ROOT_FOLDER = process.env.ROOT_FOLDER
 const USER_FOLDER = process.env.USER_FOLDER
 
-export default {
+module.exports = {
     constants: {
         root: ROOT_FOLDER,
         user: USER_FOLDER,
@@ -14,7 +15,7 @@ export default {
     },
 
 
-    authorize: (credentials) => {
+    authorize: (credentials, verbose = true) => {
         const jwt_client = new google.auth.JWT(
             credentials.client_email,
             null,
@@ -25,7 +26,7 @@ export default {
         jwt_client.authorize((err, token) => {
             if (err) {
                 console.error(err)
-            } else {
+            } else if (verbose) {
                 console.log('auth success')
             }
         })
@@ -38,12 +39,6 @@ export default {
         const drive = google.drive({ version: 'v3', auth });
         action(drive, ...args)
     },
-
-
-    initiate_user_folder: (auth, id) => {
-
-    },
-
 
     upload_files: async (drive, files) => {
         return new Promise((resolve, reject) => {

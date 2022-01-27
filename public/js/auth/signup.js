@@ -45,9 +45,9 @@ const post_form = (form) => {
             } else {
                 for (let error of data.errors) {
                     if (error.param === 'email') {
-                        set_validity(_email, email_feedback, error.reason)
+                        set_validity(_email, email_feedback, error.msg)
                     } else if (error.param === 'username') {
-                        set_validity(username, username_feedback, error.reason)
+                        set_validity(username, username_feedback, error.msg)
                     }
                 }
             }
@@ -56,7 +56,6 @@ const post_form = (form) => {
             console.log('post fail', err)
         }
     })
-
 }
 
 $(document).ready(() => {

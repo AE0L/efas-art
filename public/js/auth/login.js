@@ -38,9 +38,9 @@ $(document).ready(() => {
                         window.location.pathname = '/'
                     } else {
                         if (data.param === 'username') {
-                            set_validity(login_user, loginuser_feedback, data.reason)
+                            set_validity(login_user, loginuser_feedback, data.msg)
                         } else if (data.param === 'password') {
-                            set_validity(login_pass, loginpass_feedback, data.reason)
+                            set_validity(login_pass, loginpass_feedback, data.msg)
                         }
                     }
                 },

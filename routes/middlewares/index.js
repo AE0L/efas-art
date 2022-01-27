@@ -1,4 +1,4 @@
-import User from '../../models/user'
+const { User } = require('../../models/user')
 
 async function load_user(req, res, next) {
     try {
@@ -9,12 +9,7 @@ async function load_user(req, res, next) {
         const wat_cols = await gallery.watermark_collections
 
         req.data = {
-            user: {
-                id: user.id,
-                name: `${user.first_name} ${user.last_name}`,
-                handle: `@${user.username}`,
-                src: user
-            },
+            user: user,
             gallery: gallery,
             art_collections: art_cols,
             wat_collections: wat_cols
@@ -77,7 +72,7 @@ async function load_artwork(req, res, next) {
     next()
 }
 
-export {
+module.exports = {
     load_user,
     load_user_dashboard,
     authenticate,

@@ -35,7 +35,7 @@ const setBg = (url,canvas) => {
 }
 
 const canvas = initCanvas('canvas');
-setBg("/img/test1.jpg",canvas);
+setBg("img/test1.jpg",canvas);
 
 
 img.src = deleteIcon;

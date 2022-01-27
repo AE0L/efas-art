@@ -30,25 +30,25 @@
                     <%- include('partials/dashboard/settings-nav', { active: 1 }) %> 
                     
                     <div id="setting-cont" class="border-start border-dark ms-5 ps-5 w-50">
-                        <form>
+                        <form action="post" method="/settings/edit/profile">
                             <div class="mb-3">
                                 <label for="first-name" class="form-label">First Name</label>
-                                <input type="email" class="form-control" id="first-name" value="<%= data.first_name %>">
+                                <input name="first_name" type="text" class="form-control" id="first-name" value="<%= data.first_name %>">
                             </div>
 
                             <div class="mb-3">
                                 <label for="last-name" class="form-label">Last Name</label>
-                                <input type="email" class="form-control" id="last-name" value="<%= data.last_name %>">
+                                <input name="last_name" type="text" class="form-control" id="last-name" value="<%= data.last_name %>">
                             </div>
 
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="email" class="form-control" id="username" value="<%= data.username %>">
+                                <input type="text" class="form-control" id="username" value="<%= data.username %>" readonly>
                             </div>
 
                             <div class="mb-3">
                                 <label for="bio" class="form-label">Bio</label>
-                                <textarea class="form-control" id="bio" rows="3">
+                                <textarea name="bio" class="form-control" id="bio" rows="3">
                                     <%= data.bio %>
                                 </textarea>
                             </div>

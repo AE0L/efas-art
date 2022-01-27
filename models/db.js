@@ -1,9 +1,8 @@
-// TODO documentation
-import path from 'path'
 const sql3 = require('sqlite3').verbose()
-const db = new sql3.Database(path.resolve(__dirname, './efas_art.db'))
-
-export default class {
+const path = require('path')
+const db = new sql3.Database(path.join(__dirname, './efas_art.db'))
+db.get("PRAGMA foreign_keys = ON")
+class Database {
     static all(stmt, params) {
         return new Promise((res, rej) => {
             db.serialize(() => {
@@ -33,13 +32,15 @@ export default class {
     static run(stmt, params) {
         return new Promise((res, rej) => {
             db.serialize(() => {
-                db.run(stmt, params, (error, result) => {
+                db.run(stmt, params, function(error) {
                     if (error) {
                         return rej(error.message)
                     }
-                    return res(result)
+                    return res(this)
                 })
             })
         })
     }
 }
+
+module.exports = Database

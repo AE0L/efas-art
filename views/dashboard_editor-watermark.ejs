@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/dashboard.css">
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+        <div class="container-fluid w-100 my-5" style="max-width: 90%;">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 3 }) %>
+
+                <div class="container-fluid d-flex align-items-center mb-2">
+                    <a href="/profile/watermarks" class="text-dark">
+                        <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
+                    </a>
+                    <h3 class="m-0">Create watermark</h3>
+                </div>
+
+                <div class="container-fluid row my-4 gap-3">
+                    <div class="col">
+                        <canvas class="border border-2 border-dark" id="canvas"></canvas>
+                        <button class="mt-3 btn btn-primary">Save Watermark</button>
+                        <button class="ms-3 mt-3 btn btn-secondary" id="clearCanvas" onclick="clearCanvas(canvas)">Clear
+                            Canvas</button>
+                    </div>
+
+                    <div class="col">
+                        <div class="row mb-3">
+                            <h3>Background Settings</h3>
+                            <div class="ms-3 mt-2 mb-3">
+                                <div class="row mb-3 align-items-center">
+                                    <label for="exampleColorInput" class="fw-bold col-sm-4 col-form-label">Background
+                                        color</label>
+
+                                    <div class="col">
+                                        <input id="bgColor" type="color" class="form-control form-control-color"
+                                            value="#ffffff" style="width: 5em;">
+                                    </div>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" id="isTransparent">
+                                    <label for="isTransparent" class="form-check-label">Transparent Background</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <h3>Signature Settings</h3>
+
+                            <button class="btn btn-secondary mb-3 ms-3 mt-2" id="toggleDraw">Signature Mode:
+                                OFF</button>
+
+                            <div class="ms-3 mb-3">
+                                <div class="row mb-3">
+                                    <label class="fw-bold col-sm-4 col-form-label" for="lineWeight"
+                                        id="weightLabel">Line
+                                        Weight</label>
+                                    <div class="col d-flex align-items-center">
+                                        <input class="mx-2" value="1" type="range" min="1" max="10" step="0.1"
+                                            id="lineWeight" disabled>
+                                        <label class="col-auto col-form-label" for="lineWeight" id="weightCounter">
+                                            1</label>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="lineColor" class="fw-bold col-sm-4 col-form-label">Line Color</label>
+                                    <div class="col">
+                                        <input id="lineColor" type="color" class="form-control-color" value="#000000"
+                                            style="width: 5em;" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <h3>Text Settings</h3>
+
+                            <button class="btn btn-primary mb-3 ms-3 mt-2" id="addText">Add Text</button>
+
+                            <div class="ms-3 mb-3">
+                                <div class="row mb-3 align-items-center">
+                                    <label for="fontFamilyLabel" class="fw-bold col-sm-4 col-form-label">Font
+                                        Family</label>
+                                    <div class="col">
+                                        <select class="form-select" id="fontFamily" disabled>
+                                            <option value="arial" selected>Arial</option>
+                                            <option value="helvetica">Helvetica</option>
+                                            <option value="myriad pro">Myriad Pro</option>
+                                            <option value="delicious">Delicious</option>
+                                            <option value="verdana">Verdana</option>
+                                            <option value="georgia">Georgia</option>
+                                            <option value="courier">Courier</option>
+                                            <option value="comic sans ms">Comic Sans MS</option>
+                                            <option value="impact">Impact</option>
+                                            <option value="monaco">Monaco</option>
+                                            <option value="optima">Optima</option>
+                                            <option value="hoefler text">Hoefler Text</option>
+                                            <option value="plaster">Plaster</option>
+                                            <option value="engagement">Engagement</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3 align-items-center">
+                                    <label for="textColor" class="fw-bold col-sm-4 col-form-label">Font Color</label>
+                                    <div class="col">
+                                        <input id="textColor" type="color" class="form-control-color" value="#000000"
+                                            style="width: 5em;" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3 align-items-center">
+                                    <label for="fontSize" class="fw-bold col-sm-4 col-form-label">Font Size</label>
+                                    <div class="col">
+                                        <input type="number" name="fontSize" id="fontSize" min="1" max="64" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="d-flex gap-3">
+                                        <input type="checkbox" class="btn-check btn-secondary" id="textBold"
+                                            autocomplete="off" disabled>
+                                        <label class="btn btn-primary" for="textBold"><i
+                                                class="fas fa-bold"></i></label>
+
+                                        <input type="checkbox" class="btn-check btn-secondary" id="textItalic"
+                                            autocomplete="off" disabled>
+                                        <label class="btn btn-primary" for="textItalic"><i
+                                                class="fas fa-italic"></i></label>
+
+                                        <input type="checkbox" class="btn-check btn-secondary" id="textUnderline"
+                                            autocomplete="off" disabled>
+                                        <label class="btn btn-primary" for="textUnderline"><i
+                                                class="fas fa-underline"></i></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+
+        <script src="/js/fabric.min.js"></script>
+        <script src="/js/editor-watermark.js"></script>
+    </body>
+
+</html>

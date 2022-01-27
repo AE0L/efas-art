@@ -5,12 +5,12 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import { google } from 'googleapis'
-import gutil from '../google'
-import db from './db'
-import Gallery from './gallery'
-import random_id from './util'
-import Watermark from './watermark'
+const { google } = require('googleapis')
+const gutil = require('../google')
+const db = require('./db')
+const Gallery = require('./gallery')
+const { random_id } = require('./util')
+const Watermark = require('./watermark')
 
 /**
  * Watermark Collection model class
@@ -27,12 +27,13 @@ class WatermarkCollection {
      * @param {Date} creation_date
      * @param {string} [id=null]
      */
-    constructor(gallery, name, description, creation_date, id = null) {
+    constructor(gallery, name, description, creation_date, id = null, col_dir = null) {
         this.gallery = gallery
         this.name = name
         this.description = description
         this.creation_date = creation_date
         this.id = id || random_id()
+        this.col_dir = col_dir
     }
 
     /**
@@ -58,6 +59,15 @@ class WatermarkCollection {
         ])
     }
 
+    update() {
+        return db.run(`
+            UPDATE watermark_collections
+            SET name=?,
+                description=?
+            WHERE watermark_col_id=?
+        `, [this.name, this.description, this.id])
+    }
+
     /**
      * get specific waatermark collection with an ID
      *
@@ -77,7 +87,8 @@ class WatermarkCollection {
                 res.name,
                 res.description,
                 res.creation_date,
-                res.watermark_col_id
+                res.watermark_col_id,
+                res.col_dir
             )
         }
 
@@ -100,9 +111,9 @@ class WatermarkCollection {
                 watermarks.push(new Watermark(
                     this,
                     row.name,
-                    row.document,
                     row.creation_date,
-                    row.watermark_id
+                    row.watermark_id,
+                    row.document
                 ))
             }
 
@@ -124,6 +135,21 @@ class WatermarkCollection {
 
         this.col_dir = res.data.id
     }
+
+    remove() {
+        return db.run(`
+            DELETE FROM watermark_collections
+            WHERE watermark_col_id=?
+        `, [this.id])
+    }
+
+    remove_dir() {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+
+        return gd.files.delete({
+            fileId: this.col_dir
+        })
+    }
 }
 
-export default WatermarkCollection
+module.exports = WatermarkCollection

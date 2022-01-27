@@ -1,6 +1,6 @@
-import Artwork from "./artwork"
-import db from "./db"
-import random_id from "./util"
+const Artwork = require('./artwork')
+const db = require('./db')
+const { random_id } = require('./util')
 
 class Comment {
     constructor(user, artwork, comment_text, comment_date, id = null) {
@@ -49,4 +49,4 @@ class Comment {
     }
 }
 
-export default Comment
+module.exports = Comment

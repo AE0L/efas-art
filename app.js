@@ -5,20 +5,21 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import google_util from './google'
-import body_parser from 'body-parser'
-import cookie_parser from 'cookie-parser'
-import express from 'express'
-import session from 'express-session'
-import sqliteStoreFactory from 'express-session-sqlite'
-import helmet from 'helmet'
-import path from 'path'
-import * as sqlite3 from 'sqlite3'
-import router from './routes'
-import swaggerJSDoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express'
-import { google } from 'googleapis'
-import { inspect } from 'util'
+const body_parser = require('body-parser')
+const cookie_parser = require('cookie-parser')
+const express = require('express')
+const session = require('express-session')
+const sqliteStoreFactory = require('express-session-sqlite').default
+const helmet = require('helmet')
+const path = require('path')
+const sqlite3 = require('sqlite3')
+const swaggerJSDoc  = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
+const { google } = require('googleapis')
+const { inspect } = require('util')
+
+const google_util = require('./google')
+const router = require('./routes')
 const app = express()
 
 /* swagger */
@@ -46,13 +47,11 @@ app.use(body_parser.urlencoded({ extended: true }))
 app.use(cookie_parser())
 
 /* session handler */
+const sqlite_store = sqliteStoreFactory(session)
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
-    saveUninitialized: false
-}))
-const sqlite_store = sqliteStoreFactory(session)
-app.use(session({
+    saveUninitialized: false,
     store: new sqlite_store({
         driver: sqlite3.Database,
         path: './models/efas_art.db',

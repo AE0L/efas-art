@@ -1,10 +1,10 @@
-import express from 'express'
-import { load_user } from '../middlewares'
-import ArtCollection from '../../models/art_collection'
+const express = require('express')
+const { load_user } = require('../middlewares')
+const ArtCollection = require('../../models/art_collection')
 
 const router = express.Router()
 
-router.get('/:user_id/collections', load_user, (req, res) => {
+router.get('/collections', (req, res) => {
     const { user, art_collections } = req.data
 
     const cols = art_collections.map(art_col => {
@@ -20,7 +20,7 @@ router.get('/:user_id/collections', load_user, (req, res) => {
     })
 })
 
-router.get('/:user_id/collection/:col_id', load_user, async (req, res) => {
+router.get('/collection/:col_id', async (req, res) => {
     const { user } = req.data
     const art_col = await ArtCollection.get(req.params.col_id)
     const artworks = await art_col.artworks
@@ -40,4 +40,4 @@ router.get('/:user_id/collection/:col_id', load_user, async (req, res) => {
     })
 })
 
-export default router
+module.exports = router

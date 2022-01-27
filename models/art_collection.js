@@ -5,12 +5,12 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import { google } from 'googleapis'
-import gutil from '../google'
-import Artwork from './artwork'
-import db from './db'
-import Gallery from './gallery'
-import random_id from './util'
+const { google } = require('googleapis')
+const gutil = require('../google')
+const Artwork = require('./artwork')
+const db = require('./db')
+const Gallery = require('./gallery')
+const { random_id } = require('./util')
 
 /** 
  * Art Collection model class 
@@ -28,12 +28,13 @@ class ArtCollection {
      * @param {Date} creation_date
      * @param {string} [id=null]
      */
-    constructor(gallery, name, description, creation_date, id = null) {
+    constructor(gallery, name, description, creation_date, id = null, col_dir = null) {
         this.gallery = gallery
         this.name = name
         this.description = description
         this.creation_date = creation_date
         this.id = id || random_id()
+        this.col_dir = col_dir
     }
 
     /**
@@ -59,6 +60,15 @@ class ArtCollection {
         ])
     }
 
+    update() {
+        return db.run(`
+            UPDATE art_collections
+            SET name=?,
+                description=?
+            WHERE art_col_id=?
+        `, [this.name, this.description, this.id])
+    }
+
     /**
      * get specific artwork collection with an ID
      *
@@ -78,7 +88,8 @@ class ArtCollection {
                 res.name,
                 res.description,
                 res.creation_date,
-                res.art_col_id
+                res.art_col_id,
+                res.col_dir
             )
         }
     }
@@ -127,6 +138,22 @@ class ArtCollection {
 
         this.col_dir = res.data.id
     }
+
+    remove() {
+        return db.run(`
+            DELETE FROM art_collections
+            WHERE art_col_id=?
+        `, [this.id])
+    }
+
+    remove_dir() {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+
+        return gd.files.delete({
+            fileId: this.col_dir
+        })
+    }
+
 }
 
-export default ArtCollection
+module.exports = ArtCollection

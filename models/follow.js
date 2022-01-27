@@ -1,12 +1,10 @@
-import db from './db'
-import User from './user'
-import random_id from './util'
-
+const db = require('./db')
+const { random_id } = require('./util')
 class Follow {
-    constructor(user, followed, followed_date, id = null) {
+    constructor(user, followed, follow_date, id = null) {
         this.user = user
         this.followed = followed
-        this.followed_date = followed_date
+        this.follow_date = follow_date
         this.id = id || random_id()
     }
 
@@ -15,32 +13,38 @@ class Follow {
             follow_id,
             user_id,
             followed_id,
-            followed_date
+            follow_date
         ) VALUES (?,?,?,?)`, [
             this.id,
             this.user.id,
             this.followed.id,
-            this.followed_date
+            this.follow_date
         ])
     }
 
-    static async get(id) {
+    static async get(user, followed) {
+        const { User } = require('./user')
         const res = await db.get(`
             SELECT * FROM follows
-            WHERE follow_id=(?)
-        `, [id])
+            WHERE user_id=(?) AND followed_id=(?)
+        `, [user.id, followed.id])
 
         if (res) {
-            const follow = new Follow(
+            return new Follow(
                 await User.get(res.user_id),
                 await User.get(res.followed_id),
-                res.followed_date,
+                res.follow_date,
                 res.follow_id
             )
-
-            return follow
         }
+    }
+
+    async delete() {
+        return db.run(`
+            DELETE FROM follows
+            WHERE user_id=(?) AND followed_id=(?)
+        `, [this.user.id, this.followed.id])
     }
 }
 
-export default Follow
+module.exports = Follow

@@ -5,11 +5,12 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import express from 'express'
-import { check, validationResult } from 'express-validator'
-import Contact from '../../models/contacts'
-import Gallery from '../../models/gallery'
-import User from '../../models/user'
+const express = require('express')
+const { check, validationResult } = require('express-validator')
+const Contact = require('../../models/contacts')
+const Gallery = require('../../models/gallery')
+const { User } = require('../../models/user')
+const { inspect } = require('util')
 
 const router = express.Router()
 
@@ -42,13 +43,24 @@ const router = express.Router()
  *                   type: boolean
  */
 router.post('/login', [
-    check('username').isLength({ min: 4 }).trim().escape(),
-    check('password').isLength({ min: 8, max: 20 }).trim()
-], async (req, res) => {
-    const errors = validationResult(req)
+    check('username')
+        .isLength({ min: 4 })
+            .withMessage('username invalid length')
+        .trim().escape(),
 
-    if (!errors.isEmpty()) {
-        return res.send({ errors: errors })
+    check('password')
+        .isLength({ min: 8, max: 20 })
+            .withMessage('password invalid length')
+        .trim(),
+
+], async (req, res) => {
+    const validation = validationResult(req)
+
+    if (!validation.isEmpty()) {
+        return res.send({
+            success: false,
+            errors: validation.errors
+        })
     }
 
     try {
@@ -61,23 +73,28 @@ router.post('/login', [
                     req.session.user_id = user.id
                 }
 
-                return res.send({ success: true })
+                return res.send({
+                    success: true,
+                    msg: 'login successful'
+                })
             } else {
                 return res.send({
+                    value: password,
                     success: false,
                     param: 'password',
-                    reason: 'Incorrect password'
+                    msg: 'incorrect password'
                 })
             }
         } else {
             return res.send({
+                value: username,
                 success: false,
                 param: 'username',
-                reason: 'User not found'
+                msg: 'username not registered'
             })
         }
     } catch (e) {
-        console.error(e)
+        console.trace(e)
         res.end()
     }
 })
@@ -118,27 +135,30 @@ router.post('/login', [
 router.post('/register', [
     check('email')
         .isEmail()
-            .withMessage('Invalid email')
+            .withMessage('invalid email')
         .normalizeEmail(),
 
     check('username')
         .isLength({ min: 4 })
-            .withMessage('Invalid length')
+            .withMessage('username invalid length')
         .trim().escape(),
 
     check('password')
         .isLength({ min: 8, max: 20 })
-            .withMessage('Invalid length')
+            .withMessage('password invalid length')
         .trim(),
 
     check('first_name').trim().escape(),
 
     check('last_name').trim().escape()
 ], async (req, res) => {
-    const errors = validationResult(req)
+    const validation = validationResult(req)
 
-    if (!errors.isEmpty()) {
-        return res.send({ errors: errors })
+    if (!validation.isEmpty()) {
+        return res.send({
+            success: false,
+            errors: validation.errors
+        })
     }
 
     let { email, first_name, last_name, username, password } = req.body
@@ -146,25 +166,31 @@ router.post('/register', [
     try {
         const tmp_user = await User.get_user(username)
 
+        const errors = {
+            success: false,
+            errors: []
+        }
+
         if (tmp_user) {
-            const error = {
-                success: false,
-                errors: [{
-                    param: 'username',
-                    reason: 'User already exists'
-                }]
-            }
+            errors.errors.push({
+                value: username,
+                param: 'username',
+                msg: 'username already exists'
+            })
+        }
 
-            const user_cont = await tmp_user.contact
+        const email_exists = await Contact.email_exists(email)
 
-            if (email === user_cont.email) {
-                error.errors.push({
-                    param: 'email',
-                    reason: 'Email is already registered'
-                })
-            }
+        if (email_exists) {
+            errors.errors.push({
+                value: email,
+                param: 'email',
+                msg: 'email is already registered'
+            })
+        }
 
-            return res.send(error)
+        if (errors.errors.length > 0) {
+            return res.send(errors)
         }
 
         const user = new User(first_name, last_name, username, password)
@@ -173,16 +199,21 @@ router.post('/register', [
 
 
         await user.gen_root_dir()
-        await gallery.gen_art_col_dir(user.root_dir)
-        await gallery.gen_watermark_col_dir(user.root_dir)
+        await gallery.gen_art_col_dir()
+        await gallery.gen_watermark_col_dir()
 
         await user.hash_pass()
         await user.save()
         await gallery.save()
         await contact.save()
+
+        return res.send({
+            success: true,
+            msg: 'account creation was successful'
+        })
     } catch (e) {
-        console.error(e)
-        return res.send({ success: false })
+        console.trace(inspect(e))
+        return res.send({ success: false, errors: [e] })
     } finally {
         res.end()
     }

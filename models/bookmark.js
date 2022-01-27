@@ -1,7 +1,7 @@
-import db from './db'
-import random_id from './util'
-import User from './user'
-import Artwork from './artwork'
+const db = require('./db')
+const { random_id } = require('./util')
+const { User } = require('./user')
+const Artwork = require('./artwork')
 
 class Bookmark {
     constructor(user, artwork, bookmarked_date, id = null) {
@@ -44,4 +44,4 @@ class Bookmark {
     }
 }
 
-export default Bookmark
+module.exports = Bookmark

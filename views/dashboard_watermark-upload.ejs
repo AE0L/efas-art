@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+        <link rel="stylesheet" href="/css/dashboard.css">
+
+        <style>
+            #all-watermark-cont {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                justify-items: center;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div id="content-cont" class="container my-5">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+
+            <main>
+                <%- include('partials/dashboard/nav', { active: 3 }) %>
+
+                <div class="container-fluid d-flex align-items-center mb-3">
+                    <a href="/profile/watermarks/upload" class="text-dark">
+                        <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
+                    </a>
+                    <h3 class="m-0">Upload watermark</h3>
+                </div>
+
+
+                <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                    <% if (cols.length > 0) { %>
+                        <form id="upload_form" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="watermark_col" class="form-label">Watermark name</label>
+                                <select name="watermark_col" class="form-select" id="watermark_col" required>
+                                    <option disabled selected>- choose a watermark collection -</option>
+                                    <% for (col of cols) { %>
+                                        <option value="<%= col.id %>"><%= col.name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="watermark_name" class="form-label">Watermark name</label>
+                                <input name="watermark_name" type="text" class="form-control" id="watermark_name" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="watermark_img" class="form-label">Watermark image</label>
+                                <input name="watermark_img" type="file" accept=".png" class="form-control"
+                                    id="watermark_img" required>
+                                <div class="form-text">
+                                    Only PNG image can be used as watermark
+                                </div>
+                            </div>
+
+                            <div class="mb-3 d-flex justify-content-center">
+                                <img class="d-none" src="#" alt="preview" id="prev_img" style="max-width: 20em">
+                            </div>
+
+                            <button id="submit_btn" type="submit" class="w-100 mt-3 btn btn-primary">Upload</button>
+                        </form>
+                    <% } else { %>
+                        <a href="/profile/watermarks/collection/create" role="button" class="btn btn-primary">Create
+                        watermark a collection first</a>
+                    <% } %>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+
+        <script>
+            watermark_img.onchange = (e) => {
+                const [file] = watermark_img.files
+
+                if (file) {
+                    prev_img.src = URL.createObjectURL(file)
+                    $(prev_img).removeClass('d-none')
+                }
+            }
+
+            $(upload_form).submit((e) => {
+                $(submit_btn).prop('disabled', true)
+
+                $.ajax({
+                    url: '/profile/watermarks/upload',
+                    method: 'POST',
+                    data: new FormData(upload_form),
+                    processData: false,
+                    contentType: false,
+                    success: (data) => {
+                        if (data.success) {
+                            window.location.pathname = '/profile/watermarks'
+                        } else {
+                            for (error of data.errors) {
+                                if (error.param === 'name') {
+
+                                }
+
+                                if (error.param === 'img') {
+
+                                }
+                            }
+                        }
+                    }
+                })
+                e.preventDefault()
+            })
+        </script>
+    </body>
+
+</html>

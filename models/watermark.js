@@ -5,9 +5,11 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import db from './db'
-import random_id from './util'
-import WatermarkCollection from './watermark_collection'
+const { google } = require('googleapis')
+const fs = require('fs')
+const db = require('./db')
+const { random_id } = require('./util')
+const WatermarkCollection = require('./watermark_collection')
 
 /**
  * Watermark model class
@@ -24,12 +26,12 @@ class Watermark {
      * @param {Date} creation_date
      * @param {string} [id=null]
      */
-    constructor(watermark_col, name, document, creation_date, id = null) {
+    constructor(watermark_col, name, creation_date, id = null, document = null) {
         this.watermark_col = watermark_col
         this.name = name
-        this.document = document
         this.creation_date = creation_date
         this.id = id || random_id()
+        this.document = document
     }
 
     /**
@@ -44,7 +46,7 @@ class Watermark {
             name, 
             document,
             creation_date
-        ) VALUES (?,?,?,?)`, [
+        ) VALUES (?,?,?,?,?)`, [
             this.id,
             this.watermark_col.id,
             this.name,
@@ -70,12 +72,30 @@ class Watermark {
             return new Watermark(
                 WatermarkCollection.get(res.watermark_col_id),
                 res.name,
-                res.document,
                 res.creation_date,
-                res.watermark_id
+                res.watermark_id,
+                res.document
             )
         }
     }
+
+    async upload(path, col_dir) {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+
+        const res = await gd.files.create({
+            resource: {
+                name: `${this.id}.png`,
+                parents: [col_dir]
+            },
+            media: {
+                mimeType: 'image/png',
+                body: fs.createReadStream(path)
+            },
+            fields: 'id'
+        })
+
+        this.document = res.data.id
+    }
 }
 
-export default Watermark
+module.exports = Watermark

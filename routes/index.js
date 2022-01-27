@@ -1,9 +1,9 @@
-import express from "express";
-import dashboard from './dashboard';
-import user from './user';
-import artworks from './artworks'
-import auth from './auth'
-import { authenticate } from './middlewares'
+const express = require("express")
+const dashboard = require('./dashboard/index')
+const user = require('./user/index')
+const artworks = require('./artworks/index')
+const auth = require('./auth/index')
+const { authenticate } = require('./middlewares/index')
 
 const router = express.Router()
 
@@ -24,4 +24,4 @@ router.use('/u', authenticate, user)
 router.use('/artworks', authenticate, artworks)
 router.use('/profile', authenticate, dashboard)
 
-export default router
+module.exports = router

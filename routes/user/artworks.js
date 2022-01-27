@@ -1,9 +1,7 @@
-import express from 'express'
-import { load_user } from '../middlewares'
-
+const express = require('express')
 const router = express.Router()
 
-router.get('/:user_id/works', load_user, async (err, req, res, next) => {
+router.get('/works', async (err, req, res, next) => {
     if (err) {
         res.redirect('/404')
     }
@@ -28,4 +26,4 @@ router.get('/:user_id/works', load_user, async (err, req, res, next) => {
 })
 
 
-export default router
+module.exports = router

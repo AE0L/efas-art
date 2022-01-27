@@ -5,14 +5,13 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import bcrypt from 'bcrypt'
-import { google } from 'googleapis'
-import gutil from '../google'
-import Contact from './contacts'
-import db from './db'
-import Follow from './follow'
-import Gallery from './gallery'
-import random_id from './util'
+const bcrypt = require('bcrypt')
+const { google } = require('googleapis')
+const gutil = require('../google')
+const db = require('./db')
+const Follow = require('./follow')
+const { random_id } = require('./util')
+const moment = require('moment')
 
 /**
  * utility function for hashing a raw string password
@@ -21,8 +20,8 @@ import random_id from './util'
  * @param {string} pass
  * @return {Promise<string>} - hashed password
  */
-async function encrypt_password(pass) {
-    const salt = await bcrypt.genSalt()
+async function encrypt_password(pass, salt = null) {
+    salt = salt || await bcrypt.genSalt()
     const hash = await bcrypt.hash(pass, salt)
 
     return hash
@@ -55,7 +54,7 @@ class User {
         this.root_dir = root_dir
 
         this.bio_text = ''
-        this.birth_date = ''
+        this.birth_date = null
         this.profile_pic = ''
     }
 
@@ -64,8 +63,8 @@ class User {
      *
      * @async
      */
-    async hash_pass() {
-        this.hash = await encrypt_password(this.password)
+    async hash_pass(salt = null) {
+        this.hash = await encrypt_password(this.password, salt)
     }
 
     /**
@@ -74,22 +73,55 @@ class User {
      * @async
      * @return {Promise} - sqlite's run result 
      */
-    async save() {
+    save() {
         return db.run(`INSERT INTO users (
             user_id,
             first_name,
             last_name,
             username,
             pass_hash,
+            bio_text,
+            birth_date,
+            profile_pic,
             root_dir
-        ) VALUES (?,?,?,?,?,?)`, [
+        ) VALUES (?,?,?,?,?,?,?,?,?)`, [
             this.id,
             this.first_name,
             this.last_name,
             this.username,
             this.hash,
+            this.bio_text,
+            this.birth_date,
+            this.profile_pic,
             this.root_dir
         ])
+    }
+
+    update() {
+        return db.run(`
+            UPDATE users
+            SET first_name=?,
+                last_name=?,
+                bio_text=?
+            WHERE user_id=?
+        `, [
+            this.first_name,
+            this.last_name,
+            this.bio_text,
+            this.id
+        ])
+    }
+
+    async update_pass(new_pass) {
+        this.password = new_pass
+
+        await this.hash_pass()
+
+        return db.run(`
+            UPDATE users
+            SET pass_hash=?
+            WHERE user_id=?
+        `, [this.hash, this.id])
     }
 
     /**
@@ -99,6 +131,8 @@ class User {
      * @type {Promise<Contact>}
      */
     get contact() {
+        const Contact = require('./contacts')
+
         return (async () => {
             const res = await db.get(`SELECT * FROM contacts
                 WHERE user_id=(?)`,
@@ -106,10 +140,8 @@ class User {
             )
 
             if (res) {
-                return new Contact(this, res.email, res.phone, res.id)
+                return new Contact(this, res.email, res.phone, res.contact_id)
             }
-
-            return null
         })()
     }
 
@@ -120,6 +152,8 @@ class User {
      * @type {Promise<Gallery>}
      */
     get gallery() {
+        const Gallery = require('./gallery')
+
         return (async () => {
             const res = await db.get(`SELECT * FROM galleries
                 WHERE user_id=(?)`,
@@ -166,18 +200,10 @@ class User {
         }
     }
 
-    /**
-     * get user from the database if it exist
-     *
-     * @static
-     * @async
-     * @param {string} login_username
-     * @return {Promise<User>}
-     */
-    static async get_user(login_username) {
+    static async get_user(username) {
         const res = await db.get(`SELECT * FROM users
             WHERE username=(?)`,
-            [login_username]
+            [username]
         )
 
         if (res) {
@@ -200,23 +226,46 @@ class User {
     }
 
     async get_follows() {
-        const rows = await db.get(`
+        const rows = await db.all(`
             SELECT * FROM follows
             WHERE user_id=(?)
         `, [this.id])
 
-        const follows = []
+        if (rows) {
+            const follows = []
 
-        for (let row of rows) {
-            follows.push(new Follow(
-                this,
-                await User.get(row.followed_id),
-                row.followed_date,
-                row.follow_id
-            ))
+            for (let row of rows) {
+                follows.push(new Follow(
+                    this,
+                    await User.get(row.followed_id),
+                    row.follow_date,
+                    row.follow_id
+                ))
+            }
+
+            return follows
         }
+    }
 
-        return follows
+    async is_following(user) {
+        const res = await db.get(`
+            SELECT * FROM follows
+            WHERE user_id=(?) AND followed_id=(?)
+        `, [this.id, user.id])
+
+        return res ? true : false
+    }
+
+    async follow(user) {
+        const follow = new Follow(this, user, moment().toLocaleString())
+
+        return follow.save()
+    }
+
+    async unfollow(user) {
+        const follow = await Follow.get(this, user)
+
+        return follow.delete()
     }
 
     /**
@@ -226,7 +275,7 @@ class User {
      * @param {string} login_password
      * @return {Promise<boolean>} - true if the hash and password are identical otherwise false
      */
-    async verify_pass(login_password) {
+    verify_pass(login_password) {
         return bcrypt.compare(login_password, this.hash)
     }
 
@@ -246,6 +295,24 @@ class User {
 
         this.root_dir = res.data.id
     }
+
+    remove() {
+        return db.run(`
+            DELETE FROM users
+            WHERE user_id=?
+        `, [this.id])
+    }
+
+    async remove_dir() {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+
+        return gd.files.delete({
+            fileId: this.root_dir
+        })
+    }
 }
 
-export default User
+module.exports = {
+    encrypt_password: encrypt_password,
+    User: User
+}

@@ -1,9 +1,9 @@
-import express from 'express'
-import moment from 'moment'
-import artworks from './artworks'
-import watermarks from './watermarks'
-import settings from './settings'
-import { load_user_dashboard } from '../middlewares'
+const express = require('express')
+const moment = require('moment')
+const artworks = require('./artworks')
+const watermarks = require('./watermarks')
+const settings = require('./settings')
+const { load_user_dashboard } = require('../middlewares')
 
 const router = express.Router()
 
@@ -81,4 +81,4 @@ router.use('/artworks', artworks)
 router.use('/watermarks', watermarks)
 router.use('/settings', settings)
 
-export default router
+module.exports = router

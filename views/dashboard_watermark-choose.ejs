@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+        <link rel="stylesheet" href="/css/dashboard.css">
+
+        <style>
+            #all-watermark-cont {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                justify-items: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div id="content-cont" class="container my-5">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 3 }) %>
+
+                <div class="container-fluid d-flex align-items-center mb-3">
+                    <a href="/profile/watermarks" class="text-dark">
+                        <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
+                    </a>
+                    <h3 class="m-0">Create or upload watermark</h3>
+                </div>
+
+                <div class="my-5 container-fluid d-flex flex-column align-items-center gap-4">
+                    <a role="button" href="/profile/watermarks/upload?mode=create" class="p-3 btn btn-primary" style="max-width: 15em; width: 100%">Create watermark</a>
+                    <a role="button" href="/profile/watermarks/upload?mode=upload" class="p-3 btn btn-primary" style="max-width: 15em; width: 100%">Upload watermark</a>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

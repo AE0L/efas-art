@@ -1,0 +1,1 @@
+require._extensions['.mjs'] = require._extensions['.js']

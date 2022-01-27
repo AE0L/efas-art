@@ -5,8 +5,8 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import db from './db'
-import random_id from './util'
+const db = require('./db')
+const { random_id } = require('./util')
 
 /**
  * Contact model class
@@ -34,11 +34,36 @@ class Contact {
      * @return {Promise} - sqlite run result
      */
     save() {
-        const stmt = `INSERT INTO contacts (contact_id,user_id,email) VALUES (?,?,?)`
-        const params = [this.id, this.user.id, this.email]
+        return db.run(`
+            INSERT INTO contacts (
+                contact_id,
+                user_id,
+                email,
+                phone
+            ) VALUES (?,?,?,?)
+        `, [
+            this.id,
+            this.user.id,
+            this.email,
+            this.phone
+        ])
+    }
 
-        return db.run(stmt, params)
+    static async email_exists(email) {
+        const res = await db.get(`
+            SELECT * FROM contacts
+            WHERE email=(?)
+        `, [email])
+
+        return res ? true : false
+    }
+
+    remove() {
+        return db.run(`
+            DELETE FROM contacts
+            WHERE contact_id=?
+        `, [this.id])
     }
 }
 
-export default Contact
+module.exports = Contact

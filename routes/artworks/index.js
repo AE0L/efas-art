@@ -1,6 +1,6 @@
-import express from 'express'
-import Reaction from '../../models/reaction'
-import { load_artwork } from '../middlewares'
+const express = require('express')
+const Reaction = require('../../models/reaction')
+const { load_artwork } = require('../middlewares')
 
 const router = express.Router()
 
@@ -43,4 +43,4 @@ router.get('/:artwork_id/like', load_artwork, async (req, res) => {
     }
 })
 
-export default router
+module.exports = router

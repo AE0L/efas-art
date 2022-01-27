@@ -1,9 +1,32 @@
-import express from 'express'
-import ArtCollection from '../../models/art_collection'
-import moment from 'moment'
-import { load_user_dashboard } from '../middlewares'
+const router = require('express').Router()
+const fs = require('fs')
+const multer = require('multer')
+const Artwork = require('../../models/artwork')
+const ArtCollection = require('../../models/art_collection')
+const { load_user_dashboard } = require('../middlewares')
+const upload_art = multer({
+    storage: multer.diskStorage({
+        destination: (req, res, cb) => {
+            cb(null, 'uploads/artworks')
+        },
 
-const router = express.Router()
+        filename: (req, file, callback) => {
+            const name = slugify(file.originalname, { lower: true })
+            callback(null, `${moment().toDate().getTime()}-${req.data.user.id}-${name}`)
+        }
+    }),
+
+    fileFilter: (_, file, callback) => {
+        if (file.mimetype !== 'image/jpeg') {
+            req.file_error = 'only .jpg or .jpeg image allowed'
+            callback(null, false)
+        }
+
+        callback(null, true)
+    }
+}).single('art_img')
+
+router.use('/', load_user_dashboard, require('./artwork_collection'))
 
 router.get('/', load_user_dashboard, async (req, res) => {
     const { user, art_collections } = req.data
@@ -41,74 +64,32 @@ router.get('/', load_user_dashboard, async (req, res) => {
     })
 })
 
-router.get('/collections', load_user_dashboard, async (req, res) => {
-    const { user, art_collections } = req.data
-
-    const art_cols = await art_collections.map(async art_col => {
-        const arts = await art_col.artworks
-        const pic = arts.length <= 0 ? process.env.COL_PLACEHOLDER : arts[0].document
-
-        return {
-            id: art_col.id,
-            title: art_col.name,
-            pic: pic
-        }
-    })
-
-    res.render('dashboard_cols-art', {
-        user: { id: user.id },
-        art_cols: await Promise.all(art_cols)
-    })
+router.get('/upload', load_user_dashboard, async (req, res) => {
+    res.render('dashboard_artwork-editor')
 })
 
-router.get('/collection/create', load_user_dashboard, async (req, res) => {
-    res.render('dashboard_create-art-col')
-})
+router.post('/upload', load_user_dashboard, upload_art, async (req, res) => {
+    if (req.file_error) {
+        console.error(req.file_error)
+        return res.send({ success: false, msg: req.file_error })
+    }
 
-router.post('/collection/create', load_user_dashboard, async (req, res) => {
     try {
-        const { col_name, col_desc } = req.body
-        const { gallery } = req.data
-        const art_col = new ArtCollection(gallery, col_name, col_desc, moment())
+        const art_img = req.file
+        const { title, description, tags, col_id } = req.body
+        const col = await ArtCollection.get(col_id)
+        const art = new Artwork(col, title, tags.split(','), description, moment().toDate(), doc)
+        const img_path = path.resolve(__dirname, '../../', art_img.path)
 
-        await art_col.gen_col_dir()
-        await art_col.save()
+        await art.upload(img_path)
+        await art.save()
+        await fs.promises.unlink(img_path)
 
-        res.redirect('/profile/artworks/')
-    } catch (err) {
-        console.error(err)
-        res.redirect('/404')
+        return res.send({ success: true })
+    } catch (e) {
+        console.trace(e)
+        return res.redirect('/404')
     }
 })
 
-router.get('/collection/:col_id', load_user_dashboard, async (req, res) => {
-    try {
-        const { user } = req.data
-        const col = await ArtCollection.get(req.params.col_id)
-        const arts = await col.artworks
-
-        if (col.gallery.user.id !== user.id) {
-            return res.redirect('/404')
-        }
-
-        res.render('dashboard_col-art', {
-            user: { id: user.id },
-            col: {
-                id: col.id,
-                name: col.name,
-                desc: col.description,
-                date: col.creation_date,
-                arts: arts.map(art => ({
-                    id: art.id,
-                    title: art.name,
-                    pic: art.document
-                }))
-            }
-        })
-    } catch (err) {
-        console.error(err)
-        res.redirect('/404')
-    }
-})
-
-export default router
+module.exports = router

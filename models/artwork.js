@@ -5,10 +5,12 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-import ArtCollection from './art_collection'
-import Comment from './comment'
-import db from './db'
-import random_id from './util'
+const ArtCollection = require('./art_collection')
+const Comment = require('./comment')
+const db = require('./db')
+const { random_id } = require('./util')
+const { google } = require('googleapis')
+const fs = require('fs')
 
 /**
  * Artwork model class
@@ -26,14 +28,14 @@ class Artwork {
      * @param {Date} creation_date
      * @param {string} [id=null]
      */
-    constructor(art_col, name, tags, description, creation_date, document, id = null) {
+    constructor(art_col, name, tags, description, creation_date, id = null, document = null) {
         this.art_col = art_col
         this.name = name
         this.tags = tags
         this.description = description
-        this.document = document
         this.creation_date = creation_date
         this.id = id || random_id()
+        this.document = document
     }
 
     /**
@@ -48,16 +50,16 @@ class Artwork {
             name,
             tags,
             description,
-            creation_date,
-            document
+            document,
+            creation_date
         ) VALUES (?,?,?,?,?,?,?)`, [
             this.id,
             this.art_col.id,
             this.name,
             this.tags,
             this.description,
-            this.creation_date,
-            this.document
+            this.document,
+            this.creation_date
         ])
     }
 
@@ -80,15 +82,15 @@ class Artwork {
                 res.name,
                 res.tags,
                 res.description,
-                res.document,
                 res.creation_date,
-                res.artwork_id
+                res.artwork_id,
+                res.document
             )
         }
     }
 
     async get_comments() {
-        const rows = await db.get(`
+        const rows = await db.all(`
             SELECT * FROM comments
             WHERE artwork_id=(?)
         `, [this.id])
@@ -116,6 +118,24 @@ class Artwork {
 
         return res ? res.liked : false
     }
+
+    async upload(path, col_dir) {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+
+        const res = await gd.files.create({
+            resource: {
+                name: `${this.id}.jpg`,
+                parents: [col_dir]
+            },
+            media: {
+                mimeType: 'image/jpg',
+                body: fs.createReadStream(path)
+            },
+            fields: 'id'
+        })
+
+        this.document = res.data.id
+    }
 }
 
-export default Artwork
+module.exports = Artwork
