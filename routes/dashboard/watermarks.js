@@ -122,6 +122,12 @@ router.get('/create', load_user_dashboard, (req, res) => {
 })
 
 router.post('/create', load_user_dashboard, upload_watermark, async (req, res) => {
+    if (req.file_error) {
+        return res.send({ success: false, msg: req.file_error })
+    }
+
+    console.log('req.file: ', req.file)
+
     try {
         const watermark_img = req.file
         const { watermark_name, watermark_col } = req.body

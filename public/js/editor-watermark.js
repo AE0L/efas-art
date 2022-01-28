@@ -1,5 +1,3 @@
-console.log("here")
-
 const gallery = document.getElementById('gallery');
 
 var deleteIcon = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
@@ -12,18 +10,12 @@ var fontFamily = document.getElementById("fontFamily");
 var fontSize = document.getElementById("fontSize");
 var lineWeight = document.getElementById("lineWeight");
 var lineColor = document.getElementById("lineColor");
-var textColor = document.getElementById("textColor");
-var fontFamily = document.getElementById("fontFamily");
-var fontSize = document.getElementById("fontSize");
 var textBold = document.getElementById("textBold");
 var textItalic = document.getElementById("textItalic");
 var textUnderline = document.getElementById("textUnderline");
 var download = document.getElementById("downloadBtn");
 var weightCounter = document.getElementById("weightCounter");
-var lineColor = document.getElementById("lineColor");
-var fontSliderCounter = document.getElementById("fontSliderCounter");
 var bgColor = document.getElementById("bgColor");
-var hexValue = document.getElementById("hexValue");
 var isTransparent = document.getElementById("isTransparent")
 
 const clearCanvas = (canvas) => {
@@ -50,7 +42,6 @@ const canvCenter = canvas.getCenter();
 
 function geturl(img) {
     var name = img.src;
-    console.log(name);
     fabric.Image.fromURL(name, function(img) {
         var oImg = img.set({ left: canvCenter.left, top: canvCenter.top, originX: 'center', originY: 'center' });
         oImg.scaleToWidth(100);
@@ -91,35 +82,22 @@ function renderIcon(ctx, left, top, styleOverride, fabricObject) {
 canvas.on('selection:created', function() {
     activeObject = canvas.getActiveObject();
     objectType = activeObject.get('type');
-    console.log(activeObject.pathWidth)
 
     if (activeObject.get('type') === "i-text") {
-        console.log(activeObject.underline)
         textColor.disabled = false;
         fontFamily.disabled = false;
         fontSize.disabled = false;
         textBold.disabled = false;
         textItalic.disabled = false;
         textUnderline.disabled = false;
+
+        textColor.value = activeObject.fill
         fontFamily.value = activeObject.fontFamily;
         fontSize.value = activeObject.fontSize;
-        fontSliderCounter.innerText = fontSize.value;
 
-        if (activeObject.fontWeight === 'bold')
-            textBold.checked = true;
-        else
-            textBold.checked = false;
-
-        if (activeObject.fontWeight === 'italic')
-            textItalic.checked = true;
-        else
-            textItalic.checked = false;
-
-        if (activeObject.underline === true)
-            textUnderline.checked = true;
-        else
-            textUnderline.checked = false;
-
+        textBold.checked = activeObject.fontWeight === 'bold'
+        textItalic.checked = activeObject.fontStyle === 'italic'
+        textUnderline.checked = activeObject.underline === true
     } else {
         textColor.disabled = true;
         fontFamily.disabled = true;
@@ -127,15 +105,13 @@ canvas.on('selection:created', function() {
         textBold.disabled = true;
         textItalic.disabled = true;
         textUnderline.disabled = true;
-
-
     }
 });
 
 canvas.on('selection:updated', function(options) {
     activeObject = canvas.getActiveObject();
-
     objectType = activeObject.get('type');
+
     if (activeObject.get('type') === "i-text") {
         textColor.disabled = false;
         fontFamily.disabled = false;
@@ -143,24 +119,14 @@ canvas.on('selection:updated', function(options) {
         textBold.disabled = false;
         textItalic.disabled = false;
         textUnderline.disabled = false;
+
+        textColor.value = activeObject.fill
         fontFamily.value = activeObject.fontFamily;
         fontSize.value = activeObject.fontSize;
 
-        if (activeObject.fontWeight === 'bold')
-            textBold.checked = true;
-        else
-            textBold.checked = false;
-
-        if (activeObject.fontWeight === 'italic')
-            textItalic.checked = true;
-        else
-            textItalic.checked = false;
-
-        if (activeObject.underline === true)
-            textUnderline.checked = true;
-        else
-            textUnderline.checked = false;
-
+        textBold.checked = activeObject.fontWeight === 'bold'
+        textItalic.checked = activeObject.fontStye === 'italic'
+        textUnderline.checked = activeObject.underline
     } else {
         textColor.disabled = true;
         fontFamily.disabled = true;
@@ -168,7 +134,6 @@ canvas.on('selection:updated', function(options) {
         textBold.disabled = true;
         textItalic.disabled = true;
         textUnderline.disabled = true;
-
     }
 });
 
@@ -179,16 +144,18 @@ canvas.on('selection:cleared', function(options) {
     textBold.disabled = true;
     textItalic.disabled = true;
     textUnderline.disabled = true;
+
+    textColor.value = '#000000'
+    fontFamily.value = 'arial'
+    fontSize.value = 40
     textBold.checked = false;
     textItalic.checked = false;
     textUnderline.checked = false;
-    fontSliderCounter.innerText = 0;
 });
 
 
 bgColor.addEventListener("input", function() {
     canvas.backgroundColor = bgColor.value;
-    hexValue.innerText = bgColor.value
     canvas.requestRenderAll();
 });
 
@@ -196,10 +163,8 @@ isTransparent.addEventListener("input", function() {
     if (canvas.backgroundColor !== null) {
         canvas.backgroundColor = null;
         bgColor.disabled = true;
-        hexValue.innerText = "";
     } else {
         canvas.backgroundColor = bgColor.value;
-        hexValue.innerText = bgColor.value
         bgColor.disabled = false;
     }
 
@@ -268,7 +233,6 @@ $("#addText").click(function() {
 
 textColor.addEventListener("input", function() {
     activeObject = canvas.getActiveObject();
-    console.log(textColor.value)
     activeObject.set("fill", textColor.value);
     canvas.requestRenderAll();
 });

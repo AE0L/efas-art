@@ -16,7 +16,8 @@
     <body>
         <%- include('partials/nav-bar', { active: 2 }) %>
 
-        <div <% if (cols.length <= 0) { %>id="content-cont"<% } %> class="container-fluid w-100 my-5" style="max-width: 90%;">
+        <div <% if (cols.length <= 0) { %>id="content-cont" <% } %> class="container-fluid w-100 my-5"
+            style="max-width: 90%;">
             <header class="mb-5">
                 <h1 class="display-5">Dashboard</h1>
             </header>
@@ -34,11 +35,10 @@
 
                 <div class="container-fluid row my-4 gap-3">
                     <div class="row mb-3">
-                        <form id="watermark_form" class="row">
+                        <form id="watermark_form" class="row" enctype="multipart/form-data" method="post">
                             <div class="col">
                                 <label for="watermark_col" class="form-label">Watermark name</label>
                                 <select name="watermark_col" class="form-select" id="watermark_col" required>
-                                    <option disabled selected>- choose a watermark collection -</option>
                                     <% for (col of cols) { %>
                                     <option value="<%= col.id %>"><%= col.name %></option>
                                     <% } %>
@@ -56,7 +56,8 @@
                     <div class="row">
                         <div class="col">
                             <canvas class="border border-2 border-dark" id="canvas"></canvas>
-                            <button type="submit" form="watermark_form" class="mt-3 btn btn-primary">Save Watermark</button>
+                            <button id="save_btn" type="submit" form="watermark_form" class="mt-3 btn btn-primary">Save
+                                Watermark</button>
                             <button class="ms-3 mt-3 btn btn-secondary" id="clearCanvas"
                                 onclick="clearCanvas(canvas)">Clear
                                 Canvas</button>
@@ -67,8 +68,7 @@
                                 <h3>Background Settings</h3>
                                 <div class="ms-3 mt-2 mb-3">
                                     <div class="row mb-3 align-items-center">
-                                        <label for="exampleColorInput"
-                                            class="col-sm-4 col-form-label">Background
+                                        <label for="exampleColorInput" class="col-sm-4 col-form-label">Background
                                             color</label>
 
                                         <div class="col">
@@ -93,8 +93,7 @@
 
                                 <div class="ms-3 mb-3">
                                     <div class="row mb-3">
-                                        <label class="col-sm-4 col-form-label" for="lineWeight"
-                                            id="weightLabel">Line
+                                        <label class="col-sm-4 col-form-label" for="lineWeight" id="weightLabel">Line
                                             Weight</label>
                                         <div class="col d-flex align-items-center">
                                             <input class="mx-2" value="1" type="range" min="1" max="10" step="0.1"
@@ -197,7 +196,43 @@
         <%- include('partials/footer') %>
 
         <script src="/js/fabric.min.js"></script>
+        <script src="/js/editor-watermark-util.js"></script>
         <script src="/js/editor-watermark.js"></script>
+
+        <script>
+            $(watermark_form).submit(async function (e) {
+                e.preventDefault()
+
+                $(save_btn).prop('disabled', true)
+
+                const trimmed = trimCanvas(canvas)
+
+                trimmed.toBlob((blob) => {
+                    const fd = new FormData(this)
+
+                    fd.append('watermark_img', blob, 'watermark.png')
+
+                    $.ajax({
+                        type: 'POST',
+                        data: fd,
+                        cache: false,
+                        url: '/profile/watermarks/create',
+                        processData: false,
+                        contentType: false,
+                        success: (data) => {
+                            if (data.success) {
+                                window.location.pathname = '/profile/watermarks'
+                            } else {
+                                $(save_btn.prop('disabled', false))
+                            }
+                        },
+                        error: (err) => {
+                            console.log('post fail', err)
+                        }
+                    })
+                })
+            })
+        </script>
     </body>
 
 </html>

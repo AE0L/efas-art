@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Document</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/dashboard.css">
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div <% if (cols.length <= 0) { %>id="content-cont" <% } %> class="container-fluid w-100 my-5"
+            style="max-width: 90%;">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 2 }) %>
+
+                <div class="container-fluid d-flex align-items-center mb-2">
+                    <a href="/profile/artworks/" class="text-dark">
+                        <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
+                    </a>
+                    <h3 class="m-0">Upload Artwork</h3>
+                </div>
+
+                <% if (cols.length > 0) { %>
+
+                <div class="container-fluid row my-4 gap-3">
+
+                </div>
+
+                <% } else { %>
+                <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                    <a href="/profile/artworks/collection/create" role="button" class="btn btn-primary">Create
+                        watermark a collection first</a>
+                </div>
+                <% } %>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+
+        <script src="/js/fabric.min.js"></script>
+        <script src="/js/editor-artwork.js"></script>
+    </body>
+
+</html>
