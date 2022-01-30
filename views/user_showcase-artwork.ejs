@@ -22,7 +22,8 @@
             <div class="container d-flex my-5 mx-auto">
                 <div class="art-cont rounded d-flex-column container-fluid text-light p-0 pb-5">
                     <div class="art-cont_wrapper">
-                        <img src="<%= art.pic %>" alt="art" class="img-fluid">
+                        <img src="https://drive.google.com/uc?export=view&id=<%= art.pic %>" alt="art"
+                            class="img-fluid">
                     </div>
 
                     <div class="art-cont_details container pt-5">
@@ -30,29 +31,35 @@
                             <h1 class="display-4"><%= art.title %></h1>
 
                             <% if (art.liked) { %>
-                                <button type="button" class="like-btn btn btn-secondary">
-                                    <i class="fas fa-heart me-1"></i>
-                                    Liked
-                                </button>
+
+                            <a href="/artworks/<%= art.id %>/unlike" role="button" type="button"
+                                class="like-btn btn btn-secondary">
+                                <i class="fas fa-heart me-1"></i>
+                                Liked
+                            </a>
+
                             <% } else { %>
-                                <button type="button" class="like-btn btn btn-primary">
-                                    <i class="far fa-heart me-1"></i>
-                                    Like
-                                </button>
+
+                            <a href="/artworks/<%= art.id %>/like" role="button" type="button"
+                                class="like-btn btn btn-primary">
+                                <i class="far fa-heart me-1"></i>
+                                Like
+                            </a>
+
                             <% } %>
                         </div>
 
                         <% art.desc.forEach(p => { %>
-                            <p><%= p %></p>
+                        <p><%= p %></p>
                         <% }) %>
 
                         <div class="art-cont_tags py-5">
                             <h2>Tags</h2>
                             <div class="pt-3 d-flex gap-2">
                                 <% art.tags.forEach(tag => { %>
-                                    <span class="badge rounded-pill bg-light text-dark">
-                                        <%= tag %>
-                                    </span>
+                                <span class="badge rounded-pill bg-light text-dark">
+                                    <%= tag %>
+                                </span>
                                 <% }) %>
                             </div>
                         </div>
@@ -62,24 +69,48 @@
 
                     <div class="art-cont_details mt-5">
                         <h2>Comments</h2>
-                        <form class="user-comment-cont pt-3">
-                            <img class="rounded-circle" src="<%= user.pic %>" alt="pfp" width="40" height="40"
-                                style="background-color: #FAFAFA">
-                            <input class="form-control" placeholder="Leave a comment" type="text" aria-label="Search">
-                            <button class="btn btn-primary" type="submit">
+                        <form action="/artworks/<%= art.id %>/comment" method="post" id="comment_form"
+                            class="user-comment-cont pt-3">
+                            <img class="rounded-circle" src="https://drive.google.com/uc?export=view&id=<%= user.pfp %>"
+                                alt="pfp" width="40" height="40" style="background-color: #FAFAFA">
+                            <input id="comment_text" name="comment_text" class="form-control"
+                                placeholder="Leave a comment" type="text">
+                            <button class="btn btn-primary" type="submit" form="comment_form">
                                 <i class="far fa-comment me-1"></i>
                                 comment
                             </button>
                         </form>
 
                         <% if (art.comments.length > 0) { %>
-                            <% art.comments.forEach(comment => { %>
-                                <p><%= comment.text %></p>
-                            <% }) %>
-                        <% } else { %>
-                            <div class="comments-cont d-flex justify-content-center my-5">
-                                <span class="no-comments">there are no comments yet</span>
+
+                        <div id="comments-cont" class="d-flex flex-column my-5">
+
+                            <% for (let comment of art.comments) { %>
+
+                            <div class="row d-flex align-items-start mb-3">
+                                <div class="col-sm-auto">
+                                    <img src="https://drive.google.com/uc?export=view&id=<%= comment.user.pic %>" alt=""
+                                        class="rounded-circle" width="30" height="30"
+                                        style="background-color: #FAFAFA;">
+                                </div>
+
+                                <div class="col rounded">
+                                    <span>@<%= comment.user.name %></span>
+                                    <p class="my-1"><%= comment.text %></p>
+                                    <small style="color: rgba(250, 250, 250, 0.3)"><%= comment.date %></small>
+                                </div>
                             </div>
+
+                            <% } %>
+
+                        </div>
+
+                        <% } else { %>
+
+                        <div class="comments-cont d-flex justify-content-center my-5">
+                            <span class="no-comments">there are no comments yet</span>
+                        </div>
+
                         <% } %>
                     </div>
                 </div>
@@ -87,29 +118,49 @@
                 <div class="username-div w-auto container-fluid ps-5 pe-0">
                     <div class="username-cont mw-100">
                         <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="<%= user.pic %>" alt="pfp" width="40" height="40"
-                                style="background-color: #FAFAFA">
+                            <img class="rounded-circle" src="https://drive.google.com/uc?export=view&id=<%= user.pfp %>"
+                                alt="pfp" width="40" height="40" style="background-color: #FAFAFA">
                         </div>
 
                         <div>
-                            <span id="username"><%= user.name %></span>
+                            <span id="username"><%= user.handle %></span>
                         </div>
                     </div>
 
-                    <button id="follow-btn" type="button" class="my-3 btn btn-primary w-100">
+                    <% if (user.follow) { %>
+
+                    <a href="/u/<%= user.id %>/unfollow?art=<%= art.id %>" role="button" id="follow-btn" type="button"
+                        class="my-3 btn btn-secondary w-100">
+                        <i class="fas fa-minus me-1"></i>
+                        Unfollow
+                    </a>
+
+                    <% } else { %>
+
+                    <a href="/u/<%= user.id %>/follow?art=<%= art.id %>" role="button" id="follow-btn" type="button"
+                        class="my-3 btn btn-primary w-100">
                         <i class="fas fa-plus me-1"></i>
                         Follow
-                    </button>
+                    </a>
+
+                    <% } %>
 
                     <div class="d-flex justify-content-between my-3">
                         <span>Other works</span>
-                        <span class="text-muted">view all</span>
+                        <a href="/u/<%= user.id %>" class="text-decoration-none text-muted">view all</a>
                     </div>
                     <div class="user-arts-prev-cont gap-2 w-100">
                         <% user.rec_arts.forEach(art => { %>
-                            <div class="user-arts-prev">
-                                <img src="<%= art.pic %>" alt="" width="75" height="75">
-                            </div>
+
+                        <div class="user-arts-prev">
+                            <a href="/artworks/<%= art.id %>">
+                                <div class="d-flex align-items-center" style="background: #353531; height: 100px;">
+                                    <img src="https://drive.google.com/uc?export=view&id=<%= art.pic %>" alt=""
+                                        width="100">
+                                </div>
+                            </a>
+                        </div>
+
                         <% }) %>
                     </div>
                 </div>
@@ -117,6 +168,32 @@
         </main>
 
         <%- include('partials/footer') %>
+
+        <script>
+            // $(comment_form).submit(e => {
+            //     const fd = new FormData()
+            //     fd.append('comment_text', comment_text.value)
+
+            //     console.log(fd.get('comment_text'))
+
+            //     $.ajax({
+            //         url: `/artworks/${comment_form.dataset.art_id}/comment`,
+            //         method: 'POST',
+            //         data: {
+            //             comment_text: comment_text.value
+            //         },
+            //         processData: false,
+            //         contentType: false,
+            //         success: (data) => {
+            //             if (data.success) {
+            //                 window.location.pathname = `/artworks/${comment_form.dataset.art_id}`
+            //             }
+            //         }
+            //     })
+
+            //     e.preventDefault()
+            // })
+        </script>
     </body>
 
 </html>

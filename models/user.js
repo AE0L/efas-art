@@ -12,6 +12,7 @@ const db = require('./db')
 const Follow = require('./follow')
 const { random_id } = require('./util')
 const moment = require('moment')
+const Reaction = require('./reaction')
 
 /**
  * utility function for hashing a raw string password
@@ -266,6 +267,18 @@ class User {
         const follow = await Follow.get(this, user)
 
         return follow.delete()
+    }
+
+    async like(art) {
+        const reaction = await Reaction.get(this, art)
+        
+        reaction.like()
+    }
+
+    async unlike(art) {
+        const reaction = await Reaction.get(this, art)
+
+        reaction.unlike()
     }
 
     /**

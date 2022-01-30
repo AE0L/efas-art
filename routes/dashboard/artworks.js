@@ -1,6 +1,9 @@
 const router = require('express').Router()
 const fs = require('fs')
 const multer = require('multer')
+const slugify = require('slugify')
+const path = require('path')
+const moment = require('moment')
 const Artwork = require('../../models/artwork')
 const ArtCollection = require('../../models/art_collection')
 const { load_user_dashboard } = require('../middlewares')
@@ -16,15 +19,15 @@ const upload_art = multer({
         }
     }),
 
-    fileFilter: (_, file, callback) => {
-        if (file.mimetype !== 'image/jpeg') {
+    fileFilter: (req, file, callback) => {
+        if (file.mimetype !== 'image/png') {
             req.file_error = 'only .jpg or .jpeg image allowed'
             callback(null, false)
         }
 
         callback(null, true)
     }
-}).single('art_img')
+}).single('artwork_img')
 
 router.use('/', load_user_dashboard, require('./artwork_collection'))
 
@@ -65,7 +68,31 @@ router.get('/', load_user_dashboard, async (req, res) => {
 })
 
 router.get('/upload', load_user_dashboard, async (req, res) => {
-    res.render('dashboard_artwork-editor')
+    try {
+        const user = req.data.user.src
+        const gal = await user.gallery
+        const art_cols = await gal.art_collections
+        const wat_cols = await gal.watermark_collections
+
+        const tmp_wat_cols = Promise.all(wat_cols.map(async (col) => {
+            const wats = await col.watermarks
+            return {
+                name: col.name,
+                wats: wats.map(wat => ({
+                    name: wat.name,
+                    img: wat.document
+                }))
+            }
+        }))
+
+        return res.render('dashboard_editor-artwork', {
+            art_cols: art_cols,
+            wat_cols: await tmp_wat_cols
+        })
+    } catch (e) {
+        console.trace(e)
+        return res.send({ success: false })
+    }
 })
 
 router.post('/upload', load_user_dashboard, upload_art, async (req, res) => {
@@ -76,12 +103,12 @@ router.post('/upload', load_user_dashboard, upload_art, async (req, res) => {
 
     try {
         const art_img = req.file
-        const { title, description, tags, col_id } = req.body
-        const col = await ArtCollection.get(col_id)
-        const art = new Artwork(col, title, tags.split(','), description, moment().toDate(), doc)
+        const { artwork_title, artwork_description, artwork_tags, artwork_col } = req.body
+        const col = await ArtCollection.get(artwork_col)
+        const art = new Artwork(col, artwork_title, artwork_tags, artwork_description, moment().toDate())
         const img_path = path.resolve(__dirname, '../../', art_img.path)
 
-        await art.upload(img_path)
+        await art.upload(img_path, col.col_dir)
         await art.save()
         await fs.promises.unlink(img_path)
 

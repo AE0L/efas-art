@@ -1,22 +1,35 @@
 const express = require('express')
 const { load_user } = require('../middlewares')
 const ArtCollection = require('../../models/art_collection')
+const { User } = require('../../models/user')
 
 const router = express.Router()
 
-router.get('/collections', (req, res) => {
+router.get('/collections', async (req, res) => {
     const { user, art_collections } = req.data
+    const ses_user = await User.get(req.session.user_id)
 
-    const cols = art_collections.map(art_col => {
+    const art_cols = await Promise.all(art_collections.map(async art_col => {
+        const _arts = await art_col.artworks
+        const pic = _arts.length <= 0 ? process.env.COL_PLACEHOLDER : _arts[0].document
+
         return {
-            name: art_col.name,
-            desc: art_col.description
+            id: art_col.id,
+            title: art_col.name,
+            description: art_col.description,
+            pic: pic
         }
-    })
+    }))
 
     res.render('user_collections', {
-        user: user,
-        cols: cols
+        user: {
+            id: user.id,
+            name: `${user.first_name} ${user.last_name}`,
+            handle: `@${user.username}`,
+            pic: user.profile_pic ? user.profile_pic : process.env.PFP_PLACEHOLDER,
+            followed: await ses_user.is_following(user)
+        },
+        cols: art_cols
     })
 })
 

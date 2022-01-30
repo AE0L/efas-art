@@ -19,7 +19,7 @@ const upload_watermark = multer({
         }
     }),
 
-    fileFilter: (_, file, callback) => {
+    fileFilter: (req, file, callback) => {
         if (file.mimetype !== 'image/png') {
             req.file_error = 'only .png image allowed'
             callback(null, false)
@@ -125,8 +125,6 @@ router.post('/create', load_user_dashboard, upload_watermark, async (req, res) =
     if (req.file_error) {
         return res.send({ success: false, msg: req.file_error })
     }
-
-    console.log('req.file: ', req.file)
 
     try {
         const watermark_img = req.file

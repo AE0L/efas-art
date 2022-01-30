@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-md navbar-light mb-4">
     <ul id="nav" class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-            <a class="nav-link <% if (active === 1) { %> active <% } %>" href="/u/<%= user_id %>/works">Works</a>
+            <a class="nav-link <% if (active === 1) { %> active <% } %>" href="/u/<%= user.id %>/works">Works</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <% if (active === 2) { %> active <% } %>" href="/u/<%= user_id %>/collections">Collections</a>
+            <a class="nav-link <% if (active === 2) { %> active <% } %>" href="/u/<%= user.id %>/collections">Collections</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <% if (active === 3) { %> active <% } %>" href="/u/<%= user_id %>/about">About</a>
+            <a class="nav-link <% if (active === 3) { %> active <% } %>" href="/u/<%= user.id %>/about">About</a>
         </li>
     </ul>
 </nav>

@@ -11,6 +11,7 @@ const db = require('./db')
 const { random_id } = require('./util')
 const { google } = require('googleapis')
 const fs = require('fs')
+const moment = require('moment')
 
 /**
  * Artwork model class
@@ -71,14 +72,14 @@ class Artwork {
      * @return {Promise<Artwork>} 
      */
     static async get(id) {
-        const res = db.get(`SELECT * FROM artworks
+        const res = await db.get(`SELECT * FROM artworks
             WHERE artwork_id=(?)`,
             [id]
         )
 
         if (res) {
             return new Artwork(
-                ArtCollection.get(res.art_col_id),
+                await ArtCollection.get(res.art_col_id),
                 res.name,
                 res.tags,
                 res.description,
@@ -89,25 +90,34 @@ class Artwork {
         }
     }
 
-    async get_comments() {
-        const rows = await db.all(`
-            SELECT * FROM comments
-            WHERE artwork_id=(?)
-        `, [this.id])
+    get comments() {
+        const { User } = require('./user')
+        return (async () => {
+            const rows = await db.all(`
+                SELECT * FROM comments
+                WHERE artwork_id=(?)
+            `, [this.id])
 
-        const comments = []
+            const comments = []
 
-        for (let row of rows) {
-            comments.push(new Comment(
-                await User.get(row.user_id),
-                this,
-                row.comment_text,
-                row.comment_date,
-                row.comment_id
-            ))
-        }
+            for (let row of rows) {
+                comments.push(new Comment(
+                    await User.get(row.user_id),
+                    this,
+                    row.comment_text,
+                    row.comment_date,
+                    row.comment_id
+                ))
+            }
 
-        return comments
+            return comments
+        })()
+    }
+
+    async add_comment(user, text) {
+        const comment = new Comment(user, this, text, moment().toLocaleString())
+
+        await comment.save()
     }
 
     async is_liked(user) {
@@ -116,7 +126,7 @@ class Artwork {
             WHERE artwork_id=(?) AND user_id=(?)
         `, [this.id, user.id])
 
-        return res ? res.liked : false
+        return res ? Boolean(res.liked) : false
     }
 
     async upload(path, col_dir) {

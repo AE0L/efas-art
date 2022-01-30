@@ -37,7 +37,7 @@
                     <div class="row mb-3">
                         <form id="watermark_form" class="row" enctype="multipart/form-data" method="post">
                             <div class="col">
-                                <label for="watermark_col" class="form-label">Watermark name</label>
+                                <label for="watermark_col" class="form-label">Watermark collection</label>
                                 <select name="watermark_col" class="form-select" id="watermark_col" required>
                                     <% for (col of cols) { %>
                                     <option value="<%= col.id %>"><%= col.name %></option>
@@ -196,7 +196,7 @@
         <%- include('partials/footer') %>
 
         <script src="/js/fabric.min.js"></script>
-        <script src="/js/editor-watermark-util.js"></script>
+        <script src="/js/editor-util.js"></script>
         <script src="/js/editor-watermark.js"></script>
 
         <script>
@@ -208,7 +208,7 @@
                 const trimmed = trimCanvas(canvas)
 
                 trimmed.toBlob((blob) => {
-                    const fd = new FormData(this)
+                    const fd = new FormData(watermark_form)
 
                     fd.append('watermark_img', blob, 'watermark.png')
 

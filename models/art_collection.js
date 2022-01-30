@@ -7,7 +7,6 @@
  */
 const { google } = require('googleapis')
 const gutil = require('../google')
-const Artwork = require('./artwork')
 const db = require('./db')
 const Gallery = require('./gallery')
 const { random_id } = require('./util')
@@ -100,6 +99,8 @@ class ArtCollection {
      * @type {Promise<Array<Artwork>>}
      */
     get artworks() {
+        const Artwork = require('./artwork')
+
         return (async () => {
             const rows = await db.all(`SELECT * FROM artworks 
                 WHERE art_col_id=(?)
@@ -114,9 +115,9 @@ class ArtCollection {
                     row.name,
                     row.tags,
                     row.description,
-                    row.document,
                     row.creation_date,
-                    row.artwork_id
+                    row.artwork_id,
+                    row.document
                 ))
             }
 

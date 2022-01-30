@@ -2,6 +2,7 @@ const session = require('supertest-session')
 const request = require('supertest')
 const app = require('../../app_test')
 const { User } = require('../../models/user')
+const { inspect } = require('util')
 
 describe('user account', () => {
 
@@ -23,7 +24,7 @@ describe('user account', () => {
                     password: 'john.doe2021',
                     email: 'john_doe@email.com'
                 })
-
+            
             expect(res.statusCode).toBe(200)
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8')
             expect(res.body.success).toBe(true)
@@ -311,23 +312,19 @@ describe('user account', () => {
         })
 
         test('follow user', async () => {
-            const res = await auth_session.post(`/u/${follow_user}/follow`)
+            const res = await auth_session.get(`/u/${follow_user}/follow?page=work`)
 
-            expect(res.statusCode).toBe(200)
-            expect(res.headers['content-type']).toBe('application/json; charset=utf-8')
-            expect(res.body.success).toBe(true)
-            expect(res.body.user).toBe(follow_user)
-            expect(res.body.msg).toBe('follow successful')
+            expect(res.statusCode).toBe(302)
+            expect(res.headers['content-type']).toBe('text/plain; charset=utf-8')
+            expect(res.headers['location']).toBe(`/u/${follow_user}/work`)
         })
 
         test('unfollow user', async () => {
-            const res = await auth_session.post(`/u/${follow_user}/unfollow`)
+            const res = await auth_session.get(`/u/${follow_user}/unfollow?page=work`)
 
-            expect(res.statusCode).toBe(200)
-            expect(res.headers['content-type']).toBe('application/json; charset=utf-8')
-            expect(res.body.success).toBe(true)
-            expect(res.body.user).toBe(follow_user)
-            expect(res.body.msg).toBe('unfollow successful')
+            expect(res.statusCode).toBe(302)
+            expect(res.headers['content-type']).toBe('text/plain; charset=utf-8')
+            expect(res.headers['location']).toBe(`/u/${follow_user}/work`)
         })
     })
 

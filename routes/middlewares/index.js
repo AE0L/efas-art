@@ -1,4 +1,5 @@
 const { User } = require('../../models/user')
+const Artwork = require('../../models/artwork')
 
 async function load_user(req, res, next) {
     try {
@@ -17,6 +18,7 @@ async function load_user(req, res, next) {
 
         next()
     } catch (err) {
+        console.error(err)
         next(err)
     }
 }

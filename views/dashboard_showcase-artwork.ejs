@@ -85,6 +85,7 @@
             .like-btn {
                 height: fit-content;
             }
+
         </style>
     </head>
 
@@ -134,18 +135,40 @@
 
                     <div class="art-cont_details mt-5">
                         <h2>Comments</h2>
-                        <form class="user-comment-cont pt-3">
+                        <form id="comment_form" class="user-comment-cont pt-3">
                             <img class="rounded-circle" src="/img/cupcake.png" alt="pfp" width="40" height="40"
                                 style="background-color: #FAFAFA">
-                            <input class="form-control" placeholder="Leave a comment" type="text" aria-label="Search">
+                            <input id="comment_text" class="form-control" placeholder="Leave a comment" type="text"
+                                aria-label="Search">
                             <button class="btn btn-primary" type="submit">
                                 <i class="far fa-comment me-1"></i>
                                 comment
                             </button>
                         </form>
+
+                        <% if (art.comments.length > 0) { %>
+
+                        <div id="comments-cont" class="d-flex flex-column my-5">
+
+                            <% for (let comment of art.comments) { %>
+
+                            <div>
+                                <img src="https://drive.google.com/uc?export=view&id=<%= comment.user.pic %>" alt=""
+                                    class="rounded-circle" width="25" height="25" style="background-color: #FAFAFA;">
+                                <p><%= comment.text %></p>
+                            </div>
+
+                            <% } %>
+
+                        </div>
+
+                        <% } else { %>
+
                         <div class="comments-cont d-flex justify-content-center my-5">
                             <span class="no-comments">there are no comments yet</span>
                         </div>
+
+                        <% } %>
                     </div>
                 </div>
 
@@ -194,6 +217,35 @@
         </main>
 
         <%- include('partials/footer') %>
+
+        <script>
+            function submit(id) {
+                const link = `/artworks/${id}`
+
+                return (e) => {
+                    $.ajax({
+                        url: `${link}/comment`,
+                        method: 'POST',
+                        data: new FormData(comment_form),
+                        success: (data) => {
+                            if (data.success) {
+                                window.location.pathname = link
+                            } else {
+                                for (error of data.errors) {
+                                    if (error.param === 'name') {
+
+                                    }
+
+                                    if (error.param === 'img') {
+
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        </script>
     </body>
 
 </html>

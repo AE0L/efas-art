@@ -19,39 +19,33 @@
         <%- include('partials/nav-bar', { active: 0 }) %>
 
         <div id="content-cont" class="container mb-5">
-            <%- include('partials/user/header', { followed: true }) %>
+            <%- include('partials/user/header', user) %>
 
             <main>
                 <%- include('partials/user/nav', { 
-                    user_id: '123456',
+                    user: user,
                     active: 2
                 }) %>
 
                 <h3 class="mb-3">Collections</h3>
 
+                <% if (cols.length > 0) { %>
+
+                <% for (let col of cols) { %>
+
                 <div class="container-fluid d-flex flex-wrap gap-3 mb-5">
                     <%- include('data/user_collection', {
-                        col_id: '12345',
-                        col_src: '/img/cactus.png',
-                        col_title: 'Cactus',
-                        col_desc: 'Sample text. Click to select the text box. Click again or double click to start editing the text.'
-                    }) %>
-
-                    <%- include('data/user_collection', {
-                        col_id: '12345',
-                        col_src: '/img/cupcake.png',
-                        col_title: 'Cupcake',
-                        col_desc: 'Sample text. Click to select the text box. Click again or double click to start editing the text.'
-                    }) %>
-
-                    <%- include('data/user_collection', {
-                        col_id: '12345',
-                        col_src: '/img/jungkook.png',
-                        col_title: 'Jungkook',
-                        col_desc: 'Sample text. Click to select the text box. Click again or double click to start editing the text.'
+                        col_id: col.id,
+                        col_pic: col.pic,
+                        col_title: col.title,
+                        col_desc: col.description
                     }) %>
                 </div>
 
+                <% } %>
+
+                <% } else { %>
+                <% } %>
             </main>
         </div>
 

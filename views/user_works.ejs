@@ -19,6 +19,7 @@
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                 justify-items: center;
             }
+
         </style>
     </head>
 
@@ -26,66 +27,38 @@
         <%- include('partials/nav-bar', { active: 0 }) %>
 
         <div id="content-cont" class="container mb-5">
-            <%- include('partials/user/header', { followed: false }) %>
+            <%- include('partials/user/header', user) %>
 
             <main>
                 <%- include('partials/user/nav', { 
-                    user_id: '123456',
+                    user,
                     active: 1
                 }) %>
 
                 <h3 class="mb-3">All works</h3>
 
+                <% if (works.length > 0) { %>
                 <div id="allworks-cont" class="container-fluid gap-3 mb-5">
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
+                    <% for (let work of works) { %>
 
                     <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
+                            art_id: work.id,
+                            art_src: work.pic,
+                            art_title: work.title
+                        }) %>
 
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
+                    <% } %>
 
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
                 </div>
-            </main>
+                <% } else { %>
+
+                <div class="container-fluid mb-3">
+                    <p class="text-muted text-center">This user doesn't have any works yet</p>
+                </div>
+
+                <% } %>
+        </div>
+        </main>
         </div>
 
         <%- include('partials/footer') %>
