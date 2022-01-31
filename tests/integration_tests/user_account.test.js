@@ -11,6 +11,7 @@ describe('user account', () => {
 
         user.remove_dir()
         user.remove()
+        app.close()
     })
 
     describe('register account', () => {

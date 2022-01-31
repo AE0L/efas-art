@@ -146,6 +146,19 @@ class Artwork {
 
         this.document = res.data.id
     }
+
+    async remove() {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+
+        await gd.files.delete({
+            fileId: this.document
+        })
+
+        return db.run(`
+            DELETE FROM artworks
+            WHERE artwork_id=?
+        `, [this.id])
+    }
 }
 
 module.exports = Artwork

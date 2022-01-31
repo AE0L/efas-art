@@ -5,6 +5,12 @@ const artworks = require('./artworks/index')
 const auth = require('./auth/index')
 const { authenticate } = require('./middlewares/index')
 
+const { google } = require('googleapis')
+const fs = require('fs')
+const path = require('path')
+const moment = require('moment')
+const { User } = require("../models/user")
+
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -15,8 +21,56 @@ router.get('/', (req, res) => {
     }
 })
 
-router.get('/home', authenticate, (req, res) => {
-    res.redirect('/profile')
+router.get('/home', authenticate, async (req, res) => {
+    try {
+        const ses_user = await User.get(req.session.user_id)
+        const follows = await ses_user.get_follows()
+
+        const all_rec_arts = []
+
+        for (let follow of follows) {
+            const _user = follow.user
+            const gal = await _user.gallery
+            const art_cols = await gal.art_collections
+
+            let arts = []
+
+            for (let art_col of art_cols) {
+                const _arts = await art_col.artworks
+                arts.push(..._arts)
+            }
+
+            arts.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date))
+
+            const date_now = moment()
+            const date_week_before = moment().subtract(6, 'days')
+
+            let rec_arts = arts.filter(art => {
+                let art_mom = moment(new Date(art.creation_date))
+                return art_mom.isBetween(date_week_before, date_now, undefined, '[]')
+            })
+
+            rec_arts = await Promise.all(rec_arts.map(async (rec_art) => {
+                return {
+                    author: _user.username,
+                    id: rec_art.id,
+                    title: rec_art.name,
+                    pic: rec_art.document
+                }
+            }))
+
+            all_rec_arts.push(...rec_arts)
+        }
+
+        if (req.query.test) {
+            return res.send({ rec_arts: all_rec_arts })
+        }
+
+        return res.render('', { rec_arts: all_rec_arts })
+    } catch (e) {
+        console.trace(e)
+        res.redirect('/404')
+    }
 })
 
 router.use('/', auth)
@@ -24,10 +78,6 @@ router.use('/u', authenticate, user)
 router.use('/artworks', authenticate, artworks)
 router.use('/profile', authenticate, dashboard)
 
-const { google } = require('googleapis')
-const fs = require('fs')
-const path = require('path')
-const moment = require('moment')
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -47,23 +97,23 @@ router.use('/download/image', async (req, res) => {
         responseType: 'stream'
     }, (_, _res) => {
         _res.data
-        .on('end', async () => {
-            res.sendFile(dest.path, (err) => {
-                if (err) {
-                    console.trace(err)
-                } else {
-                    try {
-                        fs.promises.unlink(dest.path)
-                    } catch (e) {
-                        console.trace(e)
+            .on('end', async () => {
+                res.sendFile(dest.path, (err) => {
+                    if (err) {
+                        console.trace(err)
+                    } else {
+                        try {
+                            fs.promises.unlink(dest.path)
+                        } catch (e) {
+                            console.trace(e)
+                        }
                     }
-                }
+                })
             })
-        })
-        .on('error', (error) => {
-            console.trace(error)
-        })
-        .pipe(dest)
+            .on('error', (error) => {
+                console.trace(error)
+            })
+            .pipe(dest)
     })
 })
 

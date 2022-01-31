@@ -112,6 +112,10 @@ router.post('/upload', load_user_dashboard, upload_art, async (req, res) => {
         await art.save()
         await fs.promises.unlink(img_path)
 
+        if (req.query.test) {
+            return res.send({ success: true, id: art.id })
+        }
+
         return res.send({ success: true })
     } catch (e) {
         console.trace(e)

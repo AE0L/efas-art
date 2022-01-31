@@ -9,7 +9,6 @@ const { google } = require('googleapis')
 const fs = require('fs')
 const db = require('./db')
 const { random_id } = require('./util')
-const WatermarkCollection = require('./watermark_collection')
 
 /**
  * Watermark model class
@@ -63,14 +62,16 @@ class Watermark {
      * @return {Promise<Watermark} 
      */
     static async get(id) {
-        const res = db.get(`SELECT * FROM watermarks
+        const WatermarkCollection = require('./watermark_collection')
+
+        const res = await db.get(`SELECT * FROM watermarks
             WHERE watermark_id=(?)`,
             [id]
         )
 
         if (res) {
             return new Watermark(
-                WatermarkCollection.get(res.watermark_col_id),
+                await WatermarkCollection.get(res.watermark_col_id),
                 res.name,
                 res.creation_date,
                 res.watermark_id,
@@ -95,6 +96,19 @@ class Watermark {
         })
 
         this.document = res.data.id
+    }
+
+    async remove() {
+        const gd = google.drive({ version: 'v3', auth: global.gauth })
+
+        await gd.files.delete({
+            fileId: this.document
+        })
+
+        return db.run(`
+            DELETE FROM watermarks
+            WHERE watermark_id=?
+        `, [this.id])
     }
 }
 

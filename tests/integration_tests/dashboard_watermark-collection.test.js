@@ -4,7 +4,7 @@ const { User } = require('../../models/user')
 const { inspect } = require('util')
 const Gallery = require('../../models/gallery')
 
-describe('dashboard (artwork)', () => {
+describe('dashboard (watermark)', () => {
 
     let test_user = null
     let user_session = null
@@ -51,32 +51,33 @@ describe('dashboard (artwork)', () => {
     afterAll(async () => {
         await test_user.remove_dir()
         await test_user.remove()
+        app.close()
     })
 
-    describe('artwork collections', () => {
+    describe('watermark collections', () => {
 
         const get_test_col = async () => {
             const gal = await test_user.gallery
-            const art_cols = await gal.art_collections
+            const wat_cols = await gal.watermark_collections
 
-            return art_cols[0]
+            return wat_cols[0]
         }
 
-        test('create artwork collection', async () => {
-            const res = await auth_session.post('/profile/artworks/collection/create')
+        test('create watermark collection', async () => {
+            const res = await auth_session.post('/profile/watermarks/collection/create')
                 .send({
-                    col_name: 'Collection #1',
+                    col_name: 'Watermark Collection #1',
                     col_desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip'
                 })
 
             expect(res.statusCode).toBe(302)
-            expect(res.headers['location']).toBe('/profile/artworks/')
+            expect(res.headers['location']).toBe('/profile/watermarks/')
             expect(res.headers['content-type']).toBe('text/plain; charset=utf-8')
         })
 
         test('retrieve artwork collection', async () => {
             const test_col = await get_test_col()
-            const res = await auth_session.get(`/profile/artworks/collection/${test_col.id}?test=true`)
+            const res = await auth_session.get(`/profile/watermarks/collection/${test_col.id}?test=true`)
 
             expect(res.statusCode).toBe(200)
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8')
@@ -90,9 +91,9 @@ describe('dashboard (artwork)', () => {
             expect(col.creation_date).toBe(test_col.date)
         })
 
-        test('edit artwork collection', async () => {
+        test('edit watermark collection', async () => {
             const test_col = await get_test_col()
-            const res = await auth_session.post(`/profile/artworks/collection/${test_col.id}/edit`)
+            const res = await auth_session.post(`/profile/watermarks/collection/${test_col.id}/edit`)
                 .send({
                     col_name: 'test collection name',
                     col_desc: 'test collection description'
@@ -106,31 +107,31 @@ describe('dashboard (artwork)', () => {
             expect(success).toBe(true)
             expect(changes).toContain('name')
             expect(changes).toContain('description')
-            expect(msg).toBe('art collection update successful')
+            expect(msg).toBe('watermark collection update successful')
         })
 
-        test(`view all user's artwork collections`, async () => {
+        test(`view all user's watermark collections`, async () => {
             const test_col = await get_test_col()
-            const res = await auth_session.get('/profile/artworks/collections?test=true')
+            const res = await auth_session.get('/profile/watermarks/collections?test=true')
 
             expect(res.statusCode).toBe(200)
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8')
 
-            const { user, art_cols } = res.body
+            const { user, wat_cols } = res.body
 
             expect(user.id).toBe(user.id)
-            expect(art_cols.length).toBe(1)
-            expect(art_cols[0].id).toBe(test_col.id)
-            expect(art_cols[0].title).toBe('test collection name')
-            expect(art_cols[0].pic).toBe(process.env.COL_PLACEHOLDER)
+            expect(wat_cols.length).toBe(1)
+            expect(wat_cols[0].id).toBe(test_col.id)
+            expect(wat_cols[0].title).toBe('test collection name')
+            expect(wat_cols[0].pic).toBe(process.env.COL_PLACEHOLDER)
         })
 
-        test('delete artwork collection', async () => {
+        test('delete watermark collection', async () => {
             const test_col = await get_test_col()
-            const res = await auth_session.get(`/profile/artworks/collection/${test_col.id}/delete`)
+            const res = await auth_session.get(`/profile/watermarks/collection/${test_col.id}/delete`)
 
             expect(res.statusCode).toBe(302)
-            expect(res.headers['location']).toBe('/profile/artworks/collections')
+            expect(res.headers['location']).toBe('/profile/watermarks/collections')
             expect(res.headers['content-type']).toBe('text/plain; charset=utf-8')
         })
     })

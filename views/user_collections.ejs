@@ -4,7 +4,7 @@
     <head>
         <%- include('partials/head_meta') %>
 
-        <title>Document</title>
+        <title><%= user.handle %> - Art Collections | EFAS Art</title>
 
         <%- include('scripts/stylesheet') %>
 
@@ -45,6 +45,11 @@
                 <% } %>
 
                 <% } else { %>
+
+                <div class="container-fluid mb-3">
+                    <p class="text-muted text-center">This user doesn't have any artwork collection yet</p>
+                </div>
+
                 <% } %>
             </main>
         </div>

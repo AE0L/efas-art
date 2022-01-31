@@ -75,7 +75,7 @@ app.use((req, res, next) => {
     res.type('txt').send('not found')
 })
 
-module.exports = app
+module.exports = app.listen(process.env.PORT || 8080)
 
 // const port = process.env.PORT
 

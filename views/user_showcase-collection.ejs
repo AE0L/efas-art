@@ -4,7 +4,7 @@
     <head>
         <%- include('partials/head_meta') %>
 
-        <title>Document</title>
+        <title><%= col.name %> - <%= user.handle %> | EFAS Art</title>
 
         <%- include('scripts/stylesheet') %>
 
@@ -19,6 +19,7 @@
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                 justify-items: center;
             }
+
         </style>
     </head>
 
@@ -26,11 +27,11 @@
         <%- include('partials/nav-bar', { active: 0 }) %>
 
         <div id="content-cont" class="container mb-5">
-            <%- include('partials/user/header', { followed: false }) %>
+            <%- include('partials/user/header', user) %>
 
             <main>
                 <%- include('partials/user/nav', { 
-                    user_id: '123456',
+                    user_id: user.id,
                     active: 2
                 }) %>
 
@@ -38,62 +39,36 @@
                     <a href="/u/12345/collections" class="text-dark">
                         <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
                     </a>
-                    <h3 class="m-0"><%= col_name %></h3>
+                    <h3 class="m-0"><%= col.name %></h3>
                 </div>
 
                 <div class="container-fluid py-3">
-                    <p class="lead" style="text-indent: 2em;">In aliquip eiusmod adipisicing enim tempor pariatur velit qui nulla adipisicing deserunt et reprehenderit. Magna ullamco sit aliqua nisi qui tempor sit consequat anim eu. Elit aliqua aute qui deserunt commodo Lorem exercitation aliqua. Eiusmod commodo fugiat deserunt proident voluptate in eu non fugiat. Id eiusmod ex eu exercitation ipsum mollit exercitation excepteur eiusmod. Exercitation magna id dolor aliquip quis quis amet ullamco laborum in eu.</p>
+                    <p class="lead" style="text-indent: 2em;"><%= col.description %></p>
                 </div>
+
+                <% if (col.arts.length > 0) { %>
 
                 <div id="col-works-cont" class="container-fluid px-0 gap-3 mb-5">
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
+
+                    <% for (let art of col.arts) { %>
 
                     <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
+                        art_id: art.id,
+                        art_src: art.pic,
+                        art_title: art.title
                     }) %>
 
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
+                    <% } %>
 
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
-
-                    <%- include('data/user_art', {
-                        art_id: '123456',
-                        art_src: '/img/cactus.png',
-                        art_title: 'Cactus'
-                    }) %>
                 </div>
+
+                <% } else { %>
+
+                <div class="container-fluid mb-3">
+                    <p class="text-muted text-center">This user doesn't have any artworks on this collection</p>
+                </div>
+
+                <% } %>
             </main>
         </div>
 

@@ -110,6 +110,10 @@ router.post('/upload', load_user_dashboard, upload_watermark, async (req, res) =
         await wat.save()
         await fs.promises.unlink(img_path)
 
+        if (req.query.test) {
+            return res.send({ success: true, id: wat.id })
+        }
+
         return res.send({ success: true })
     } catch (e) {
         console.error(e)
@@ -136,6 +140,10 @@ router.post('/create', load_user_dashboard, upload_watermark, async (req, res) =
         await wat.upload(img_path, col.col_dir)
         await wat.save()
         await fs.promises.unlink(img_path)
+
+        if (req.query.test) {
+            res.send({ success: true, id: wat.id })
+        }
 
         return res.send({ success: true })
     } catch (e) {

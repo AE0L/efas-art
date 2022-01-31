@@ -3,12 +3,16 @@ const app = require('../../app_test')
 const { User } = require('../../models/user')
 const { inspect } = require('util')
 
-describe('artworks', () => {
+describe('dashboard (artworks)', () => {
     let test_user = null
     let ses_user = null
     let test_art = null
     let ses_init = null
     let ses_auth = null
+
+    afterAll(() => {
+        app.close()
+    })
 
     beforeAll(async () => {
         test_user = await User.get_user('carlj15')
@@ -33,7 +37,7 @@ describe('artworks', () => {
             })
     })
 
-    afterAll(() => {
+    afterEach(() => {
         ses_auth.get('/logout')
             .expect(200)
     })
