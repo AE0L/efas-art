@@ -12,21 +12,8 @@ const Gallery = require('./gallery')
 const { random_id } = require('./util')
 const Watermark = require('./watermark')
 
-/**
- * Watermark Collection model class
- *
- * @class
- */
 class WatermarkCollection {
-    /**
-     * Creates an instance of WatermarkCollection.
-     * 
-     * @param {Gallery} gallery
-     * @param {string} name
-     * @param {string} description
-     * @param {Date} creation_date
-     * @param {string} [id=null]
-     */
+
     constructor(gallery, name, description, creation_date, id = null, col_dir = null) {
         this.gallery = gallery
         this.name = name
@@ -36,11 +23,6 @@ class WatermarkCollection {
         this.col_dir = col_dir
     }
 
-    /**
-     * Saves WatermarkCollection object into the database
-     *
-     * @return {Promise} - sqlite's run result 
-     */
     save() {
         return db.run(`INSERT INTO watermark_collections (
             watermark_col_id,
@@ -68,13 +50,6 @@ class WatermarkCollection {
         `, [this.name, this.description, this.id])
     }
 
-    /**
-     * get specific waatermark collection with an ID
-     *
-     * @static
-     * @param {string} id
-     * @return {Promise<WatermarkCollection>} 
-     */
     static async get(id) {
         const res = await db.get(`SELECT * FROM watermark_collections
             WHERE watermark_col_id=(?)`,
@@ -94,9 +69,6 @@ class WatermarkCollection {
 
     }
 
-    /**
-     * @type {Promise<Array<Watermark>>}
-     */
     get watermarks() {
         return (async () => {
             const rows = await db.all(`SELECT * FROM watermarks
@@ -150,6 +122,7 @@ class WatermarkCollection {
             fileId: this.col_dir
         })
     }
+
 }
 
 module.exports = WatermarkCollection

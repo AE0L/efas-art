@@ -10,21 +10,8 @@ const fs = require('fs')
 const db = require('./db')
 const { random_id } = require('./util')
 
-/**
- * Watermark model class
- *
- * @class
- */
 class Watermark {
-    /**
-     * Creates an instance of Watermark.
-     * 
-     * @param {WatermarkCollection} watermark_col
-     * @param {string} name
-     * @param {string} document
-     * @param {Date} creation_date
-     * @param {string} [id=null]
-     */
+
     constructor(watermark_col, name, creation_date, id = null, document = null) {
         this.watermark_col = watermark_col
         this.name = name
@@ -33,11 +20,6 @@ class Watermark {
         this.document = document
     }
 
-    /**
-     * Save Watermark object into the database
-     *
-     * @return {Promise} - sqlite's run result 
-     */
     save() {
         return db.run(`INSERT INTO watermarks (
             watermark_id,
@@ -54,13 +36,6 @@ class Watermark {
         ])
     }
 
-    /**
-     * get specific watermark with an ID
-     *
-     * @static
-     * @param {string} id
-     * @return {Promise<Watermark} 
-     */
     static async get(id) {
         const WatermarkCollection = require('./watermark_collection')
 
@@ -123,6 +98,7 @@ class Watermark {
             WHERE watermark_id=?
         `, [this.id])
     }
+
 }
 
 module.exports = Watermark

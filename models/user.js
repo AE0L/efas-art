@@ -14,13 +14,6 @@ const { random_id } = require('./util')
 const moment = require('moment')
 const Reaction = require('./reaction')
 
-/**
- * utility function for hashing a raw string password
- *
- * @async
- * @param {string} pass
- * @return {Promise<string>} - hashed password
- */
 async function encrypt_password(pass, salt = null) {
     salt = salt || await bcrypt.genSalt()
     const hash = await bcrypt.hash(pass, salt)
@@ -28,24 +21,8 @@ async function encrypt_password(pass, salt = null) {
     return hash
 }
 
-/**
- * User model class
- *
- * @class
- */
 class User {
 
-    /**
-     * Creates an instance of User.
-     * 
-     * @param {string} email
-     * @param {string} first_name
-     * @param {string} last_name
-     * @param {string} username
-     * @param {string} password
-     * @param {string} root_dir
-     * @param {string} [id=null]
-     */
     constructor(first_name, last_name, username, password, id = null, root_dir = null) {
         this.first_name = first_name
         this.last_name = last_name
@@ -59,21 +36,10 @@ class User {
         this.profile_pic = ''
     }
 
-    /**
-     * hashes the user's password
-     *
-     * @async
-     */
     async hash_pass(salt = null) {
         this.hash = await encrypt_password(this.password, salt)
     }
 
-    /**
-     * save the User object into the database
-     *
-     * @async
-     * @return {Promise} - sqlite's run result 
-     */
     save() {
         return db.run(`INSERT INTO users (
             user_id,
@@ -125,12 +91,6 @@ class User {
         `, [this.hash, this.id])
     }
 
-    /**
-     * Get user's contact information
-     *
-     * @async
-     * @type {Promise<Contact>}
-     */
     get contact() {
         const Contact = require('./contacts')
 
@@ -146,12 +106,6 @@ class User {
         })()
     }
 
-    /**
-     * Get user's gallery
-     *
-     * @async
-     * @type {Promise<Gallery>}
-     */
     get gallery() {
         const Gallery = require('./gallery')
 
@@ -169,13 +123,6 @@ class User {
         })()
     }
 
-    /**
-     * get user with an ID
-     *
-     * @static
-     * @param {string} id
-     * @return {Promise<User>} 
-     */
     static async get(id) {
         const res = await db.get(`SELECT * FROM users
             WHERE user_id=(?)`,
@@ -281,13 +228,6 @@ class User {
         reaction.unlike()
     }
 
-    /**
-     * checks if password string is identical to the stored hash
-     *
-     * @async
-     * @param {string} login_password
-     * @return {Promise<boolean>} - true if the hash and password are identical otherwise false
-     */
     verify_pass(login_password) {
         return bcrypt.compare(login_password, this.hash)
     }
@@ -322,6 +262,35 @@ class User {
         return gd.files.delete({
             fileId: this.root_dir
         })
+    }
+
+    async find_all(query) {
+        const rows = await db.all(`
+            SELECT * FROM users
+            WHERE first_name LIKE ? OR username LIKE ?
+        `, [query, query])
+
+        const users = []
+
+        for (let row of rows) {
+            const user = new User(
+                row.first_name,
+                row.last_name,
+                row.username,
+                '',
+                row.user_id,
+                row.root_dir
+            )
+
+            user.hash = res.pass_hash
+            user.bio = res.bio_text
+            user.birth_date = res.birth_date
+            user.profile_pic = res.profile_pic
+
+            users.push(user)
+        }
+
+        return users
     }
 }
 

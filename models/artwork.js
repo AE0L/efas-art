@@ -13,22 +13,7 @@ const { google } = require('googleapis')
 const fs = require('fs')
 const moment = require('moment')
 
-/**
- * Artwork model class
- * 
- * @class
- */
 class Artwork {
-    /**
-     * Creates an instance of Artwork.
-     * @param {ArtCollection} art_col
-     * @param {string} name
-     * @param {string} tags
-     * @param {string} description
-     * @param {string} document
-     * @param {Date} creation_date
-     * @param {string} [id=null]
-     */
     constructor(art_col, name, tags, description, creation_date, id = null, document = null) {
         this.art_col = art_col
         this.name = name
@@ -39,11 +24,6 @@ class Artwork {
         this.document = document
     }
 
-    /**
-     * Saves Artwork object into the dabatase
-     *
-     * @return {Promise} - sqlite's run result
-     */
     save() {
         return db.run(`INSERT INTO artworks (
             artwork_id,
@@ -64,13 +44,6 @@ class Artwork {
         ])
     }
 
-    /**
-     * get specific artwork with an ID
-     *
-     * @static
-     * @param {string} id
-     * @return {Promise<Artwork>} 
-     */
     static async get(id) {
         const res = await db.get(`SELECT * FROM artworks
             WHERE artwork_id=(?)`,
@@ -174,6 +147,30 @@ class Artwork {
             WHERE artwork_id=?
         `, [this.id])
     }
+
+    async find_all(query) {
+        const rows = await db.all(`
+            SELECT * FROM artworks
+            WHERE title LIKE ?
+        `, [query])
+
+        const arts = []
+
+        for (let row of rows) {
+            arts.push(new Artwork(
+                await ArtCollection.get(row.art_col_id),
+                row.name,
+                row.tags,
+                row.description,
+                row.creation_date,
+                row.artwork_id,
+                row.document
+            ))
+        }
+
+        return arts
+    }
+
 }
 
 module.exports = Artwork

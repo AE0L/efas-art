@@ -2,6 +2,7 @@ const db = require('./db')
 const { random_id } = require('./util')
 
 class Reaction {
+
     constructor(user, artwork, id = null, liked = false) {
         this.user = user
         this.artwork = artwork
@@ -65,6 +66,7 @@ class Reaction {
             WHERE reaction_id=?
         `, [false, this.id])
     }
+
 }
 
 module.exports = Reaction

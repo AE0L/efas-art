@@ -8,19 +8,8 @@
 const db = require('./db')
 const { random_id } = require('./util')
 
-/**
- * Contact model class
- * 
- * @class
- */
 class Contact {
-    /**
-     * Creates an instance of Contact.
-     * 
-     * @param {User} user
-     * @param {string} email
-     * @param {string} [id=null]
-     */
+
     constructor(user, email, phone, id = null) {
         this.user = user
         this.email = email
@@ -28,11 +17,6 @@ class Contact {
         this.id = id || random_id()
     }
 
-    /**
-     * Save the Contact object in the database
-     *
-     * @return {Promise} - sqlite run result
-     */
     save() {
         return db.run(`
             INSERT INTO contacts (
@@ -64,6 +48,7 @@ class Contact {
             WHERE contact_id=?
         `, [this.id])
     }
+
 }
 
 module.exports = Contact

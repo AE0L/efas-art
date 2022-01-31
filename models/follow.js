@@ -1,6 +1,7 @@
 const db = require('./db')
 const { random_id } = require('./util')
 class Follow {
+
     constructor(user, followed, follow_date, id = null) {
         this.user = user
         this.followed = followed
@@ -45,6 +46,7 @@ class Follow {
             WHERE user_id=(?) AND followed_id=(?)
         `, [this.user.id, this.followed.id])
     }
+
 }
 
 module.exports = Follow

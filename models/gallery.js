@@ -11,18 +11,8 @@ const db = require('./db')
 const { User } = require('./user')
 const { random_id } = require('./util')
 
-/**
- * Gallery model class
- *
- * @class
- */
 class Gallery {
-    /**
-     * Creates an instance of Gallery.
-     * 
-     * @param {User} user
-     * @param {string} [id=null]
-     */
+
     constructor(user, id = null, art_col_dir = null, watermark_col_dir = null) {
         this.user = user
         this.id = id || random_id()
@@ -30,11 +20,6 @@ class Gallery {
         this.watermark_col_dir = watermark_col_dir
     }
 
-    /**
-     * Saves the Gallery object to the database
-     *
-     * @return {Promise} - sqlite's run result
-     */
     save() {
         return db.run(
             `INSERT INTO galleries (
@@ -51,13 +36,6 @@ class Gallery {
         )
     }
 
-    /**
-     * get a specific gallery with an ID
-     *
-     * @static
-     * @param {string} id
-     * @return {Promise<Gallery>} 
-     */
     static async get(id) {
         const res = await db.get(`SELECT * FROM galleries
             WHERE gallery_id=(?)`,
@@ -74,11 +52,6 @@ class Gallery {
         }
     }
 
-    /**
-     * Get all the art collections in the user's gallery
-     *
-     * @type {Promise<Array<ArtCollection>>}
-     */
     get art_collections() {
         const ArtCollection = require('./art_collection')
 
@@ -104,11 +77,6 @@ class Gallery {
         })()
     }
 
-    /**
-     * Get all the watermark collections in the user's gallery
-     *
-     * @type {Promise<Array<WatermarkCollection>>}
-     */
     get watermark_collections() {
         const WatermarkCollection = require('./watermark_collection')
 
@@ -188,6 +156,7 @@ class Gallery {
             fileId: this.watermark_col_dir
         })
     }
+
 }
 
 module.exports = Gallery

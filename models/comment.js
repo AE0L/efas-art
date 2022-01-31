@@ -3,6 +3,7 @@ const db = require('./db')
 const { random_id } = require('./util')
 
 class Comment {
+
     constructor(user, artwork, comment_text, comment_date, id = null) {
         this.user = user
         this.artwork = artwork
@@ -47,6 +48,7 @@ class Comment {
             return comment
         }
     }
+
 }
 
 module.exports = Comment

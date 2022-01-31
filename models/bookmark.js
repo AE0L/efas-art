@@ -4,9 +4,10 @@ const { User } = require('./user')
 const Artwork = require('./artwork')
 
 class Bookmark {
+
     constructor(user, artwork, bookmarked_date, id = null) {
         this.user = user
-        this.artwork = artwork,
+        this.artwork = artwork
         this.bookmarked_date = bookmarked_date
         this.id = id || random_id()
     }
@@ -42,6 +43,7 @@ class Bookmark {
             )
         }
     }
+
 }
 
 module.exports = Bookmark

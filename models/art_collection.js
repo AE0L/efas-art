@@ -11,22 +11,8 @@ const db = require('./db')
 const Gallery = require('./gallery')
 const { random_id } = require('./util')
 
-/** 
- * Art Collection model class 
- * 
- * @class
- */
 class ArtCollection {
 
-    /**
-     * Creates an instance of ArtCollection.
-     * 
-     * @param {Gallery} gallery
-     * @param {string} name
-     * @param {string} description
-     * @param {Date} creation_date
-     * @param {string} [id=null]
-     */
     constructor(gallery, name, description, creation_date, id = null, col_dir = null) {
         this.gallery = gallery
         this.name = name
@@ -36,11 +22,6 @@ class ArtCollection {
         this.col_dir = col_dir
     }
 
-    /**
-     * save the Art Collection object in to the database
-     *
-     * @return {Promise} - sqlite's run result
-     */
     save() {
         return db.run(`INSERT INTO art_collections (
             art_col_id,
@@ -68,13 +49,6 @@ class ArtCollection {
         `, [this.name, this.description, this.id])
     }
 
-    /**
-     * get specific artwork collection with an ID
-     *
-     * @static
-     * @param {string} id
-     * @return {Promise<ArtCollection>} 
-     */
     static async get(id) {
         const res = await db.get(`SELECT * FROM art_collections
             WHERE art_col_id=(?)`,
@@ -93,11 +67,6 @@ class ArtCollection {
         }
     }
 
-    /**
-     * Get all the artworks in this collection
-     *
-     * @type {Promise<Array<Artwork>>}
-     */
     get artworks() {
         const Artwork = require('./artwork')
 
