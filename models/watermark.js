@@ -80,6 +80,19 @@ class Watermark {
         }
     }
 
+    async update() {
+        return db.run(`
+            UPDATE watermarks
+            SET name=?
+            WHERE watermark_id=?
+        `, [
+            this.name,
+            this.description,
+            this.tags,
+            this.id
+        ])
+    }
+
     async upload(path, col_dir) {
         const gd = google.drive({ version: 'v3', auth: global.gauth })
 

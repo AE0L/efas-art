@@ -90,6 +90,21 @@ class Artwork {
         }
     }
 
+    async update() {
+        return db.run(`
+            UPDATE artworks
+            SET name=?,
+                description=?,
+                tags=?
+            WHERE artwork_id=?
+        `, [
+            this.name,
+            this.description,
+            this.tags,
+            this.id
+        ])
+    }
+
     get comments() {
         const { User } = require('./user')
         return (async () => {

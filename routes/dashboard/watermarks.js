@@ -152,4 +152,66 @@ router.post('/create', load_user_dashboard, upload_watermark, async (req, res) =
     }
 })
 
+router.get('/edit', load_user_dashboard, async (req, res) => {
+    try {
+        const { user } = req.data
+        const wtm = await Watermark.get(req.query.wtm_id)
+
+        res.render('dashboard_edit-watermark', {
+            user,
+            wtm: {
+                id: wtm.id,
+                title: wtm.name
+            }
+        })
+    } catch (e) {
+        console.trace(e)
+        res.redirect('/404')
+    }
+})
+
+router.post('/edit', load_user_dashboard, async (req, res) => {
+    try {
+        const wtm = await Watermark.get(req.query.wtm_id)
+        const { title } = req.body
+        const changes = []
+
+        if (title !== wtm.name) {
+            wtm.name = title
+            changes.push('title')
+        }
+
+        if (changes.length > 0) {
+            await wtm.update()
+
+            return res.send({
+                success: true,
+                changes: changes,
+                msg: 'watermark update successful'
+            })
+        } else {
+            return res.send({
+                success: false,
+                msg: 'nothing to change'
+            })
+        }
+    } catch (e) {
+        console.trace(e)
+        res.redirect('/404')
+    }
+})
+
+router.get('/delete', load_user_dashboard, async (req, res) => {
+    try {
+        const wtm = await Watermark.get(req.query.wtm_id)
+
+        await wtm.remove()
+
+        return res.redirect('/profile/watermarks')
+    } catch (e) {
+        console.trace(e)
+        res.redirect('/404')
+    }
+})
+
 module.exports = router

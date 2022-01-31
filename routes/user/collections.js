@@ -1,5 +1,4 @@
 const express = require('express')
-const { load_user } = require('../middlewares')
 const ArtCollection = require('../../models/art_collection')
 const { User } = require('../../models/user')
 
@@ -39,12 +38,19 @@ router.get('/collection/:col_id', async (req, res) => {
     const artworks = await art_col.artworks
 
     res.render('user_showcase-collection', {
-        user: user,
+        user: {
+            id: user.id,
+            name: `${user.first_name} ${user.last_name}`,
+            handle: `@${user.username}`,
+            pic: user.profile_pic ? user.profile_pic : process.env.PFP_PLACEHOLDER,
+            followed: await ses_user.is_following(user)
+        },
         col: {
-            name: art_col.name,
+            title: art_col.name,
             desc: art_col.description,
             arts: artworks.map(art => {
                 return {
+                    id: art.id,
                     name: art.name,
                     pic: art.document
                 }

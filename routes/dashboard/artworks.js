@@ -123,4 +123,79 @@ router.post('/upload', load_user_dashboard, upload_art, async (req, res) => {
     }
 })
 
+router.get('/edit', load_user_dashboard, async (req, res) => {
+    try {
+        const { user } = req.data
+        const art = await Artwork.get(req.query.art_id)
+
+        res.render('dashboard_edit-artwork', {
+            user,
+            art: {
+                id: art.id,
+                title: art.name,
+                description: art.description,
+                tags: art.tags
+            }
+        })
+    } catch (e) {
+        console.trace(e)
+        res.redirect('/404')
+    }
+})
+
+router.post('/edit', load_user_dashboard, async (req, res) => {
+    try {
+        const art = await Artwork.get(req.query.art_id)
+        const { title, description, tags } = req.body
+
+        const changes = []
+
+        if (title !== art.name) {
+            art.name = title
+            changes.push('title')
+        }
+
+        if (description !== art.description) {
+            art.description = description
+            changes.push('description')
+        }
+
+        if (tags !== art.tags) {
+            art.tags = tags
+            changes.push('tags')
+        }
+
+        if (changes.length > 0) {
+            await art.update()
+
+            return res.send({
+                success: true,
+                changes: changes,
+                msg: 'artwork update successful'
+            })
+        } else {
+            return res.send({
+                success: false,
+                msg: 'nothing to change'
+            })
+        }
+    } catch (e) {
+        console.trace(e)
+        res.redirect('/404')
+    }
+})
+
+router.get('/delete', load_user_dashboard, async (req, res) => {
+    try {
+        const art = await Artwork.get(req.query.art_id)
+
+        await art.remove()
+
+        return res.redirect('/profile/artworks')
+    } catch (e) {
+        console.trace(e)
+        res.redirect('/404')
+    }
+})
+
 module.exports = router
