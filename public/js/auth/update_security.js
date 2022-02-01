@@ -1,7 +1,7 @@
 function security_form_validate() {
     validate_input(cur_pass, cur_pass_feed, 'Please enter your current password')
 
-    const new_pass_len = new_pass.length
+    const new_pass_len = new_pass.value.length
 
     validate_input(
         new_pass,
@@ -21,6 +21,7 @@ function security_form_validate() {
 }
 
 const post_form = (form) => {
+    console.log($(form).serialize())
     $.ajax({
         type: 'POST',
         data: $(form).serialize(),
@@ -28,7 +29,7 @@ const post_form = (form) => {
         url: '/profile/settings/edit/security',
         success: (data) => {
             if (data.success) {
-                window.location.pathname = '/profile/settings?s=sec'
+                window.location.href = '/profile/settings?s=sec'
             } else {
                 for (let error of data.errors) {
                     if (error.param === 'cur_pass') {
@@ -45,16 +46,15 @@ const post_form = (form) => {
     })
 }
 
-$(document).ready(() => {
-    $('#security_form').onsubmit = function(e) {
-        e.prevenDefault()
-        e.stopPropagation()
+$(security_form).submit(function(e) {
+    security_form_validate()
 
-        if (this.checkValidity() === false) {
-            security_form_validate()
-            this.classList.add('was-validated')
-        } else {
-            post_form(this)
-        }
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (this.checkValidity() === false) {
+        this.classList.add('was-validated')
+    } else {
+        post_form(this)
     }
 })

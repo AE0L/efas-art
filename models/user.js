@@ -140,7 +140,7 @@ class User {
             )
 
             user.hash = res.pass_hash
-            user.bio = res.bio_text
+            user.bio_text = res.bio_text
             user.birth_date = res.birth_date
             user.profile_pic = res.profile_pic
 
@@ -216,9 +216,33 @@ class User {
         return follow.delete()
     }
 
+    async get_likes() {
+        const Artwork = require('./artwork')
+
+        const rows = await db.all(`
+            SELECT * FROM reactions
+            WHERE user_id=(?)
+        `, [this.id])
+
+        const likes = []
+
+        for (let row of rows) {
+            if (row.liked) {
+                likes.push(new Reaction(
+                    this,
+                    await Artwork.get(row.artwork_id),
+                    row.reaction_id,
+                    row.liked
+                ))
+            }
+        }
+
+        return likes
+    }
+
     async like(art) {
         const reaction = await Reaction.get(this, art)
-        
+
         reaction.like()
     }
 
@@ -264,7 +288,7 @@ class User {
         })
     }
 
-    async find_all(query) {
+    static async find_all(query) {
         const rows = await db.all(`
             SELECT * FROM users
             WHERE first_name LIKE ? OR username LIKE ?
@@ -282,10 +306,10 @@ class User {
                 row.root_dir
             )
 
-            user.hash = res.pass_hash
-            user.bio = res.bio_text
-            user.birth_date = res.birth_date
-            user.profile_pic = res.profile_pic
+            user.hash = row.pass_hash
+            user.bio = row.bio_text
+            user.birth_date = row.birth_date
+            user.profile_pic = row.profile_pic
 
             users.push(user)
         }

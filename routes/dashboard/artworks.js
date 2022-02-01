@@ -7,6 +7,7 @@ const moment = require('moment')
 const Artwork = require('../../models/artwork')
 const ArtCollection = require('../../models/art_collection')
 const { load_user_dashboard } = require('../middlewares')
+const { inspect } = require('util')
 const upload_art = multer({
     storage: multer.diskStorage({
         destination: (req, res, cb) => {
@@ -29,9 +30,9 @@ const upload_art = multer({
     }
 }).single('artwork_img')
 
-router.use('/', load_user_dashboard, require('./artwork_collection'))
+router.use('/', require('./artwork_collection'))
 
-router.get('/', load_user_dashboard, async (req, res) => {
+router.get('/', async (req, res) => {
     const { user, art_collections } = req.data
 
     let arts = []
@@ -67,14 +68,14 @@ router.get('/', load_user_dashboard, async (req, res) => {
     })
 })
 
-router.get('/upload', load_user_dashboard, async (req, res) => {
+router.get('/upload', async (req, res) => {
     try {
         const user = req.data.user.src
         const gal = await user.gallery
         const art_cols = await gal.art_collections
         const wat_cols = await gal.watermark_collections
 
-        const tmp_wat_cols = Promise.all(wat_cols.map(async (col) => {
+        const tmp_wat_cols = await Promise.all(wat_cols.map(async (col) => {
             const wats = await col.watermarks
             return {
                 name: col.name,
@@ -85,9 +86,13 @@ router.get('/upload', load_user_dashboard, async (req, res) => {
             }
         }))
 
+        const tmp_fil_wat_cols = tmp_wat_cols.filter((col) => {
+            return col.wats.length > 0
+        })
+
         return res.render('dashboard_editor-artwork', {
             art_cols: art_cols,
-            wat_cols: await tmp_wat_cols
+            wat_cols: tmp_fil_wat_cols
         })
     } catch (e) {
         console.trace(e)
@@ -95,7 +100,7 @@ router.get('/upload', load_user_dashboard, async (req, res) => {
     }
 })
 
-router.post('/upload', load_user_dashboard, upload_art, async (req, res) => {
+router.post('/upload', upload_art, async (req, res) => {
     if (req.file_error) {
         console.error(req.file_error)
         return res.send({ success: false, msg: req.file_error })
@@ -123,12 +128,12 @@ router.post('/upload', load_user_dashboard, upload_art, async (req, res) => {
     }
 })
 
-router.get('/edit', load_user_dashboard, async (req, res) => {
+router.get('/edit', async (req, res) => {
     try {
         const { user } = req.data
         const art = await Artwork.get(req.query.art_id)
 
-        res.render('dashboard_edit-artwork', {
+        res.render('dashboard_edit-details-artwork', {
             user,
             art: {
                 id: art.id,
@@ -143,7 +148,7 @@ router.get('/edit', load_user_dashboard, async (req, res) => {
     }
 })
 
-router.post('/edit', load_user_dashboard, async (req, res) => {
+router.post('/edit', async (req, res) => {
     try {
         const art = await Artwork.get(req.query.art_id)
         const { title, description, tags } = req.body
@@ -185,7 +190,7 @@ router.post('/edit', load_user_dashboard, async (req, res) => {
     }
 })
 
-router.get('/delete', load_user_dashboard, async (req, res) => {
+router.get('/delete', async (req, res) => {
     try {
         const art = await Artwork.get(req.query.art_id)
 

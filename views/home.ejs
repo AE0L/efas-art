@@ -27,25 +27,19 @@
         <%- include('partials/nav-bar', { active: 0 }) %>
 
         <div id="content-cont" class="container mb-5">
-            <%- include('partials/user/header', user) %>
-
-            <main>
-                <%- include('partials/user/nav', { 
-                    user,
-                    active: 1
-                }) %>
-
-                <h3 class="mb-3">All works</h3>
+            <main class="mt-5">
+                <h3 class="mb-3">Followed artists' recent works</h3>
 
                 <% if (works.length > 0) { %>
                 <div id="allworks-cont" class="container-fluid gap-3 mb-5">
                     <% for (let work of works) { %>
 
-                    <%- include('data/user_art', {
-                            art_id: work.id,
-                            art_src: work.pic,
-                            art_title: work.title
-                        }) %>
+                    <%- include('data/dashboard_bookmark', {
+                        art_id: work.id,
+                        art_title: work.title,
+                        art_user: work.user,
+                        art_pic: work.pic
+                    }) %>
 
                     <% } %>
 
@@ -53,7 +47,7 @@
                 <% } else { %>
 
                 <div class="container-fluid mb-3">
-                    <p class="text-muted text-center">This user doesn't have any works yet</p>
+                    <p class="text-muted text-center">Followed artists doesn't have any recent works</p>
                 </div>
 
                 <% } %>

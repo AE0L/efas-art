@@ -6,12 +6,12 @@
         </a>
     </div>
 
-    <form class="d-flex container">
+    <form action="/search" class="d-flex container" method="post">
         <div class="input-group">
             <span class="input-group-text">
                 <i class="fas fa-search"></i>
             </span>
-            <input type="search" class="form-control" placeholder="Search">
+            <input name="query" id="query" type="search" class="form-control" placeholder="Search">
         </div>
     </form>
 
@@ -34,6 +34,7 @@
                         <li><a class="dropdown-item" href="/profile">Profile</a></li>
                         <li><a class="dropdown-item" href="/profile/artworks">Artworks</a></li>
                         <li><a class="dropdown-item" href="/profile/watermarks">Watermarks</a></li>
+                        <li><a class="dropdown-item" href="/profile/bookmarks">Bookmarks</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

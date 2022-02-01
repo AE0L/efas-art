@@ -44,6 +44,8 @@
 
                 <% if (art_cols.length > 0) { %>
 
+                <% if (wat_cols.length > 0) { %>
+
                 <div class="container-fluid row my-4 gap-3">
                     <form id="artwork_form" class="row mt-3 mb-5 gap-4" enctype="multipart/form-data" method="post">
                         <div class="row">
@@ -109,10 +111,8 @@
                         </div>
 
                         <div class="row">
-                            <div class="row mb-3">
-                                <h3>Choose a watermark</h3>
-
-                                <% if (wat_cols.length > 0) { %>
+                            <div class="row mb-5">
+                                <h3 class="mb-3">Choose a watermark</h3>
 
                                 <div class="watermark-container">
 
@@ -129,22 +129,11 @@
                                             img: wat.img
                                         }) %>
 
-                                        <!-- <img onclick="geturl(this)"
-                                            src="https://drive.google.com/uc?export=view&id=<%= wat.img %>" alt=""
-                                            width="100" height="100"> -->
-
                                         <% } %>
                                     </div>
 
                                     <% } %>
                                 </div>
-
-                                <% } else { %>
-
-                                <p>You don't have any watermark yet, create one first</p>
-                                <a href="#" role="button" class="btn btn-primary">Create/Upload a watermark</a>
-
-                                <% } %>
                             </div>
 
                             <div class="row mb-3">
@@ -159,8 +148,17 @@
                 <% } else { %>
 
                 <div class="my-5 container-fluid d-flex flex-column align-items-center">
-                    <a href="/profile/artworks/collection/create" role="button" class="btn btn-primary">Create
-                        watermark a collection first</a>
+                    <p>You don't have any watermark yet, create one first</p>
+                    <a href="/profile/watermarks/upload" role="button" class="btn btn-primary">Create/Upload a watermark</a>
+                </div>
+
+                <% } %>
+
+                <% } else { %>
+
+                <div class="my-5 container-fluid d-flex flex-column align-items-center">
+                    <p>You don't have any artwork collection, create one first</p>
+                    <a href="/profile/artworks/collection/create" role="button" class="btn btn-primary">Create artwork collection</a>
                 </div>
 
                 <% } %>

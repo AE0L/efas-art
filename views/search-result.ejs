@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Home | EFAS Art</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page.css">
+        <link rel="stylesheet" href="/css/user-page_works.css">
+
+        <style>
+            #user-cont {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                justify-items: center;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 0 }) %>
+
+        <div id="content-cont" class="container mb-5">
+            <main class="mt-5">
+                <h3 class="mb-4">Users</h3>
+
+                <div id="user-cont" class="container mb-5">
+
+                    <% if (users.length > 0) { %>
+
+                    <% for (let user of users) { %>
+
+                    <a href="/u/<%= user.id %>" class="text-decoration-none" style="color: inherit;">
+                        <div class="d-flex flex-column align-items-center">
+                            <img class="rounded-circle border border-dark"
+                                src="https://drive.google.com/uc?export=view&id=<%= user.pic %>" alt="pfp" width="100"
+                                height="100" style="background-color: #575750">
+                            <h3 class="text-center"><%= user.name %></h3>
+                            <span>@<%= user.handle %></span>
+                        </div>
+                    </a>
+
+                    <% } %>
+
+                    <% } else { %>
+
+                    <div class="container-fluid justify-content-center">
+                        <p>No user found</p>
+                    </div>
+
+                    <% } %>
+                </div>
+
+                <h3 class="mb-4">Artworks</h3>
+
+                <div class="container mb-3">
+
+                    <% if (arts.length > 0) { %>
+
+                    <% for (let art of arts) { %>
+
+                    <%- include('data/dashboard_bookmark', {
+                        art_id: art.id,
+                        art_title: art.title,
+                        art_user: art.user,
+                        art_pic: art.pic
+                    }) %>
+
+                    <% } %>
+
+                    <% } else { %>
+
+                    <div class="container-fluid justify-content-center">
+                        <p>No user found</p>
+                    </div>
+
+                    <% } %>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

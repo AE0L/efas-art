@@ -29,7 +29,7 @@ describe('watermark creation', () => {
         ses_con.post('/login')
             .send({
                 username: 'qweqwe',
-                password: 'qweqweqwe'
+                password: 'asdfasdfasdf'
             })
             .expect(200)
             .end((err) => {
@@ -48,10 +48,6 @@ describe('watermark creation', () => {
         await art.remove()
     })
 
-    afterAll(() => {
-        app.close()
-    })
-
     test('artwork upload', async () => {
         const res = await ses_auth.post('/profile/artworks/upload?test=true')
             .field('artwork_title', test_art.title)
@@ -62,11 +58,9 @@ describe('watermark creation', () => {
             .set('content-type', 'multipart/form-data')
 
         expect(res.statusCode).toBe(200)
+        expect(res.body.success).toBe(true)
 
-        const { success, id } = res.body
-
-        expect(success).toBe(true)
-
-        test_art.id = id
+        test_art.id = res.body.id
     })
+
 })

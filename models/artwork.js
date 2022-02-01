@@ -14,6 +14,7 @@ const fs = require('fs')
 const moment = require('moment')
 
 class Artwork {
+
     constructor(art_col, name, tags, description, creation_date, id = null, document = null) {
         this.art_col = art_col
         this.name = name
@@ -148,10 +149,10 @@ class Artwork {
         `, [this.id])
     }
 
-    async find_all(query) {
+    static async find_all(query) {
         const rows = await db.all(`
             SELECT * FROM artworks
-            WHERE title LIKE ?
+            WHERE name LIKE ?
         `, [query])
 
         const arts = []

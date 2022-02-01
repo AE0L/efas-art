@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator')
 
 const router = express.Router()
 
-router.get('/', load_user_dashboard, (req, res) => {
+router.get('/', (req, res) => {
     const setting = req.query['s']
 
     if (setting) {
@@ -38,7 +38,7 @@ router.get('/', load_user_dashboard, (req, res) => {
     }
 })
 
-router.post('/edit/profile', load_user_dashboard, async (req, res) => {
+router.post('/edit/profile', async (req, res) => {
     const { first_name, last_name, bio } = req.body
     const user = req.data.user.src
 
@@ -90,7 +90,7 @@ router.post('/edit/security', [
         .isLength({ min: 8, max: 20 })
             .withMessage('current password invalid length')
         .trim()
-], load_user_dashboard, async (req, res) => {
+], async (req, res) => {
     const validation = validationResult(req)
 
     if (!validation.isEmpty()) {

@@ -11,13 +11,13 @@ router.get('/:artwork_id', load_artwork, async (req, res) => {
     const { user } = req.data
 
     if (user.id === req.session.user_id) {
-        return res.redirect('/profile')
+        return res.redirect(`/profile/artworks/edit?art_id=${req.data.art.id}`)
     } else {
         try {
             const { art, gallery } = req.data
-            const liked = await art.is_liked(user)
             const cols = await gallery.art_collections
             const ses_user = await User.get(req.session.user_id)
+            const liked = await art.is_liked(ses_user)
 
             let arts = []
 
@@ -44,13 +44,13 @@ router.get('/:artwork_id', load_artwork, async (req, res) => {
 
             let coms = await art.comments
             coms = Promise.all(coms.map(com => {
-                const pic = com.user.profile_pic === '' ? process.env.PFP_PLACEHOLDER : com.user.profile_pic
+                const pic = com.user.profile_pic ? com.user.profile_pic : process.env.PFP_PLACEHOLDER
 
                 return {
                     text: com.comment_text,
                     date: com.comment_date,
                     user: {
-                        name: user.username,
+                        name: com.user.username,
                         pic: pic
                     }
                 }

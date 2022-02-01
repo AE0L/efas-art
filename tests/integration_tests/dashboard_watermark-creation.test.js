@@ -27,7 +27,7 @@ describe('watermark creation', () => {
         ses_con.post('/login')
             .send({
                 username: 'qweqwe',
-                password: 'qweqweqwe'
+                password: 'asdfasdfasdf'
             })
             .expect(200)
             .end((err) => {
@@ -45,8 +45,6 @@ describe('watermark creation', () => {
 
         await wtm.remove()
     })
-
-    afterAll(() => { app.close() })
 
     test('watermark upload', async () => {
         const res = await ses_auth.post('/profile/watermarks/upload?test=true')
@@ -79,4 +77,5 @@ describe('watermark creation', () => {
 
         test_wtm.id = id
     })
+
 })

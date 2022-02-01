@@ -3,6 +3,7 @@ const moment = require('moment')
 const artworks = require('./artworks')
 const watermarks = require('./watermarks')
 const settings = require('./settings')
+const bookmarks = require('./bookmarks')
 const { load_user_dashboard } = require('../middlewares')
 
 const router = express.Router()
@@ -12,21 +13,12 @@ router.get('/', load_user_dashboard, async (req, res) => {
 
     let arts = []
 
-    art_collections.forEach(async (art_col) => {
+    for (let art_col of art_collections) {
         const _artworks = await art_col.artworks
         arts.push(..._artworks)
-    })
+    }
 
     arts.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date))
-
-    let wats = []
-
-    wat_collections.forEach(async (wat_col) => {
-        const _watermarks = await wat_col.watermarks
-        wats.push(..._watermarks)
-    })
-
-    wats.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date))
 
     const date_now = moment()
     const date_week_before = moment().subtract(21, 'days')
@@ -37,17 +29,6 @@ router.get('/', load_user_dashboard, async (req, res) => {
     })
 
     rec_arts = rec_arts.map(a => ({
-        id: a.id,
-        title: a.name,
-        pic: a.document
-    }))
-
-    let rec_wats = wats.filter(wat => {
-        let wat_mom = moment(wat.creation_date)
-        return wat_mom.isBetween(date_week_before, date_now)
-    })
-
-    rec_wats = rec_wats.map(a => ({
         id: a.id,
         title: a.name,
         pic: a.document
@@ -72,13 +53,13 @@ router.get('/', load_user_dashboard, async (req, res) => {
     return res.render('dashboard_home.ejs', {
         user: { id: user.id },
         rec_arts: rec_arts,
-        rec_wats: rec_wats,
         rec_art_cols: await Promise.all(rec_art_cols),
     })
 })
 
-router.use('/artworks', artworks)
-router.use('/watermarks', watermarks)
-router.use('/settings', settings)
+router.use('/bookmarks', load_user_dashboard, bookmarks)
+router.use('/artworks', load_user_dashboard, artworks)
+router.use('/watermarks', load_user_dashboard, watermarks)
+router.use('/settings', load_user_dashboard, settings)
 
 module.exports = router

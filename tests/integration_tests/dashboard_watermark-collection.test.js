@@ -51,7 +51,6 @@ describe('dashboard (watermark)', () => {
     afterAll(async () => {
         await test_user.remove_dir()
         await test_user.remove()
-        app.close()
     })
 
     describe('watermark collections', () => {

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include('partials/head_meta') %>
+
+        <title>Dashboard - Edit Artwork Details | EFAS Art</title>
+
+        <%- include('scripts/stylesheet') %>
+
+        <%- include('partials/head_styles') %>
+
+        <link rel="stylesheet" href="/css/user-page_works.css">
+        <link rel="stylesheet" href="/css/user-page_collections.css">
+        <link rel="stylesheet" href="/css/dashboard.css">
+
+        <style>
+            .watermark-cont {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                justify-items: start;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <%- include('partials/nav-bar', { active: 2 }) %>
+
+        <div class="container-fluid w-100 my-5" style="max-width: 90%;">
+            <header class="mb-5">
+                <h1 class="display-5">Dashboard</h1>
+            </header>
+            <main>
+                <%- include('partials/dashboard/nav', { active: 2 }) %>
+
+                <div class="container-fluid d-flex align-items-center mb-2">
+                    <a href="/profile/artworks/" class="text-dark">
+                        <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
+                    </a>
+                    <h3 class="m-0">Edit Artwork</h3>
+                </div>
+
+                <div class="container-fluid row my-4 gap-3">
+                    <form data-art_id="<%= art.id %>" id="artwork_form" class="row mt-3 mb-5 gap-4">
+                        <div class="row">
+                            <label for="title" class="col-sm-1 text-end col-form-label">Title</label>
+                            <div class="col">
+                                <input type="text" name="title" id="title" class="form-control" required
+                                    placeholder="Enter the artwork title here" value="<%= art.title %>">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="tags" class="col-sm-1 text-end col-form-label">Tags</label>
+                            <div class="col">
+                                <input name="tags" id="tags" type="text" class="form-control" required
+                                    placeholder="Enter tags here" value="<%= art.tags %>">
+                                <div class="form-text">Enter tags separated by commas (,)</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="description" class="col-sm-1 text-end col-form-label">Description</label>
+                            <div class="col">
+                                <textarea class="form-control" name="description" id="description" rows="4" required
+                                    placeholder="Create a description for this artwork"><%= art.description %></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 d-flex gap-3">
+                            <button class="btn btn-danger">Delete artwork</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+
+        <%- include('partials/footer') %>
+
+        <script>
+            $(artwork_form).submit((e) => {
+                e.preventDefault()
+
+                const fd = new FormData(artwork_form)
+                const link = `/profile/artworks/edit?art_id=${artwork_form.dataset.art_id}`
+
+                $.ajax({
+                    type: 'POST',
+                    url: link,
+                    data: {
+                        title: fd.get('title'),
+                        description: fd.get('description'),
+                        tags: fd.get('tags')
+                    },
+                    success: (data) => {
+                        if (data.success) {
+                            window.location.pathname = `/profile/artworks/`
+                        } else {
+                            $(save_btn.prop('disabled', false))
+                        }
+                    },
+                    error: (err) => {
+                        console.log('post fail', err)
+                    }
+                })
+            })
+        </script>
+    </body>
+
+</html>

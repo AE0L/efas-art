@@ -10,6 +10,7 @@ const fs = require('fs')
 const path = require('path')
 const moment = require('moment')
 const { User } = require("../models/user")
+const Artwork = require('../models/artwork')
 
 const router = express.Router()
 
@@ -29,7 +30,7 @@ router.get('/home', authenticate, async (req, res) => {
         const all_rec_arts = []
 
         for (let follow of follows) {
-            const _user = follow.user
+            const _user = follow.followed
             const gal = await _user.gallery
             const art_cols = await gal.art_collections
 
@@ -52,7 +53,7 @@ router.get('/home', authenticate, async (req, res) => {
 
             rec_arts = await Promise.all(rec_arts.map(async (rec_art) => {
                 return {
-                    author: _user.username,
+                    user: _user.username,
                     id: rec_art.id,
                     title: rec_art.name,
                     pic: rec_art.document
@@ -62,11 +63,16 @@ router.get('/home', authenticate, async (req, res) => {
             all_rec_arts.push(...rec_arts)
         }
 
-        if (req.query.test) {
-            return res.send({ rec_arts: all_rec_arts })
+        const data = {
+            user: ses_user,
+            works: all_rec_arts
         }
 
-        return res.render('', { rec_arts: all_rec_arts })
+        if (req.query.test) {
+            return res.send(data)
+        }
+
+        return res.render('home', data)
     } catch (e) {
         console.trace(e)
         res.redirect('/404')
@@ -115,6 +121,32 @@ router.use('/download/image', async (req, res) => {
             })
             .pipe(dest)
     })
+})
+
+router.post('/search', async (req, res) => {
+    try {
+        const query = req.body.query
+        const users = await User.find_all(`${query}%`)
+        const arts = await Artwork.find_all(`${query}%`)
+
+        res.render('search-result', {
+            arts: arts.map(art => ({
+                id: art.id,
+                title: art.name,
+                pic: art.document,
+                user: art.art_col.gallery.user.username
+            })),
+            users: users.map(u => ({
+                id: u.id,
+                handle: u.username,
+                name: `${u.first_name} ${u.last_name}`,
+                pic: u.profile_pic ? u.profile_pic : process.env.PFP_PLACEHOLDER,
+            }))
+        })
+    } catch (e) {
+        console.trace(e)
+        return res.send({ success: false, msg: e })
+    }
 })
 
 module.exports = router

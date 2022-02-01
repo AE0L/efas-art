@@ -29,9 +29,9 @@ const upload_watermark = multer({
     }
 }).single('watermark_img')
 
-router.use('/', load_user_dashboard, require('./watermark_collection'))
+router.use('/', require('./watermark_collection'))
 
-router.get('/', load_user_dashboard, async (req, res) => {
+router.get('/', async (req, res) => {
     const { user, wat_collections } = req.data
     const wats = []
 
@@ -66,7 +66,7 @@ router.get('/', load_user_dashboard, async (req, res) => {
     })
 })
 
-router.get('/upload', load_user_dashboard, async (req, res) => {
+router.get('/upload', async (req, res) => {
     const { mode } = req.query
 
     if (mode) {
@@ -93,7 +93,7 @@ router.get('/upload', load_user_dashboard, async (req, res) => {
     }
 })
 
-router.post('/upload', load_user_dashboard, upload_watermark, async (req, res) => {
+router.post('/upload', upload_watermark, async (req, res) => {
     if (req.file_error) {
         console.error(req.file_error)
         return res.send({ success: false, msg: req.file_error })
@@ -121,11 +121,11 @@ router.post('/upload', load_user_dashboard, upload_watermark, async (req, res) =
     }
 })
 
-router.get('/create', load_user_dashboard, (req, res) => {
+router.get('/create', (req, res) => {
     res.render('dashboard_editor-watermark')
 })
 
-router.post('/create', load_user_dashboard, upload_watermark, async (req, res) => {
+router.post('/create', upload_watermark, async (req, res) => {
     if (req.file_error) {
         return res.send({ success: false, msg: req.file_error })
     }
@@ -152,7 +152,7 @@ router.post('/create', load_user_dashboard, upload_watermark, async (req, res) =
     }
 })
 
-router.get('/edit', load_user_dashboard, async (req, res) => {
+router.get('/edit', async (req, res) => {
     try {
         const { user } = req.data
         const wtm = await Watermark.get(req.query.wtm_id)
@@ -170,7 +170,7 @@ router.get('/edit', load_user_dashboard, async (req, res) => {
     }
 })
 
-router.post('/edit', load_user_dashboard, async (req, res) => {
+router.post('/edit', async (req, res) => {
     try {
         const wtm = await Watermark.get(req.query.wtm_id)
         const { title } = req.body
@@ -201,7 +201,7 @@ router.post('/edit', load_user_dashboard, async (req, res) => {
     }
 })
 
-router.get('/delete', load_user_dashboard, async (req, res) => {
+router.get('/delete', async (req, res) => {
     try {
         const wtm = await Watermark.get(req.query.wtm_id)
 

@@ -3,16 +3,12 @@ const app = require('../../app_test')
 const { User } = require('../../models/user')
 const { inspect } = require('util')
 
-describe('dashboard (artworks)', () => {
+describe('user artworks', () => {
     let test_user = null
     let ses_user = null
     let test_art = null
     let ses_init = null
     let ses_auth = null
-
-    afterAll(() => {
-        app.close()
-    })
 
     beforeAll(async () => {
         test_user = await User.get_user('carlj15')
@@ -27,7 +23,7 @@ describe('dashboard (artworks)', () => {
         ses_init.post('/login')
             .send({
                 username: 'qweqwe',
-                password: 'qweqweqwe'
+                password: 'asdfasdfasdf'
             })
             .expect(200)
             .end((err) => {
@@ -44,6 +40,8 @@ describe('dashboard (artworks)', () => {
 
     test(`view artwork`, async () => {
         const res = await ses_auth.get(`/artworks/${test_art.id}?test=true`)
+
+        expect(res.statusCode).toBe(200)
 
         const { user, art } = res.body
 
@@ -69,7 +67,6 @@ describe('dashboard (artworks)', () => {
 
             expect(res.statusCode).toBe(302)
             expect(res.headers['location']).toBe(`/artworks/${test_art.id}`)
-            expect(res.header['content-type']).toBe('text/plain; charset=utf-8')
             expect(await test_art.is_liked(ses_user)).toBe(true)
         })
 
@@ -78,12 +75,12 @@ describe('dashboard (artworks)', () => {
 
             expect(res.statusCode).toBe(302)
             expect(res.headers['location']).toBe(`/artworks/${test_art.id}`)
-            expect(res.header['content-type']).toBe('text/plain; charset=utf-8')
             expect(await test_art.is_liked(ses_user)).toBe(false)
         })
     })
 
     describe('artwork comments', () => {
+
         test('add comment to the artwork', async () => {
             const test_comment = 'this is a test comment text'
 
@@ -95,5 +92,7 @@ describe('dashboard (artworks)', () => {
             expect(res.statusCode).toBe(200)
             expect(res.body.success).toBe(true)
         })
+
     })
+
 })

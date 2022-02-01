@@ -62,8 +62,6 @@ class Watermark {
             WHERE watermark_id=?
         `, [
             this.name,
-            this.description,
-            this.tags,
             this.id
         ])
     }
