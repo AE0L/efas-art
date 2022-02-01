@@ -1,6 +1,11 @@
+const moment = require('moment')
 const { User } = require('../models/user')
 const Contact = require('../models/contacts')
 const Gallery = require('../models/gallery')
+const Watermark = require('../models/watermark')
+const WatermarkCollection = require('../models/watermark_collection')
+const Artwork = require('../models/artwork')
+const ArtCollection = require('../models/art_collection')
 
 const users = [
     {
@@ -62,21 +67,31 @@ const users = [
     }
 ]
 
-const arts = [
-    {
+const arts = [{
+    id: '000001',
+    name: 'art collection #1',
+    description: 'collection of artworks',
+    col_dir: '0000001',
+    artworks: [{
         id: '000001',
-        name: 'art collection #1',
-        description: 'collection of artworks',
-        col_dir: '0000001'
-    }
-]
+        name: 'test artwork #1',
+        description: 'test artwork',
+        tags: 'test, art, wrk',
+        document: '000001'
+    }]
+}]
 
 const wtms = [
     {
         id: '000001',
         name: 'watermark collection #1',
         description: 'signature watermarks',
-        col_dir: '0000001'
+        col_dir: '0000001',
+        watermarks: [{
+            id: '000001',
+            name: 'test watermark',
+            document: '0000001'
+        }]
     }
 ]
 
@@ -109,11 +124,59 @@ function create_sample_gallery(user, gallery, use_id = false) {
     )
 }
 
+function create_art_collection(gallery, art_col) {
+    return new ArtCollection(
+        gallery,
+        art_col.name,
+        art_col.description,
+        moment().toLocaleString(),
+        art_col.id,
+        art_col.col_dir
+    )
+}
+
+const create_artwork = (col, art) => {
+    return new Artwork(
+        col,
+        art.name,
+        art.tags,
+        art.description,
+        moment().toLocaleString(),
+        art.id,
+        art.document
+    )
+}
+
+function create_wtm_collection(gallery, wtm_col) {
+    return new WatermarkCollection(
+        gallery,
+        wtm_col.name,
+        wtm_col.description,
+        moment().toLocaleString(),
+        wtm_col.id,
+        wtm_col.col_dir
+    )
+}
+
+const create_watermark = (col, wtm) => {
+    return new Watermark(
+        col,
+        wtm.name,
+        moment().toLocaleString(),
+        wtm.id,
+        wtm.document
+    )
+}
+
 module.exports = {
     users: users,
     arts: arts,
     wtms: wtms,
     create_sample_user: create_sample_user,
     create_sample_contact: create_sample_contact,
-    create_sample_gallery: create_sample_gallery
+    create_sample_gallery: create_sample_gallery,
+    create_art_collection: create_art_collection,
+    create_artwork: create_artwork,
+    create_wtm_collection: create_wtm_collection,
+    create_watermark: create_watermark
 }

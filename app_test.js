@@ -13,7 +13,7 @@ const sqliteStoreFactory = require('express-session-sqlite').default
 const helmet = require('helmet')
 const path = require('path')
 const sqlite3 = require('sqlite3')
-const swaggerJSDoc  = require('swagger-jsdoc')
+const swaggerJSDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 const { google } = require('googleapis')
 const { inspect } = require('util')
@@ -75,13 +75,4 @@ app.use((req, res, next) => {
     res.type('txt').send('not found')
 })
 
-// module.exports = app.listen(process.env.PORT || 8080)
 module.exports = app
-
-// const port = process.env.PORT
-
-// app.listen(port, () => {
-//     console.log(`Server listening at http://localhost:${port}/`)
-// })
-
-// global.__basedir = __dirname

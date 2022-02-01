@@ -2,18 +2,13 @@ const { google } = require('googleapis')
 const moment = require('moment')
 const { User } = require('../../models/user')
 const ArtCollection = require('../../models/art_collection')
-const { users, arts, create_sample_gallery, create_sample_user } = require('../samples')
-
-function create_art_collection(gallery, art_col) {
-    return new ArtCollection(
-        gallery,
-        art_col.name,
-        art_col.description,
-        moment().toLocaleString(),
-        art_col.id,
-        art_col.col_dir
-    )
-}
+const {
+    users,
+    arts,
+    create_sample_gallery,
+    create_sample_user,
+    create_art_collection
+} = require('../samples')
 
 describe('ArtCollection unit test', () => {
 
@@ -103,4 +98,5 @@ describe('ArtCollection unit test', () => {
         await user.remove_dir()
         await user.remove()
     })
+
 })

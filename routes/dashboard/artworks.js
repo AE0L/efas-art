@@ -194,6 +194,7 @@ router.get('/delete', async (req, res) => {
     try {
         const art = await Artwork.get(req.query.art_id)
 
+        await art.remove_dir()
         await art.remove()
 
         return res.redirect('/profile/artworks')

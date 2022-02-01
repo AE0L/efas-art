@@ -205,6 +205,7 @@ router.get('/delete', async (req, res) => {
     try {
         const wtm = await Watermark.get(req.query.wtm_id)
 
+        await wtm.remove_dir()
         await wtm.remove()
 
         return res.redirect('/profile/watermarks')

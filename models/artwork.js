@@ -136,13 +136,15 @@ class Artwork {
         this.document = res.data.id
     }
 
-    async remove() {
+    remove_dir() {
         const gd = google.drive({ version: 'v3', auth: global.gauth })
 
-        await gd.files.delete({
+        return gd.files.delete({
             fileId: this.document
         })
+    }
 
+    remove() {
         return db.run(`
             DELETE FROM artworks
             WHERE artwork_id=?

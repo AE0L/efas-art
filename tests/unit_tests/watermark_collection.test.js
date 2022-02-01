@@ -2,23 +2,18 @@ const { google } = require('googleapis')
 const moment = require('moment')
 const { User } = require('../../models/user')
 const WatermarkCollection = require('../../models/watermark_collection')
-const { users, wtms, create_sample_gallery, create_sample_user } = require('../samples');
+const {
+    users,
+    wtms,
+    create_sample_gallery,
+    create_sample_user,
+    create_wtm_collection
+} = require('../samples');
 
 describe('Watermark Collection unit test', () => {
 
     let test_user = null
     let test_col = null
-
-    function create_wtm_collection(gallery, wtm_col) {
-        return new WatermarkCollection(
-            gallery,
-            wtm_col.name,
-            wtm_col.description,
-            moment().toLocaleString(),
-            wtm_col.id,
-            wtm_col.col_dir
-        )
-    }
 
     test('watermark collection model constructor', () => {
         const user = create_sample_user(users[2])
