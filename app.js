@@ -5,6 +5,8 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
+require('dotenv').config();
+
 const body_parser = require('body-parser')
 const cookie_parser = require('cookie-parser')
 const express = require('express')
@@ -21,6 +23,8 @@ const { inspect } = require('util')
 const google_util = require('./google')
 const router = require('./routes')
 const app = express()
+
+// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 /* swagger */
 const swagger_defs = {

@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon -i \"public/\" --experimental-specifier-resolution=node -r dotenv/config --trace-warnings app.js",
+    "start": "nodemon -i \"public/\" --trace-warnings app.js",
     "doc": "jsdoc -c ./.jsdoc.conf.json",
     "unit-test": "jest --setupFiles './tests/setup.js' -i --notify tests/unit_tests",
     "integration-test": "jest --setupFiles ./tests/setup.js -i --notify tests/integration_tests"
