@@ -139,7 +139,8 @@ router.get('/edit', async (req, res) => {
                 id: art.id,
                 title: art.name,
                 description: art.description,
-                tags: art.tags
+                tags: art.tags,
+                pic: art.document
             }
         })
     } catch (e) {
