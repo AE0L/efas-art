@@ -68,10 +68,10 @@
                 <% if (wats.length > 0) { %>
                     <div id="all-watermark-cont" class="px-0 gap-3 pb-4">
                         <% wats.forEach(wat => { %>
-                            <%- include('data/dashboard_art', {
-                                art_id: wat.id,
-                                art_title: wat.title,
-                                art_src: wat.pic
+                            <%- include('data/dashboard_wtm', {
+                                wtm_id: wat.id,
+                                wtm_title: wat.title,
+                                wtm_src: wat.pic
                             }) %>
                         <% }) %>
                     </div>

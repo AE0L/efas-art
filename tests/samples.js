@@ -76,7 +76,7 @@ const arts = [{
         id: '000001',
         name: 'test artwork #1',
         description: 'test artwork',
-        tags: 'test, art, wrk',
+        tags: 'test, art, work',
         document: '000001'
     }]
 }]
@@ -90,7 +90,7 @@ const wtms = [
         watermarks: [{
             id: '000001',
             name: 'test watermark',
-            document: '0000001'
+            document: '000001'
         }]
     }
 ]

@@ -58,7 +58,6 @@ describe('Artwork unit test', () => {
         const res = await tmp_art.save()
 
         expect(res.changes).toBe(1)
-
     })
 
     test('get artwork from db', async () => {

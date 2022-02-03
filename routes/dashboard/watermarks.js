@@ -157,7 +157,7 @@ router.get('/edit', async (req, res) => {
         const { user } = req.data
         const wtm = await Watermark.get(req.query.wtm_id)
 
-        res.render('dashboard_edit-watermark', {
+        res.render('dashboard_edit-details-watermark', {
             user,
             wtm: {
                 id: wtm.id,

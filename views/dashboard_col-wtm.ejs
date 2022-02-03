@@ -69,10 +69,10 @@
                 <% if (col.wats.length > 0) { %>
                     <div id="all-col-cont" class="container-fluid px-0 gap-3 pb-4">
                         <% col.wats.forEach(wats => { %>
-                            <%- include('data/dashboard_art', {
-                                art_id: wats.id,
-                                art_title: wats.title,
-                                art_src: wats.pic
+                            <%- include('data/dashboard_wtm', {
+                                wtm_id: wats.id,
+                                wtm_title: wats.title,
+                                wtm_src: wats.pic
                             }) %>
                         <% }) %>
                     </div>
