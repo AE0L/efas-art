@@ -19,7 +19,10 @@
         <%- include('partials/nav-bar', { active: 0 }) %>
 
         <div id="content-cont" class="container mb-5">
-            <%- include('partials/user/header', user) %>
+            <%- include('partials/user/header', {
+                user: user,
+                page: 'collections'
+            }) %>
 
             <main>
                 <%- include('partials/user/nav', { 

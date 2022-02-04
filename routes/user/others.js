@@ -8,8 +8,6 @@ router.get('/about', async (req, res) => {
         const { user } = req.data
         const ses_user = await User.get(req.session.user_id)
 
-        console.log(user)
-
         return res.render('user_about.ejs', {
             user: {
                 id: user.id,
