@@ -5,7 +5,9 @@
  * @author Meryll Cornita
  * @author Paula Millorin
  */
-require('dotenv').config();
+if (process.env.NODE_ENV === 'development') {
+    require('dotenv').config();
+}
 
 const body_parser = require('body-parser')
 const cookie_parser = require('cookie-parser')
@@ -15,7 +17,7 @@ const sqliteStoreFactory = require('express-session-sqlite').default
 const helmet = require('helmet')
 const path = require('path')
 const sqlite3 = require('sqlite3')
-const swaggerJSDoc  = require('swagger-jsdoc')
+const swaggerJSDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 const { google } = require('googleapis')
 const { inspect } = require('util')
@@ -23,8 +25,6 @@ const { inspect } = require('util')
 const google_util = require('./google')
 const router = require('./routes')
 const app = express()
-
-// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 /* swagger */
 const swagger_defs = {
