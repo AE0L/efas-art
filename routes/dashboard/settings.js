@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
                         first_name: user.first_name,
                         last_name: user.last_name,
                         username: user.username,
-                        bio: user.bio
+                        bio: user.bio_text
                     }
                 })
             case 'sec':
@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
                 first_name: user.first_name,
                 last_name: user.last_name,
                 username: user.username,
-                bio: user.bio
+                bio: user.bio_text
 
             }
         })
