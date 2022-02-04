@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "nodemon -i \"public/\" --trace-warnings app.js",
-    "production-start": "pm2 runtime start ecosystem.config.js --env production",
+    "production-start": "pm2-runtime start ecosystem.config.js --env production",
     "doc": "jsdoc -c ./.jsdoc.conf.json",
     "unit-test": "jest --setupFiles './tests/setup.js' -i --notify tests/unit_tests",
     "integration-test": "jest --setupFiles ./tests/setup.js -i --notify tests/integration_tests"
