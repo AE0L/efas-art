@@ -34,17 +34,17 @@
     "nnode": "^0.3.3",
     "pm2": "^5.1.2",
     "slugify": "^1.6.5",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "^4.2.0",
+    "swagger-jsdoc": "^6.1.0",
+    "jsdoc": "^3.5.5",
+    "swagger-ui-express": "^4.3.0"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
     "dotenv": "^10.0.0",
-    "jsdoc": "^3.5.5",
     "jest": "^27.4.7",
     "node-notifier": "^10.0.0",
     "supertest": "^6.2.1",
-    "supertest-session": "^4.1.0",
-    "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.3.0"
+    "supertest-session": "^4.1.0"
   }
 }
