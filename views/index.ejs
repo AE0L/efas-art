@@ -13,7 +13,7 @@
         <div class="container-fluid banner">
             <div class="row">
                 <div class="col-md-12">
-                <!-- Navigation -->
+                    <!-- Navigation -->
                     <nav class="navbar navbar-md">
                         <a href="/">
                             <div class="navbar-brand">EFAS ART</div>
@@ -21,12 +21,11 @@
 
                         <ul class="nav">
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="modal" data-target="#signup" 
-                                href="#">SIGN UP</a>
+                                <a class="nav-link" data-toggle="modal" data-target="#signup" href="#">SIGN UP</a>
                             </li>
                         </ul>
                     </nav>
-                  <!-- Navigation End -->
+                    <!-- Navigation End -->
                 </div>
 
                 <div class="col-md-8 offset-md-2 info">
@@ -36,8 +35,7 @@
                         Be creative, be proud, be safe, <br>
                         Be <em>efas!</em>
                     </p>
-                    <a href="#" class="btn btn-md text-center" data-toggle="modal" 
-                    data-target="#login">Log-In</a>
+                    <a href="#" class="btn btn-md text-center" data-toggle="modal" data-target="#login">Log-In</a>
                 </div>
             </div>
             <!-- Login and Signup -->
@@ -45,13 +43,29 @@
 
             <%- include('index/signup_modal') %>
 
+            <%- include('index/forgot-pass_modal') %>
+
+            <% if (verify_pass) { %>
+            <%- include('index/verify-forgot_modal', { uid: uid }) %>
+
+            <script>
+                $(window).on('load', () => {
+                    $('#new-pass').modal('show')
+                })
+            </script>
+            <% } %>
         </div>
-    
+
         <%- include('index/global/footer') %>
 
         <script src="js/auth/validation.js"></script>
         <script src="js/auth/signup.js"></script>
         <script src="js/auth/login.js"></script>
+        <script src="js/auth/forgot-pass.js"></script>
+
+        <% if (verify_pass) { %>
+        <script src="js/auth/verify-new-pass.js"></script>
+        <% } %>
     </body>
 
 </html>

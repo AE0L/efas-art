@@ -173,6 +173,17 @@ class User {
         }
     }
 
+    static async get_email(email) {
+        const res = await db.get(`SELECT * FROM contacts
+            WHERE email=?`,
+            [email]
+        )
+
+        if (res) {
+            return User.get(res.user_id)
+        }
+    }
+
     async get_follows() {
         const rows = await db.all(`
             SELECT * FROM follows

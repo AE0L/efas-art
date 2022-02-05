@@ -1,5 +1,5 @@
 <!-- Login Modal -->
-<div class="modal fade" id="login">
+<div class="modal fade" id="login" aria-hidden="true" tabindex="-1" aria-labelledby="login">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" id="modalcon">
 
@@ -11,7 +11,8 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <!-- Form Start -->
-                <form id="login-form" action="timeline.html" action="/" method="post" class="needs-validation" novalidate oninput="login_form_validate()">
+                <form id="login-form" action="/" method="post" class="needs-validation" novalidate
+                    oninput="login_form_validate()">
                     <div class="form-group">
                         <label for="username" class="col-form-label">Username:</label>
                         <input type="text" class="form-control" id="login_user" placeholder="Enter username" required
@@ -24,12 +25,15 @@
                             name="password" required>
                         <div id="loginpass_feedback" class="invalid-feedback"></div>
                     </div>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary" id="logbutton" href="timeline.html">Log-In</button>
+
                 </form>
-                <!-- Form End -->
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" class="text-left mx-4 text-muted" data-dismiss="modal" data-toggle="modal" role="button" data-target="#forgotpass">
+                    <small>Forgot Password?</small>
+                </a>
+                <button form="login-form" type="submit" class="btn btn-primary" id="log_button">Log-In</button>
             </div>
         </div>
     </div>

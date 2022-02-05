@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
     if (req.session.user_id) {
         res.redirect('/home')
     } else {
-        res.render('index')
+        res.render('index', { verify_pass: false })
     }
 })
 

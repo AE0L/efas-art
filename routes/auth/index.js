@@ -14,34 +14,6 @@ const { inspect } = require('util')
 
 const router = express.Router()
 
-/**
- * @swagger
- * /login:
- *   post:
- *     summary: login user credentials
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 description: username input
- *               password:
- *                 type: string
- *                 description: password input
- *     responses:
- *       200:
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 succcess:
- *                   type: boolean
- */
 router.post('/login', [
     check('username')
         .isLength({ min: 4 })
@@ -100,43 +72,10 @@ router.post('/login', [
 })
 
 
-/**
- * @swagger
- * /register:
- *   post:
- *     summary: register user's credentials
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *               first_name:
- *                 type: string
- *               last_name:
- *                 type: string
- *     responses:
- *       200:
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- */
 router.post('/register', [
     check('email')
         .isEmail()
-            .withMessage('invalid email')
-        .normalizeEmail(),
+            .withMessage('invalid email'),
 
     check('username')
         .isLength({ min: 4 })
@@ -194,6 +133,8 @@ router.post('/register', [
         }
 
         const user = new User(first_name, last_name, username, password)
+        console.table(req.body)
+        console.table(user)
         const gallery = new Gallery(user)
         const contact = new Contact(user, email)
 
@@ -219,18 +160,70 @@ router.post('/register', [
     }
 })
 
-/**
- * @swagger
- * /logout:
- *  post:
- *      summary: logout user and destroy session
- */
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) console.error(err)
     })
 
     res.redirect('/')
+})
+
+const send_email = require('gmail-send')({
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+    subject: 'Forgot password verification'
+})
+const fs = require('fs')
+const path = require('path')
+const ejs = require('ejs')
+const forgot_email_template = fs.readFileSync(path.join(__dirname, '/email_forgot-pass.ejs'), 'ascii')
+
+router.post('/forgot-password', async (req, res) => {
+    try {
+        const { forgot_email } = req.body
+        const user = await User.get_email(forgot_email)
+
+        if (user) {
+            const forgot_email_html = ejs.render(forgot_email_template, {
+                user: {
+                    id: user.id
+                }
+            })
+
+            const { result, full } = await send_email({
+                html: forgot_email_html,
+                to: forgot_email
+            })
+
+            if (result.split(' ')[2] === 'OK' && full.accepted[0] === forgot_email) {
+                return res.send({ success: true })
+            }
+
+            return res.send({ success: false })
+        }
+
+        return res.send({ success: false, msg: `user with said email doesn't exist` })
+    } catch (e) {
+        console.trace(e)
+        return res.send({ success: false, error: e })
+    }
+})
+
+router.get('/verify-forgot-password', async (req, res) => {
+    return res.render('index', { verify_pass: true, uid: req.query.uid })
+})
+
+router.post('/verify-new-password', async (req, res) => {
+    try {
+        const user = await User.get(req.query.uid)
+
+        await user.update_pass(req.body.password)
+
+        return res.send({ success: true })
+    } catch (e) {
+        console.trace(e)
+        return res.send({ success: false, error: e })
+    }
 })
 
 module.exports = router

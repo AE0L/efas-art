@@ -1,0 +1,27 @@
+<!-- Login Modal -->
+<div class="modal fade" id="forgotpass" aria-hidden="true" tabindex="-1" aria-labelledby="forgotpass">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="modalcon">
+            <div class="modal-header">
+                <h4 class="modal-title">Forgot Password</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <form action="/forgot-password" id="forgot-pass-form" method="post" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label for="username" class="col-form-label">Recovery Email</label>
+                        <input type="email" class="form-control" id="forgot_email" placeholder="Enter your email here"
+                            required name="forgot_email">
+                        <div id="loginuser_feedback" class="invalid-feedback"></div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button form="forgot-pass-form" type="submit" class="btn btn-primary" id="forgot_btn">Send verification
+                    to email</button>
+            </div>
+        </div>
+    </div>
+</div>
