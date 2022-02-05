@@ -2,7 +2,7 @@ module.exports = {
   apps : [{
     name: "efas-art",
     script: 'app.js',
-    instances: 'max',
+    instances: '5',
     env: {
       NODE_ENV: 'development'
     },
