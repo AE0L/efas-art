@@ -1,9 +1,10 @@
 const express = require('express')
 const Reaction = require('../../models/reaction')
 const moment = require('moment')
-const { load_artwork } = require('../middlewares')
+const { load_artwork, create_art_notif } = require('../middlewares')
 const { User } = require('../../models/user')
 const { inspect } = require('util')
+const Notification = require('../../models/notification')
 
 const router = express.Router()
 
@@ -14,9 +15,8 @@ router.get('/:artwork_id', load_artwork, async (req, res) => {
         return res.redirect(`/profile/artworks/edit?art_id=${req.data.art.id}`)
     } else {
         try {
-            const { art, gallery } = req.data
+            const { art, gallery, ses_user } = req.data
             const cols = await gallery.art_collections
-            const ses_user = await User.get(req.session.user_id)
             const liked = await art.is_liked(ses_user)
 
             let arts = []
@@ -88,12 +88,13 @@ router.get('/:artwork_id', load_artwork, async (req, res) => {
     }
 })
 
-router.get('/:artwork_id/like', load_artwork, async (req, res) => {
+
+router.get('/:artwork_id/like', load_artwork, create_art_notif('like'), async (req, res) => {
     try {
-        const { art } = req.data
-        const ses_user = await User.get(req.session.user_id)
+        const { art, ses_user, notif } = req.data
 
         await ses_user.like(art)
+        await notif.save()
 
         return res.redirect(`/artworks/${art.id}`)
     } catch (err) {
@@ -102,10 +103,10 @@ router.get('/:artwork_id/like', load_artwork, async (req, res) => {
     }
 })
 
+
 router.get('/:artwork_id/unlike', load_artwork, async (req, res) => {
     try {
-        const { art } = req.data
-        const ses_user = await User.get(req.session.user_id)
+        const { art, ses_user } = req.data
 
         await ses_user.unlike(art)
 
@@ -116,15 +117,15 @@ router.get('/:artwork_id/unlike', load_artwork, async (req, res) => {
     }
 })
 
-router.post('/:artwork_id/comment', load_artwork, async (req, res) => {
+router.post('/:artwork_id/comment', load_artwork, create_art_notif('comment'), async (req, res) => {
     try {
-        const ses_user = await User.get(req.session.user_id)
-        const { art } = req.data
+        const { art, ses_user, notif } = req.data
         const { comment_text } = req.body
 
         await art.add_comment(ses_user, comment_text)
+        await notif.save()
 
-        return res.send({ success: true })
+        return res.redirect(`/artworks/${art.id}`)
     } catch (e) {
         console.trace(e)
         return res.send({ success: false })

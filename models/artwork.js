@@ -118,6 +118,13 @@ class Artwork {
         return res ? Boolean(res.liked) : false
     }
 
+    async count_likes() {
+        return db.get(`
+            SELECT COUNT(*) FROM reactions
+            WHERE artwork_id=? AND liked=1
+        `, [this.id])
+    }
+
     async upload(path, col_dir) {
         const gd = google.drive({ version: 'v3', auth: global.gauth })
 

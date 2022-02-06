@@ -4,6 +4,7 @@ const user = require('./user/index')
 const artworks = require('./artworks/index')
 const auth = require('./auth/index')
 const { authenticate } = require('./middlewares/index')
+const notifications = require('./notifications')
 
 const { google } = require('googleapis')
 const fs = require('fs')
@@ -80,6 +81,7 @@ router.get('/home', authenticate, async (req, res) => {
 })
 
 router.use('/', auth)
+router.use('/', authenticate, notifications)
 router.use('/u', authenticate, user)
 router.use('/artworks', authenticate, artworks)
 router.use('/profile', authenticate, dashboard)

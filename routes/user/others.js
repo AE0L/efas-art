@@ -1,12 +1,12 @@
 const express = require('express')
 const { User } = require('../../models/user')
+const { create_user_notif } = require('../middlewares')
 
 const router = express.Router()
 
 router.get('/about', async (req, res) => {
     try {
-        const { user } = req.data
-        const ses_user = await User.get(req.session.user_id)
+        const { user, ses_user } = req.data
 
         return res.render('user_about.ejs', {
             user: {
@@ -24,13 +24,13 @@ router.get('/about', async (req, res) => {
     }
 })
 
-router.get('/follow', async (req, res) => {
+router.get('/follow', create_user_notif('follow'), async (req, res) => {
     try {
-        const { user } = req.data
+        const { user, ses_user, notif } = req.data
         const { art } = req.query
-        const ses_user = await User.get(req.session.user_id)
 
         await ses_user.follow(user)
+        await notif.save()
 
         if (req.query.art) {
             return res.redirect(`/artworks/${art}`)
@@ -45,11 +45,11 @@ router.get('/follow', async (req, res) => {
 
 router.get('/unfollow', async (req, res) => {
     try {
-        const { user } = req.data
+        const { user, ses_user, notif } = req.data
         const { art } = req.query
-        const ses_user = await User.get(req.session.user_id)
 
         await ses_user.unfollow(user)
+        await notif.save()
 
         if (req.query.art) {
             return res.redirect(`/artworks/${art}`)

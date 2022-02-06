@@ -132,6 +132,21 @@ router.get('/edit', async (req, res) => {
     try {
         const { user } = req.data
         const art = await Artwork.get(req.query.art_id)
+        const likes = Object.values(await art.count_likes())[0]
+        let comments = await art.comments
+
+        comments = await Promise.all(comments.map(com => {
+            const pic = com.user.profile_pic ? com.user.profile_pic : process.env.PFP_PLACEHOLDER
+
+            return {
+                text: com.comment_text,
+                date: com.comment_date,
+                user: {
+                    name: com.user.username,
+                    pic: pic
+                }
+            }
+        }))
 
         res.render('dashboard_edit-details-artwork', {
             user,
@@ -141,7 +156,9 @@ router.get('/edit', async (req, res) => {
                 description: art.description,
                 tags: art.tags,
                 pic: art.document
-            }
+            },
+            stats: { likes: likes },
+            comments: comments
         })
     } catch (e) {
         console.trace(e)

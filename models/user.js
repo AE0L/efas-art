@@ -184,6 +184,32 @@ class User {
         }
     }
 
+    async get_unread_notifications() {
+        const Notification = require('./notification')
+        const rows = await db.all(`
+            SELECT * FROM notifications
+            WHERE receiver_id=? AND viewed=0
+        `, [this.id])
+
+        if (rows) {
+            const notifs = []
+
+            for (let row of rows) {
+                notifs.push(new Notification(
+                    await User.get(row.sender_id),
+                    this,
+                    row.type,
+                    row.detail,
+                    row.creation_date,
+                    row.notification_id,
+                    row.viewed
+                ))
+            }
+
+            return notifs
+        }
+    }
+
     async get_follows() {
         const rows = await db.all(`
             SELECT * FROM follows

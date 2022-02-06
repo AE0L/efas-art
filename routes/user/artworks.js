@@ -3,8 +3,7 @@ const { User } = require('../../models/user')
 const router = express.Router()
 
 router.get('/works', async (req, res) => {
-    const { user, art_collections } = req.data
-    const ses_user = await User.get(req.session.user_id)
+    const { user, ses_user, art_collections } = req.data
     let arts = []
 
     for (let art_col of art_collections) {

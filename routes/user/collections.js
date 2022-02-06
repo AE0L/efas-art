@@ -5,9 +5,7 @@ const { User } = require('../../models/user')
 const router = express.Router()
 
 router.get('/collections', async (req, res) => {
-    const { user, art_collections } = req.data
-    const ses_user = await User.get(req.session.user_id)
-
+    const { user, ses_user, art_collections } = req.data
     const art_cols = await Promise.all(art_collections.map(async art_col => {
         const _arts = await art_col.artworks
         const pic = _arts.length <= 0 ? process.env.COL_PLACEHOLDER : _arts[0].document

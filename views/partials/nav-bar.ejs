@@ -1,3 +1,17 @@
+<style>
+    .notif-badge {
+        left: 70%;
+        top: 35%;
+    }
+
+    .notif-msg {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+</style>
+
 <nav id="navbar" class="shadow-sm navbar fixed-top navbar-expand-lg navbar-dark p-2">
     <div class="container-fluid justify-content-start">
         <img id="logo" src="/img/logo.jpg" alt="logo" width="45" height="45">
@@ -22,7 +36,7 @@
         </button>
 
         <div class="container-fluid collapse navbar-collapse" id="navbarNav">
-            <ul class="nav navbar-nav ms-auto">
+            <ul class="nav navbar-nav ms-auto gap-2">
                 <li class="nav-item">
                     <a class="nav-link <% if (active === 1) { %> active <% } %>" href="/">Home</a>
                 </li>
@@ -41,10 +55,97 @@
                         <li><a class="dropdown-item" href="/profile/settings">Settings</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item dropdown">
+                    <a id="notif_icon" href="#" data-bs-toggle="dropdown" class="nav-link position-relative">
+                        <i class="fas fa-bell"></i>
+                        <span id="notif_badge"
+                            class="visually-hidden notif-badge position-absolute translate-middle p-1 bg-danger rounded-circle">
+                            <span class="visually-hidden">New alerts</span>
+                        </span>
+                    </a>
+
+                    <ul id="notif_list" class="dropdown-menu dropdown-menu-end" style="max-width: 350px;">
+                        <li id="no_notif_label" style="width: max-content;">
+                            <span class="m-3 text-muted">You don't have any new notifications</span>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item ms-3">
                     <a href="/logout" class="nav-link">Logout</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<script>
+    let notifs = []
+
+    const create_notif_item = ({ id, user_pic, msg, date }) => {
+        const div = document.createElement('div')
+        div.innerHTML = `
+        <li>
+            <a href="/notification/${id}" class="dropdown-item">
+                <div class="notif-item d-flex align-items-center">
+                    <img class="rounded-circle me-4 border border-dark border-2"
+                        src="https://drive.google.com/uc?export=view&id=${user_pic}"
+                        alt="pfp" width="30" height="30" style="background-color: #FAFAFA">
+                    <div class="d-flex flex-column notif-msg">
+                        <span class="mb-1 notif-msg">${msg}</span>
+                        <small class="text-muted" style="font-size: 0.8em;">
+                            ${date}
+                        </small>
+                    </div>
+                </div>
+            </a>
+        </li>
+        `.trim()
+
+        return div.firstChild
+    }
+
+    $(window).on('load', () => {
+        $.ajax({
+            method: 'GET',
+            url: '/notifications',
+            success: (data) => {
+                if (data.success) {
+                    if (data.notifs.length > 0) {
+                        console.table(data.notifs)
+                        notifs = data.notifs
+
+                        for (let notif of data.notifs) {
+                            notif_list.appendChild(create_notif_item(notif))
+                        }
+
+                        $(notif_badge).removeClass('visually-hidden')
+                        $(no_notif_label).addClass('d-none')
+                    }
+                } else {
+                    console.error(data)
+                }
+            },
+            error: console.error
+        })
+    })
+
+    $(notif_icon).on('click', () => {
+        if (notifs.length > 0) {
+            $.ajax({
+                method: 'POST',
+                url: '/notifications/read',
+                data: {
+                    notif_ids: notifs.map(n => n.id)
+                },
+                success: (data) => {
+                    if (data.success) {
+                        $(notif_badge).addClass('visually-hidden')
+                    } else {
+                        console.error(data)
+                    }
+                },
+                error: console.error
+            })
+        }
+    })
+</script>
