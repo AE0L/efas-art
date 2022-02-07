@@ -71,12 +71,19 @@ $('.wat').each((i, e) => {
 function geturl(e) {
     fabric.Image.fromURL(this.dataset.img, function(_img) {
         _img.crossOrigin = 'anonymous'
-        const oImg = _img.set({ left: canvCenter.left, top: canvCenter.top, originX: 'center', originY: 'center' })
-        oImg.scaleToWidth(100)
-        oImg.scaleToHeight(100)
-        canvas.add(oImg)
+        var elWidth = img.naturalWidth || img.width;
+        var elHeight = img.naturalHeight || img.height;
+        _img.set({scaleX:100/elWidth,
+                  scaleY:100/elHeight,
+                  originX: "center", 
+                  originY: "center",})
+        // _img.scaleToWidth(100)
+        // _img.scaleToHeight(100)
+        canvas.add(_img)
+        canvas.centerObject(_img)
         const countObj = canvas.getObjects().length
         canvas.setActiveObject(canvas.item(countObj - 1))
+        canvas.requestRenderAll();
     })
 }
 

@@ -40,19 +40,6 @@ img.src = deleteIcon;
 
 const canvCenter = canvas.getCenter();
 
-function geturl(img) {
-    var name = img.src;
-    fabric.Image.fromURL(name, function(img) {
-        var oImg = img.set({ left: canvCenter.left, top: canvCenter.top, originX: 'center', originY: 'center' });
-        oImg.scaleToWidth(100);
-        oImg.scaleToHeight(100);
-        canvas.add(oImg);
-        var countObj = canvas.getObjects().length;
-        canvas.setActiveObject(canvas.item(countObj - 1));
-
-    });
-}
-
 fabric.Object.prototype.controls.deleteControl = new fabric.Control({
     x: 0.5,
     y: -0.5,
