@@ -78,8 +78,8 @@ function geturl(e) {
         //           scaleY:100/elHeight,
         //           originX: "center", 
         //           originY: "center",})
-        // // _img.scaleToWidth(100)
-        // _img.scaleToHeight(100)
+        _img.scaleToWidth(100)
+        _img.scaleToHeight(100)
         canvas.add(_img)
         canvas.centerObject(_img)
         const countObj = canvas.getObjects().length
