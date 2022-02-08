@@ -64,20 +64,21 @@ choose_artwork_img.onchange = (e) => {
 
 img.src = deleteIcon
 
-$('.wat').each((i, e) => {
+$('.wat').each((i,e) => {
     e.onclick = geturl
 })
 
 function geturl(e) {
     fabric.Image.fromURL(this.dataset.img, function(_img) {
+        console.log()
         _img.crossOrigin = 'anonymous'
-        var elWidth = img.naturalWidth || img.width;
-        var elHeight = img.naturalHeight || img.height;
-        _img.set({scaleX:100/elWidth,
-                  scaleY:100/elHeight,
-                  originX: "center", 
-                  originY: "center",})
-        // _img.scaleToWidth(100)
+        // var elWidth = img.naturalWidth || img.width;
+        // var elHeight = img.naturalHeight || img.height;
+        // _img.set({scaleX:100/elWidth,
+        //           scaleY:100/elHeight,
+        //           originX: "center", 
+        //           originY: "center",})
+        // // _img.scaleToWidth(100)
         // _img.scaleToHeight(100)
         canvas.add(_img)
         canvas.centerObject(_img)
