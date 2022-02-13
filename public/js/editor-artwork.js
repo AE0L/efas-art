@@ -64,12 +64,12 @@ choose_artwork_img.onchange = (e) => {
 
 img.src = deleteIcon
 
-$('.wat').each((i,e) => {
-    e.onclick = geturl
-})
+// $('.wat').each((i,e) => {
+//     e.onclick = geturl
+// })
 
 function geturl(e) {
-    fabric.Image.fromURL(this.dataset.img, function(_img) {
+    fabric.Image.fromURL(e, function(_img) {
         console.log()
         _img.crossOrigin = 'anonymous'
         // var elWidth = img.naturalWidth || img.width;
