@@ -25,6 +25,8 @@ const { inspect } = require('util')
 const google_util = require('./google')
 const router = require('./routes')
 const app = express()
+const cors = require('cors');
+
 
 /* swagger */
 const swagger_defs = {
@@ -49,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(body_parser.json())
 app.use(body_parser.urlencoded({ extended: true }))
 app.use(cookie_parser())
+
 
 /* session handler */
 const sqlite_store = sqliteStoreFactory(session)
@@ -98,6 +101,7 @@ app.get('/test/delete', async (req, res) => {
 
     res.send('done')
 })
+
 
 /* 404 page */
 app.use((req, res, next) => {

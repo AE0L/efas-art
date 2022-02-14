@@ -35,14 +35,14 @@ const setBg = (url, c) => {
 
         const sw = _img.getScaledWidth()
         const sh = _img.getScaledHeight()
-
+    
         canvas.setDimensions({ width: sw, height: sh });
         canvCenter = canvas.getCenter()
 
         _img.set({ left: canvCenter.left, top: canvCenter.top, originX: 'center', originY: 'center' })
         c.backgroundImage = _img
         c.requestRenderAll()
-    }, { crossOrigin: 'anonymous' })
+    }, { crossOrigin: 'Anonymous' })
 }
 
 choose_artwork_img.onchange = (e) => {
@@ -69,15 +69,10 @@ img.src = deleteIcon
 // })
 
 function geturl(e) {
+    e = 'https://cors-anywhere.herokuapp.com/'+e
     fabric.Image.fromURL(e, function(_img) {
         console.log()
         _img.crossOrigin = 'anonymous'
-        // var elWidth = img.naturalWidth || img.width;
-        // var elHeight = img.naturalHeight || img.height;
-        // _img.set({scaleX:100/elWidth,
-        //           scaleY:100/elHeight,
-        //           originX: "center", 
-        //           originY: "center",})
         _img.scaleToWidth(100)
         _img.scaleToHeight(100)
         canvas.add(_img)
@@ -85,7 +80,7 @@ function geturl(e) {
         const countObj = canvas.getObjects().length
         canvas.setActiveObject(canvas.item(countObj - 1))
         canvas.requestRenderAll();
-    })
+    }, { crossOrigin: 'Anonymous' })
 }
 
 fabric.Object.prototype.controls.deleteControl = new fabric.Control({
