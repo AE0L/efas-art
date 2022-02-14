@@ -36,7 +36,7 @@
     "nnode": "^0.3.3",
     "pm2": "^5.1.2",
     "slugify": "^1.6.5",
-    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
+    "sqlite3": "^5.0.2",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0"
   },
