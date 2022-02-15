@@ -69,7 +69,9 @@ img.src = deleteIcon
 // })
 
 function geturl(e) {
+
     e = 'https://quiet-meadow-37647.herokuapp.com/'+e
+
     fabric.Image.fromURL(e, function(_img) {
         console.log()
         _img.crossOrigin = 'anonymous'
