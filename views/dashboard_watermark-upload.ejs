@@ -45,39 +45,39 @@
 
                 <div class="my-5 container-fluid d-flex flex-column align-items-center">
                     <% if (cols.length > 0) { %>
-                        <form id="upload_form" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="watermark_col" class="form-label">Watermark collection</label>
-                                <select name="watermark_col" class="form-select" id="watermark_col" required>
-                                    <option disabled selected>- choose a watermark collection -</option>
-                                    <% for (col of cols) { %>
-                                        <option value="<%= col.id %>"><%= col.name %></option>
-                                    <% } %>
-                                </select>
-                            </div>
+                    <form id="upload_form" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="watermark_col" class="form-label">Watermark collection</label>
+                            <select name="watermark_col" class="form-select" id="watermark_col" required>
+                                <option disabled selected>- choose a watermark collection -</option>
+                                <% for (col of cols) { %>
+                                <option value="<%= col.id %>"><%= col.name %></option>
+                                <% } %>
+                            </select>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="watermark_name" class="form-label">Watermark name</label>
-                                <input name="watermark_name" type="text" class="form-control" id="watermark_name" required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="watermark_name" class="form-label">Watermark name</label>
+                            <input name="watermark_name" type="text" class="form-control" id="watermark_name" required>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="watermark_img" class="form-label">Watermark image</label>
-                                <input name="watermark_img" type="file" accept=".png" class="form-control"
-                                    id="watermark_img" required>
-                                <div class="form-text">
-                                    Only PNG image can be used as watermark
-                                </div>
+                        <div class="mb-3">
+                            <label for="watermark_img" class="form-label">Watermark image</label>
+                            <input name="watermark_img" type="file" accept=".png" class="form-control"
+                                id="watermark_img" required>
+                            <div class="form-text">
+                                Only PNG image can be used as watermark
                             </div>
+                        </div>
 
-                            <div class="mb-3 d-flex justify-content-center">
-                                <img class="d-none" src="#" alt="preview" id="prev_img" style="max-width: 20em">
-                            </div>
+                        <div class="mb-3 d-flex justify-content-center">
+                            <img class="d-none" src="#" alt="preview" id="prev_img" style="max-width: 20em">
+                        </div>
 
-                            <button id="submit_btn" type="submit" class="w-100 mt-3 btn btn-primary">Upload</button>
-                        </form>
+                        <button id="submit_btn" type="submit" class="w-100 mt-3 btn btn-primary">Upload</button>
+                    </form>
                     <% } else { %>
-                        <a href="/profile/watermarks/collection/create" role="button" class="btn btn-primary">Create
+                    <a href="/profile/watermarks/collection/create" role="button" class="btn btn-primary">Create
                         watermark a collection first</a>
                     <% } %>
                 </div>
@@ -97,7 +97,10 @@
             }
 
             $(upload_form).submit((e) => {
+                e.preventDefault()
+
                 $(submit_btn).prop('disabled', true)
+                $(submit_btn).prop('innerText', 'Loading...')
 
                 $.ajax({
                     url: '/profile/watermarks/upload',
@@ -106,6 +109,9 @@
                     processData: false,
                     contentType: false,
                     success: (data) => {
+                        $(submit_btn).prop('disabled', false)
+                        $(submit_btn).prop('innerText', 'Upload')
+
                         if (data.success) {
                             window.location.pathname = '/profile/watermarks'
                         } else {
@@ -121,7 +127,6 @@
                         }
                     }
                 })
-                e.preventDefault()
             })
         </script>
     </body>

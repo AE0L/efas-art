@@ -22,7 +22,7 @@ async function load_user(req, _, next) {
 
         next()
     } catch (err) {
-        console.error(err)
+        console.trace(err)
         next(err)
     }
 }

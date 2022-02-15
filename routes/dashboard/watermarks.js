@@ -95,7 +95,7 @@ router.get('/upload', async (req, res) => {
 
 router.post('/upload', upload_watermark, async (req, res) => {
     if (req.file_error) {
-        console.error(req.file_error)
+        console.trace(req.file_error)
         return res.send({ success: false, msg: req.file_error })
     }
 
@@ -116,7 +116,7 @@ router.post('/upload', upload_watermark, async (req, res) => {
 
         return res.send({ success: true })
     } catch (e) {
-        console.error(e)
+        console.trace(e)
         return res.redirect('/404')
     }
 })

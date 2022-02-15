@@ -56,11 +56,12 @@
                     <div class="row">
                         <div class="col">
                             <canvas class="border border-2 border-dark" id="canvas"></canvas>
-                            <button id="save_btn" type="submit" form="watermark_form" class="mt-3 btn btn-primary">Save
-                                Watermark</button>
-                            <button class="ms-3 mt-3 btn btn-secondary" id="clearCanvas"
-                                onclick="clearCanvas(canvas)">Clear
-                                Canvas</button>
+                            <button id="save_btn" type="submit" form="watermark_form" class="mt-3 btn btn-primary">
+                                Save Watermark
+                            </button>
+                            <button class="ms-3 mt-3 btn btn-secondary" id="clearCanvas" onclick="clearCanvas(canvas)">
+                                Clear Canvas
+                            </button>
                         </div>
 
                         <div class="col">
@@ -204,10 +205,9 @@
                 e.preventDefault()
 
                 $(save_btn).prop('disabled', true)
+                $(save_btn).prop('innerText', 'Loading...')
 
-                const trimmed = trimCanvas(canvas)
-
-                trimmed.toBlob((blob) => {
+                canvas.getContext('2d').canvas.toBlob((blob) => {
                     const fd = new FormData(watermark_form)
 
                     fd.append('watermark_img', blob, 'watermark.png')
@@ -220,10 +220,11 @@
                         processData: false,
                         contentType: false,
                         success: (data) => {
+                            $(save_btn).prop('disabled', false)
+                            $(save_btn).prop('innerText', 'Save Watermark')
+
                             if (data.success) {
                                 window.location.pathname = '/profile/watermarks'
-                            } else {
-                                $(save_btn.prop('disabled', false))
                             }
                         },
                         error: (err) => {

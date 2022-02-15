@@ -15,7 +15,6 @@ const validate_input = (input, feed, missing_msg, cond = null, msg = null) => {
 
 const set_validity = (input, feed, msg) => {
     input.setCustomValidity(msg)
-    console.log(input.validity)
     input.classList.add('is-invalid')
     feed.innerText = input.validationMessage
 }

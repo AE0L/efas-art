@@ -43,6 +43,9 @@ const post_form = (form) => {
             if (data.success) {
                 window.location.pathname = '/'
             } else {
+                sign_up_modal_button.disabled = false
+                sign_up_modal_button.innerText = 'Sign up'
+
                 for (let error of data.errors) {
                     if (error.param === 'email') {
                         set_validity(_email, email_feedback, error.msg)
@@ -53,7 +56,7 @@ const post_form = (form) => {
             }
         },
         error: (err) => {
-            console.log('post fail', err)
+            console.error('post fail', err)
         }
     })
 }
@@ -62,6 +65,9 @@ $(document).ready(() => {
     $('#signup-form').submit(function(e) {
         e.preventDefault()
         e.stopPropagation()
+
+        sign_up_modal_button.disabled = true
+        sign_up_modal_button.innerText = 'Loading...'
 
         if (this.checkValidity() === false) {
             signup_form_validate()

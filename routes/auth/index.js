@@ -133,11 +133,8 @@ router.post('/register', [
         }
 
         const user = new User(first_name, last_name, username, password)
-        console.table(req.body)
-        console.table(user)
         const gallery = new Gallery(user)
         const contact = new Contact(user, email)
-
 
         await user.gen_root_dir()
         await gallery.gen_art_col_dir()
@@ -153,7 +150,7 @@ router.post('/register', [
             msg: 'account creation was successful'
         })
     } catch (e) {
-        console.trace(inspect(e))
+        console.trace(e)
         return res.send({ success: false, errors: [e] })
     } finally {
         res.end()
@@ -162,7 +159,7 @@ router.post('/register', [
 
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
-        if (err) console.error(err)
+        if (err) console.trace(err)
     })
 
     res.redirect('/')

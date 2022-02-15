@@ -82,7 +82,7 @@ router.get('/:artwork_id', load_artwork, async (req, res) => {
 
             return res.render('user_showcase-artwork', data)
         } catch (err) {
-            console.error(err)
+            console.trace(err)
             res.redirect('/404')
         }
     }
@@ -98,7 +98,7 @@ router.get('/:artwork_id/like', load_artwork, create_art_notif('like'), async (r
 
         return res.redirect(`/artworks/${art.id}`)
     } catch (err) {
-        console.error(err)
+        console.trace(err)
         return res.redirect('/404')
     }
 })

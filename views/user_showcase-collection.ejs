@@ -27,7 +27,10 @@
         <%- include('partials/nav-bar', { active: 0 }) %>
 
         <div id="content-cont" class="container mb-5">
-            <%- include('partials/user/header', user) %>
+            <%- include('partials/user/header', {
+                user: user,
+                page: 'collections'
+            }) %>
 
             <main>
                 <%- include('partials/user/nav', { 
@@ -36,10 +39,10 @@
                 }) %>
 
                 <div class="container-fluid d-flex align-items-center mb-2">
-                    <a href="/u/12345/collections" class="text-dark">
+                    <a href="/u/<%= user.id %>/collections" class="text-dark">
                         <i class="me-2 fas fa-arrow-left" style="font-size: 1.25em;"></i>
                     </a>
-                    <h3 class="m-0"><%= col.name %></h3>
+                    <h3 class="m-0"><%= col.title %></h3>
                 </div>
 
                 <div class="container-fluid py-3">
@@ -55,7 +58,7 @@
                     <%- include('data/user_art', {
                         art_id: art.id,
                         art_src: art.pic,
-                        art_title: art.title
+                        art_title: art.name
                     }) %>
 
                     <% } %>

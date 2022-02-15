@@ -102,7 +102,7 @@ router.get('/upload', async (req, res) => {
 
 router.post('/upload', upload_art, async (req, res) => {
     if (req.file_error) {
-        console.error(req.file_error)
+        console.trace(req.file_error)
         return res.send({ success: false, msg: req.file_error })
     }
 

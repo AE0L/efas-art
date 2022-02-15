@@ -21,13 +21,15 @@ function security_form_validate() {
 }
 
 const post_form = (form) => {
-    console.log($(form).serialize())
     $.ajax({
         type: 'POST',
         data: $(form).serialize(),
         cache: false,
         url: '/profile/settings/edit/security',
         success: (data) => {
+            $(security_save_changes_button).prop('disabled', true)
+            $(security_save_changes_button).prop('innerText', 'Save changes')
+
             if (data.success) {
                 window.location.href = '/profile/settings?s=sec'
             } else {
@@ -41,7 +43,7 @@ const post_form = (form) => {
             }
         },
         error: (err) => {
-            console.log('post fail', err)
+            console.error('post fail', err)
         }
     })
 }
@@ -51,6 +53,9 @@ $(security_form).submit(function(e) {
 
     e.preventDefault()
     e.stopPropagation()
+
+    $(security_save_changes_button).prop('disabled', true)
+    $(security_save_changes_button).prop('innerText', 'Loading...')
 
     if (this.checkValidity() === false) {
         this.classList.add('was-validated')

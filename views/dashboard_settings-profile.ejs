@@ -27,23 +27,26 @@
                 <%- include('partials/dashboard/nav', { active: 5 }) %>
 
                 <div class="d-flex align-items-start">
-                    <%- include('partials/dashboard/settings-nav', { active: 1 }) %> 
-                    
+                    <%- include('partials/dashboard/settings-nav', { active: 1 }) %>
+
                     <div id="setting-cont" class="border-start border-dark ms-5 ps-5 w-50">
                         <form id="profile_form" action="post" method="/settings/edit/profile">
                             <div class="mb-3">
                                 <label for="first-name" class="form-label">First Name</label>
-                                <input name="first_name" type="text" class="form-control" id="first_name" value="<%= data.first_name %>">
+                                <input name="first_name" type="text" class="form-control" id="first_name"
+                                    value="<%= data.first_name %>">
                             </div>
 
                             <div class="mb-3">
                                 <label for="last-name" class="form-label">Last Name</label>
-                                <input name="last_name" type="text" class="form-control" id="last_name" value="<%= data.last_name %>">
+                                <input name="last_name" type="text" class="form-control" id="last_name"
+                                    value="<%= data.last_name %>">
                             </div>
 
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" value="<%= data.username %>" readonly>
+                                <input type="text" class="form-control" id="username" value="<%= data.username %>"
+                                    readonly>
                             </div>
 
                             <div class="mb-3">
@@ -51,7 +54,8 @@
                                 <textarea name="bio" class="form-control" id="bio" rows="3"><%= data.bio %></textarea>
                             </div>
 
-                            <button type="submit" class="mt-3 btn btn-primary">Save changes</button>
+                            <button id="profile_save_changes_button" type="submit" class="mt-3 btn btn-primary">Save
+                                changes</button>
                         </form>
                     </div>
                 </div>
@@ -64,6 +68,9 @@
             $(profile_form).submit((e) => {
                 e.preventDefault()
 
+                $(profile_save_changes_button).prop('disabled', true)
+                $(profile_save_changes_button).prop('innerText', 'Loading...')
+
                 const fd = new FormData(profile_form)
 
                 $.ajax({
@@ -75,6 +82,9 @@
                         bio: fd.get('bio')
                     },
                     success: (data) => {
+                        $(profile_save_changes_button).prop('disabled', true)
+                        $(profile_save_changes_button).prop('innerText', 'Save changes')
+
                         if (data.success) {
                             window.location.pathname = '/profile/settings'
                         }

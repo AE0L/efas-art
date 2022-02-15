@@ -19,7 +19,7 @@ router.get('/about', async (req, res) => {
             }
         })
     } catch (err) {
-        console.error(err)
+        console.trace(err)
         return res.redirect('/404')
     }
 })
@@ -38,7 +38,7 @@ router.get('/follow', create_user_notif('follow'), async (req, res) => {
             return res.redirect(`/u/${user.id}/${req.query.page}`)
         }
     } catch (e) {
-        console.error(e)
+        console.trace(e)
         return res.redirect('/404')
     }
 })
@@ -57,7 +57,7 @@ router.get('/unfollow', async (req, res) => {
             return res.redirect(`/u/${user.id}/${req.query.page}`)
         }
     } catch (err) {
-        console.error(err)
+        console.trace(err)
         return res.redirect('/404')
     }
 })

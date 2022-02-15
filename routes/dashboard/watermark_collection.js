@@ -39,7 +39,7 @@ router.post('/collection/create', async (req, res) => {
 
         res.redirect('/profile/watermarks/')
     } catch (err) {
-        console.error(err)
+        console.trace(err)
         res.redirect('/404')
     }
 })
@@ -71,7 +71,7 @@ router.get('/collection/:col_id', async (req, res) => {
 
         return req.query['test'] ? res.send(data) : res.render('dashboard_col-wtm', data)
     } catch (err) {
-        console.error(err)
+        console.trace(err)
         res.redirect('/404')
     }
 })

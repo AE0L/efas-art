@@ -24,6 +24,9 @@ $(document).ready(() => {
         e.preventDefault()
         e.stopPropagation()
 
+        new_pass_modal_button.disabled = true
+        new_pass_modal_button.innerText = 'Loading...'
+
         if (this.checkValidity() === false) {
             this.classList.add('was-validated')
         } else {
@@ -33,13 +36,16 @@ $(document).ready(() => {
                 cache: false,
                 url: `/verify-new-password?uid=${this.dataset.uid}`,
                 success: (data) => {
+                    new_pass_modal_button.disabled = false
+                    new_pass_modal_button.innerText = 'Update password'
+
                     if (data.success) {
                         alert('Password was successfully changed, please login to continue')
                         window.location.href = `${window.location.origin}/`
                     }
                 },
                 error: (err) => {
-                    console.log('post fail', err)
+                    console.error('post fail', err)
                 }
             })
         }

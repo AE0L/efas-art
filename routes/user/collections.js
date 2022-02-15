@@ -31,7 +31,7 @@ router.get('/collections', async (req, res) => {
 })
 
 router.get('/collection/:col_id', async (req, res) => {
-    const { user } = req.data
+    const { user, ses_user } = req.data
     const art_col = await ArtCollection.get(req.params.col_id)
     const artworks = await art_col.artworks
 
