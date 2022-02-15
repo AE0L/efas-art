@@ -69,7 +69,6 @@ img.src = deleteIcon
 // })
 
 function geturl(e) {
-    e = 'https://cors-anywhere.herokuapp.com/'+e
     fabric.Image.fromURL(e, function(_img) {
         console.log()
         _img.crossOrigin = 'anonymous'
